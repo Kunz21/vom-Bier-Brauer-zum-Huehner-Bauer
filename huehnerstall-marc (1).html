@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hühnerstall Marc</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --hay:   #F5C842;
+  --earth: #8B5E3C;
+  --grass: #5A9E3A;
+  --barn:  #C0392B;
+  --cream: #FFF8E7;
+  --dark:  #2C1A0E;
+  --sky:   #87CEEB;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0%,#c8e6a0 45%,#a8d580 100%);min-height:100vh;color:var(--dark);}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,var(--barn),#8B1A1A);padding:26px 20px 20px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.hdr-deco{font-size:2.2rem;margin-bottom:8px;}
+.hdr-title{font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,5vw,2.6rem);color:var(--hay);text-shadow:3px 3px 0 rgba(0,0,0,0.4);line-height:1.2;}
+.hdr-sub{font-size:clamp(0.78rem,2.5vw,0.95rem);color:rgba(255,255,255,0.85);margin-top:5px;font-weight:600;}
+
+/* INTRO */
+.intro-card{max-width:680px;margin:22px auto 0;background:var(--cream);border-radius:20px;padding:20px 24px;box-shadow:0 5px 20px rgba(0,0,0,0.13);border:3px solid var(--hay);font-size:15px;line-height:1.75;color:var(--dark);}
+
+/* PROGRESS */
+.prog-wrap{max-width:680px;margin:16px auto 0;background:rgba(255,255,255,0.7);border-radius:14px;padding:14px 20px;backdrop-filter:blur(6px);box-shadow:0 3px 14px rgba(0,0,0,0.1);}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-weight:800;font-size:14px;}
+.prog-bar-bg{background:rgba(0,0,0,0.1);border-radius:20px;height:13px;overflow:hidden;}
+.prog-bar{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--grass),var(--hay));transition:width .6s ease;}
+
+/* ROADMAP */
+.road-outer{max-width:680px;margin:24px auto 40px;padding:0 16px;}
+.road{position:relative;padding:10px 0;}
+.road-line{position:absolute;left:50%;top:0;bottom:0;width:6px;transform:translateX(-50%);background:repeating-linear-gradient(to bottom,var(--earth) 0,var(--earth) 18px,transparent 18px,transparent 30px);border-radius:3px;z-index:0;}
+
+/* NODE */
+.task-node{display:flex;align-items:flex-start;gap:14px;margin-bottom:24px;position:relative;z-index:1;}
+.task-node:nth-child(odd){flex-direction:row;}
+.task-node:nth-child(even){flex-direction:row-reverse;}
+
+.node-bubble{flex-shrink:0;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem;border:4px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,0.25);cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;z-index:2;}
+.node-bubble:hover:not(.b-locked){transform:scale(1.12);box-shadow:0 6px 20px rgba(0,0,0,0.3);}
+.b-done{background:linear-gradient(135deg,var(--grass),#3d7a26);}
+.b-active{background:linear-gradient(135deg,var(--hay),#e0a800);animation:bob 1.8s infinite;}
+.b-locked{background:#ccc;cursor:default;filter:grayscale(.5);}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+.node-card{flex:1;background:var(--cream);border-radius:15px;padding:13px 15px;box-shadow:0 4px 14px rgba(0,0,0,0.12);border:2px solid transparent;cursor:pointer;min-width:0;transition:border-color .2s;}
+.node-card:hover:not(.c-locked){border-color:var(--hay);}
+.c-done{border-color:var(--grass)!important;background:#f0fff4;}
+.c-active{border-color:var(--hay)!important;}
+.c-locked{opacity:.5;cursor:default;}
+
+.node-num{font-size:10px;font-weight:800;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+.node-title{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--dark);margin-bottom:5px;}
+.node-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+.ch-green{background:rgba(90,158,58,.15);color:var(--grass);border:1px solid rgba(90,158,58,.3);}
+.ch-yellow{background:rgba(245,200,66,.2);color:#8a6800;border:1px solid rgba(245,200,66,.5);}
+.ch-gray{background:rgba(0,0,0,.07);color:#888;border:1px solid rgba(0,0,0,.1);}
+.ch-red{background:rgba(231,76,60,.15);color:#c0392b;border:1px solid rgba(231,76,60,.3);}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px);}
+.modal{background:var(--cream);border-radius:22px;padding:26px 24px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.35);position:relative;border:3px solid var(--hay);}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#aaa;}
+.modal-cover{width:100%;max-height:190px;object-fit:cover;border-radius:13px;margin-bottom:14px;border:2px solid rgba(0,0,0,.07);}
+.modal-cover-ph{width:100%;height:130px;background:linear-gradient(135deg,#f0e68c,#d4a843);border-radius:13px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;font-size:4rem;}
+.modal-title{font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--dark);margin-bottom:8px;}
+.modal-desc{font-size:14px;line-height:1.75;color:#444;margin-bottom:12px;}
+
+/* TIMER */
+.timer-row{display:flex;align-items:center;gap:12px;background:rgba(0,0,0,.06);border-radius:12px;padding:10px 14px;margin-bottom:12px;}
+.t-circle{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+.t-pulse{animation:pulse .5s infinite alternate;}
+@keyframes pulse{from{opacity:1}to{opacity:.3}}
+
+/* PRIZE / PENALTY */
+.prize-box{background:linear-gradient(135deg,rgba(245,200,66,.2),rgba(90,158,58,.15));border:2px solid var(--hay);border-radius:13px;padding:14px;text-align:center;margin-top:12px;}
+.prize-box h3{font-family:'Fredoka One',cursive;color:var(--barn);margin-bottom:5px;}
+.prize-icon-big{font-size:2.8rem;margin-bottom:5px;}
+.penalty-info{background:rgba(231,76,60,.12);border:2px solid #e74c3c;border-radius:11px;padding:11px 14px;margin-top:10px;font-size:13px;color:#c0392b;font-weight:700;}
+.status-ok{background:rgba(90,158,58,.15);border:2px solid var(--grass);border-radius:11px;padding:10px 14px;margin-bottom:12px;font-weight:700;color:var(--grass);text-align:center;}
+.status-lock{background:rgba(0,0,0,.07);border-radius:11px;padding:10px 14px;margin-bottom:12px;font-weight:700;color:#999;text-align:center;}
+
+/* BUTTONS */
+.btn{display:inline-block;padding:10px 20px;border:none;border-radius:11px;cursor:pointer;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;transition:all .2s;line-height:1;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.2);}
+.btn-green{background:linear-gradient(135deg,var(--grass),#3d7a26);color:#fff;}
+.btn-barn{background:linear-gradient(135deg,var(--barn),#8B1A1A);color:#fff;}
+.btn-gray{background:rgba(0,0,0,.1);color:#555;}
+.btn-red{background:#e74c3c;color:#fff;}
+.btn-sm{padding:6px 13px;font-size:12px;border-radius:8px;}
+
+/* PRIZE OVERLAY */
+.prize-overlay{position:fixed;inset:0;z-index:9998;background:rgba(0,80,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;animation:fi .3s ease;}
+.prize-overlay.hidden{display:none!important;}
+@keyframes fi{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:scale(1)}}
+
+/* PENALTY OVERLAY */
+.pen-overlay{position:fixed;inset:0;z-index:9999;background:rgba(140,0,0,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;animation:fi .3s ease;}
+.pen-overlay.hidden{display:none!important;}
+
+/* ADMIN */
+.admin-outer{max-width:680px;margin:30px auto 60px;padding:0 16px;}
+.acard{background:rgba(255,255,255,.88);border-radius:17px;padding:18px 20px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,.09);}
+.acard h2{font-family:'Fredoka One',cursive;color:var(--barn);margin-bottom:12px;font-size:1.15rem;}
+.al{display:block;font-size:11px;font-weight:800;color:#777;margin-bottom:3px;margin-top:9px;text-transform:uppercase;letter-spacing:.5px;}
+.ai{width:100%;background:rgba(0,0,0,.05);border:1.5px solid rgba(0,0,0,.14);border-radius:8px;padding:8px 11px;font-size:13px;font-family:'Nunito',sans-serif;color:var(--dark);margin-bottom:3px;}
+textarea.ai{resize:vertical;min-height:58px;}
+.alrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+#loginBox{text-align:center;padding:10px 0 4px;}
+#loginBox input{padding:10px 13px;border-radius:10px;border:1.5px solid rgba(0,0,0,.18);font-size:15px;font-family:'Nunito',sans-serif;width:175px;margin-right:6px;margin-bottom:8px;}
+
+.hidden{display:none!important;}
+.mt10{margin-top:10px;}
+.mt14{margin-top:14px;}
+.tc{text-align:center;}
+.divider{border:none;border-top:1.5px solid rgba(0,0,0,.09);margin:13px 0;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-deco">🐔🍺🥚</div>
+  <div class="hdr-title">Hühnerstall Marc</div>
+  <div class="hdr-sub">Vom Bierbrauer Hürlimann zum Hühner-Bauer</div>
+</div>
+
+<!-- INTRO -->
+<div class="intro-card">
+  <div id="introText"></div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-wrap">
+  <div class="prog-top">
+    <span>🗺️ Abenteuer-Fortschritt</span>
+    <span id="progPct" style="color:var(--grass);">0%</span>
+  </div>
+  <div class="prog-bar-bg"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+  <div id="progLabel" style="font-size:12px;color:#777;margin-top:5px;text-align:center;"></div>
+</div>
+
+<!-- ROADMAP -->
+<div class="road-outer">
+  <div class="road" id="roadmap">
+    <div class="road-line"></div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN -->
+<div class="admin-outer">
+  <div class="acard">
+    <div id="loginBox">
+      <span style="font-weight:800;color:#aaa;font-size:13px;">🔐 Admin-Bereich</span><br><br>
+      <input type="password" id="adminPwInput" placeholder="Passwort"
+             onkeydown="if(event.key==='Enter')checkLogin()">
+      <button class="btn btn-gray btn-sm" onclick="checkLogin()">Login</button>
+      <div id="loginErr" style="color:#e74c3c;font-size:13px;margin-top:5px;"></div>
+    </div>
+  </div>
+
+  <div id="adminPanel" class="hidden">
+    <div class="acard">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <h2 style="margin:0;">⚙️ Admin-Panel</h2>
+        <button class="btn btn-gray btn-sm" onclick="adminLogout()">🚪 Logout</button>
+      </div>
+    </div>
+    <!-- Tabs -->
+    <div class="acard" style="padding:11px 16px;">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button class="btn btn-gray btn-sm" id="tabBtnIntro"    onclick="switchTab('Intro')"   >📝 Intro</button>
+        <button class="btn btn-gray btn-sm" id="tabBtnLevels"   onclick="switchTab('Levels')"  >🗺️ Aufgaben</button>
+        <button class="btn btn-gray btn-sm" id="tabBtnSettings" onclick="switchTab('Settings')">⚙️ Einstellungen</button>
+        <button class="btn btn-gray btn-sm" id="tabBtnReset"    onclick="switchTab('Reset')"   >🔄 Reset</button>
+      </div>
+    </div>
+
+    <!-- Intro -->
+    <div id="adminTabIntro" class="acard hidden">
+      <h2>📝 Einleitungstext</h2>
+      <label class="al">Text (öffentlich sichtbar):</label>
+      <textarea class="ai" id="adminIntroTA" rows="5"></textarea>
+      <button class="btn btn-green mt10" onclick="saveIntro()">💾 Speichern</button>
+    </div>
+
+    <!-- Aufgaben -->
+    <div id="adminTabLevels" class="hidden">
+      <div id="adminLevelList"></div>
+    </div>
+
+    <!-- Einstellungen -->
+    <div id="adminTabSettings" class="acard hidden">
+      <h2>⚙️ Einstellungen</h2>
+      <label class="al">Neues Admin-Passwort (leer = nicht ändern):</label>
+      <input type="password" class="ai" id="settingPw" placeholder="Neues Passwort">
+      <button class="btn btn-green mt10" onclick="saveSettings()">💾 Speichern</button>
+    </div>
+
+    <!-- Reset -->
+    <div id="adminTabReset" class="acard hidden">
+      <h2>🔄 Aufgaben zurücksetzen</h2>
+      <p style="font-size:13px;color:#777;margin-bottom:12px;">Erledigte Aufgaben können hier einzeln zurückgesetzt werden.</p>
+      <div id="adminResetList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TASK MODAL -->
+<div class="modal-bg hidden" id="taskModal" onclick="bgClose(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- PRIZE OVERLAY -->
+<div class="prize-overlay hidden" id="prizeOverlay">
+  <div id="prizeIcon" style="font-size:5rem;margin-bottom:12px;"></div>
+  <div style="font-family:'Fredoka One',cursive;font-size:2.2rem;color:var(--hay);text-shadow:2px 2px 0 rgba(0,0,0,.4);margin-bottom:8px;">Aufgabe geschafft!</div>
+  <div style="color:rgba(255,255,255,.9);font-size:1rem;font-weight:800;margin-bottom:8px;">🎁 Dein Preis:</div>
+  <div id="prizeTextBox" style="background:rgba(255,255,255,.15);border-radius:15px;padding:14px 24px;margin-bottom:24px;color:#fff;font-size:1.05rem;font-weight:700;max-width:380px;"></div>
+  <button class="btn btn-gray" onclick="closePrize()">🎉 Weiter!</button>
+</div>
+
+<!-- PENALTY OVERLAY -->
+<div class="pen-overlay hidden" id="penOverlay">
+  <div style="font-size:5rem;margin-bottom:12px;">😤</div>
+  <div style="font-family:'Fredoka One',cursive;font-size:2.4rem;color:#fff;margin-bottom:8px;">STRAFE!</div>
+  <div id="penText" style="color:#ffcccc;font-size:1rem;margin-bottom:26px;max-width:380px;"></div>
+  <button class="btn btn-gray" onclick="closePenalty()">OK, akzeptiert!</button>
+</div>
+
+<script>
+// ============================================================
+// DATEN & SPEICHERN
+// ============================================================
+var STORAGE_KEY = 'huehnerstall_v1';
+
+var NODE_ICONS = ['🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔'];
+
+var DEFAULT_DATA = {
+  password: 'admin123',
+  intro: 'Wie der grosse Bierbrauer seinen neuen Weg zum Hühner-Bauer findet.\n\n15 Aufgaben warten auf Marc – eine nach der anderen. Schaffst du es bis zum Ende? 🐔🍺',
+  tasks: (function() {
+    var arr = [];
+    for (var i = 0; i < 15; i++) {
+      arr.push({
+        title:        'Aufgabe ' + (i + 1),
+        desc:         'Beschreibung der Aufgabe ' + (i + 1) + '. Kann vom Admin bearbeitet werden.',
+        cover:        '',
+        prizeIcon:    '🏆',
+        prizeText:    'Preis für Aufgabe ' + (i + 1) + ' – wird vom Admin definiert.',
+        penalty:      'Ein Bier auf ex! 🍺',
+        deadlineMins: 0,
+        done:         false,
+        unlocked:     i === 0
+      });
+    }
+    return arr;
+  })()
+};
+
+var gd = loadData();
+
+function loadData() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
+    var saved = JSON.parse(raw);
+    var base  = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    if (saved.password) base.password = saved.password;
+    if (saved.intro)    base.intro    = saved.intro;
+    if (Array.isArray(saved.tasks)) {
+      saved.tasks.forEach(function(st, i) {
+        if (!base.tasks[i]) return;
+        if (st.title        !== undefined) base.tasks[i].title        = st.title;
+        if (st.desc         !== undefined) base.tasks[i].desc         = st.desc;
+        if (st.cover        !== undefined) base.tasks[i].cover        = st.cover;
+        if (st.prizeIcon    !== undefined) base.tasks[i].prizeIcon    = st.prizeIcon;
+        if (st.prizeText    !== undefined) base.tasks[i].prizeText    = st.prizeText;
+        if (st.penalty      !== undefined) base.tasks[i].penalty      = st.penalty;
+        if (st.deadlineMins !== undefined) base.tasks[i].deadlineMins = st.deadlineMins;
+        if (st.done         !== undefined) base.tasks[i].done         = st.done;
+        if (st.unlocked     !== undefined) base.tasks[i].unlocked     = st.unlocked;
+      });
+    }
+    return base;
+  } catch(e) {
+    return JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(gd));
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderAll() {
+  renderIntro();
+  renderProgress();
+  renderRoadmap();
+}
+
+function renderIntro() {
+  document.getElementById('introText').textContent = gd.intro;
+}
+
+function renderProgress() {
+  var total = gd.tasks.length;
+  var done  = gd.tasks.filter(function(t) { return t.done; }).length;
+  var pct   = Math.round((done / total) * 100);
+  document.getElementById('progBar').style.width   = pct + '%';
+  document.getElementById('progPct').textContent   = pct + '%';
+  document.getElementById('progLabel').textContent =
+    done + ' von ' + total + ' Aufgaben abgeschlossen' + (pct === 100 ? ' 🎉' : '');
+}
+
+function renderRoadmap() {
+  var rm = document.getElementById('roadmap');
+  rm.innerHTML = '<div class="road-line"></div>';
+
+  // Nur bis max 5 Aufgaben nach der letzten erledigten anzeigen
+  var lastDoneIdx = -1;
+  gd.tasks.forEach(function(t, i) { if (t.done) lastDoneIdx = i; });
+  var showUpTo = Math.min(gd.tasks.length - 1, lastDoneIdx + 5);
+
+  gd.tasks.forEach(function(t, i) {
+    if (i > showUpTo) return; // max 5 voraus
+
+    var isDone     = t.done;
+    var isUnlocked = t.unlocked;
+
+    var bubbleCls = 'node-bubble ';
+    var cardCls   = 'node-card ';
+    if (isDone)           { bubbleCls += 'b-done';   cardCls += 'c-done'; }
+    else if (!isUnlocked) { bubbleCls += 'b-locked'; cardCls += 'c-locked'; }
+    else                  { bubbleCls += 'b-active';  cardCls += 'c-active'; }
+
+    var chips = '';
+    if (isDone) {
+      chips += '<span class="chip ch-green">✅ Erledigt</span>';
+      chips += '<span class="chip ch-green">' + (t.prizeIcon||'🏆') + ' Preis erhalten</span>';
+    } else if (!isUnlocked) {
+      chips += '<span class="chip ch-gray">🔒 Gesperrt</span>';
+    } else {
+      chips += '<span class="chip ch-yellow">▶ Aktiv</span>';
+      if (t.deadlineMins > 0) {
+        chips += '<span class="chip ch-yellow">⏱ ' + t.deadlineMins + ' Min.</span>';
+      }
+    }
+
+    var clickable = (isDone || isUnlocked) ? 'onclick="openTask(' + i + ')"' : '';
+
+    var node = document.createElement('div');
+    node.className = 'task-node';
+    node.innerHTML =
+      '<div class="' + bubbleCls + '" ' + clickable + '>' + NODE_ICONS[i] + '</div>' +
+      '<div class="' + cardCls   + '" ' + clickable + '>' +
+        '<div class="node-num">Aufgabe ' + (i + 1) + ' / 15</div>' +
+        '<div class="node-title">' + t.title + '</div>' +
+        '<div class="node-chips">' + chips + '</div>' +
+      '</div>';
+    rm.appendChild(node);
+  });
+
+  // Hinweis falls noch mehr kommen
+  var remaining = gd.tasks.length - 1 - showUpTo;
+  if (remaining > 0) {
+    var hint = document.createElement('div');
+    hint.style.cssText = 'text-align:center;padding:10px 0 4px;font-size:13px;color:#777;font-weight:700;';
+    hint.textContent = '… und noch ' + remaining + ' weitere Aufgaben warten auf dich!';
+    rm.appendChild(hint);
+  }
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+var activeTimer   = null;
+var activeIdx     = null;
+var timerEndTs    = null;
+
+function openTask(i) {
+  var t = gd.tasks[i];
+  activeIdx = i;
+
+  var c = document.getElementById('modalContent');
+  document.getElementById('taskModal').classList.remove('hidden');
+
+  // Cover
+  var coverHTML = '';
+  if (t.cover) {
+    coverHTML = '<img src="' + t.cover + '" class="modal-cover" onerror="this.style.display=\'none\'">';
+  } else {
+    coverHTML = '<div class="modal-cover-ph">' + NODE_ICONS[i] + '</div>';
+  }
+
+  // Status
+  var statusHTML = '';
+  if (t.done) {
+    statusHTML = '<div class="status-ok">✅ Diese Aufgabe ist bereits erledigt!</div>';
+  } else if (!t.unlocked) {
+    statusHTML = '<div class="status-lock">🔒 Noch gesperrt – schliesse zuerst die vorherige Aufgabe ab.</div>';
+  }
+
+  // Timer
+  var timerHTML = '';
+  if (t.deadlineMins > 0 && !t.done && t.unlocked) {
+    timerHTML =
+      '<div class="timer-row">' +
+      '<div class="t-circle" id="tCircle" style="background:conic-gradient(var(--grass) 360deg,rgba(0,0,0,.08) 0deg);">--</div>' +
+      '<div><div style="font-weight:800;font-size:14px;">Zeitlimit</div>' +
+      '<div style="font-size:12px;color:#777;">' + t.deadlineMins + ' Minuten – sonst gibt es eine Strafe!</div></div>' +
+      '</div>';
+  }
+
+  // Preis
+  var prizeHTML = '';
+  if (t.done) {
+    prizeHTML =
+      '<div class="prize-box">' +
+      '<div class="prize-icon-big">' + (t.prizeIcon||'🏆') + '</div>' +
+      '<h3>🎉 Dein Preis!</h3>' +
+      '<div style="font-size:14px;font-weight:700;">' + (t.prizeText||'Gratulation!') + '</div>' +
+      '</div>';
+  } else if (t.unlocked) {
+    prizeHTML =
+      '<div class="prize-box" style="opacity:.5;">' +
+      '<div style="font-size:2rem;">🎁</div>' +
+      '<div style="font-size:13px;color:#888;margin-top:4px;">Preis wird nach Abschluss enthüllt…</div>' +
+      '</div>';
+  }
+
+  // Strafe
+  var penHTML = '';
+  if (t.penalty && !t.done && t.unlocked) {
+    penHTML = '<div class="penalty-info">⚠️ Strafe bei Nicht-Bestehen: ' + t.penalty + '</div>';
+  }
+
+  // Button
+  var btnHTML = '';
+  if (!t.done && t.unlocked) {
+    btnHTML =
+      '<div class="tc mt14">' +
+      '<button class="btn btn-green" onclick="completeTask(' + i + ')">✅ Aufgabe erledigt!</button>' +
+      '</div>';
+  }
+
+  c.innerHTML =
+    coverHTML + statusHTML +
+    '<div class="modal-title">' + t.title + '</div>' +
+    '<div class="modal-desc">' + (t.desc||'') + '</div>' +
+    timerHTML + prizeHTML + penHTML + btnHTML;
+
+  // Timer starten
+  clearInterval(activeTimer);
+  activeTimer = null;
+  if (t.deadlineMins > 0 && !t.done && t.unlocked) {
+    var totalSecs = t.deadlineMins * 60;
+    timerEndTs = Date.now() + totalSecs * 1000;
+    tickTimer(totalSecs, totalSecs);
+    activeTimer = setInterval(function() {
+      var rem = Math.round((timerEndTs - Date.now()) / 1000);
+      if (rem <= 0) {
+        clearInterval(activeTimer);
+        activeTimer = null;
+        closeModal();
+        showPenalty(gd.tasks[activeIdx].penalty || 'Zeit abgelaufen!');
+      } else {
+        tickTimer(rem, totalSecs);
+      }
+    }, 1000);
+  }
+}
+
+function tickTimer(rem, total) {
+  var c = document.getElementById('tCircle');
+  if (!c) return;
+  var pct = Math.max(0, rem / total);
+  var deg = Math.round(pct * 360);
+  var col = rem <= 30 ? '#e74c3c' : rem <= 60 ? '#f39c12' : 'var(--grass)';
+  c.style.background = 'conic-gradient(' + col + ' ' + deg + 'deg,rgba(0,0,0,.08) ' + deg + 'deg)';
+  var m = Math.floor(rem / 60);
+  var s = String(rem % 60).padStart(2, '0');
+  c.textContent = m + ':' + s;
+  if (rem <= 10) c.classList.add('t-pulse'); else c.classList.remove('t-pulse');
+}
+
+function closeModal() {
+  clearInterval(activeTimer);
+  activeTimer = null;
+  document.getElementById('taskModal').classList.add('hidden');
+}
+
+function bgClose(e) {
+  if (e.target === document.getElementById('taskModal')) closeModal();
+}
+
+function completeTask(i) {
+  if (!confirm('Aufgabe «' + gd.tasks[i].title + '» als erledigt markieren?')) return;
+  clearInterval(activeTimer);
+  activeTimer = null;
+  gd.tasks[i].done = true;
+  if (i + 1 < gd.tasks.length) gd.tasks[i + 1].unlocked = true;
+  saveData();
+  closeModal();
+  // Preis anzeigen
+  document.getElementById('prizeIcon').textContent    = gd.tasks[i].prizeIcon || '🏆';
+  document.getElementById('prizeTextBox').textContent = gd.tasks[i].prizeText || 'Gratulation!';
+  document.getElementById('prizeOverlay').classList.remove('hidden');
+}
+
+function closePrize() {
+  document.getElementById('prizeOverlay').classList.add('hidden');
+  renderAll();
+}
+
+function showPenalty(text) {
+  document.getElementById('penText').textContent = text;
+  document.getElementById('penOverlay').classList.remove('hidden');
+}
+
+function closePenalty() {
+  document.getElementById('penOverlay').classList.add('hidden');
+}
+
+// ============================================================
+// ADMIN
+// ============================================================
+function checkLogin() {
+  var pw = document.getElementById('adminPwInput').value;
+  if (pw === gd.password) {
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('adminPanel').classList.remove('hidden');
+    switchTab('Intro');
+  } else {
+    document.getElementById('loginErr').textContent = '❌ Falsches Passwort';
+  }
+}
+
+function adminLogout() {
+  document.getElementById('loginBox').classList.remove('hidden');
+  document.getElementById('adminPanel').classList.add('hidden');
+  document.getElementById('adminPwInput').value = '';
+  document.getElementById('loginErr').textContent = '';
+}
+
+var TABS = ['Intro','Levels','Settings','Reset'];
+
+function switchTab(tab) {
+  TABS.forEach(function(t) {
+    var el  = document.getElementById('adminTab' + t);
+    var btn = document.getElementById('tabBtn'   + t);
+    if (el)  el.classList.add('hidden');
+    if (btn) btn.style.opacity = '0.5';
+  });
+  var el  = document.getElementById('adminTab' + tab);
+  var btn = document.getElementById('tabBtn'   + tab);
+  if (el)  el.classList.remove('hidden');
+  if (btn) btn.style.opacity = '1';
+
+  if (tab === 'Intro')    renderAdminIntro();
+  if (tab === 'Levels')   renderAdminLevels();
+  if (tab === 'Reset')    renderAdminReset();
+}
+
+function renderAdminIntro() {
+  document.getElementById('adminIntroTA').value = gd.intro;
+}
+
+function saveIntro() {
+  gd.intro = document.getElementById('adminIntroTA').value;
+  saveData();
+  renderIntro();
+  alert('✅ Intro gespeichert!');
+}
+
+function renderAdminLevels() {
+  var c = document.getElementById('adminLevelList');
+  c.innerHTML = '';
+  gd.tasks.forEach(function(t, i) {
+    var d = document.createElement('div');
+    d.className = 'acard';
+    d.innerHTML =
+      '<div style="font-weight:800;font-size:14px;margin-bottom:10px;">' +
+        NODE_ICONS[i] + ' Aufgabe ' + (i + 1) +
+        '<span style="font-size:11px;font-weight:600;color:' + (t.done?'var(--grass)':'#aaa') + ';margin-left:8px;">' +
+        (t.done ? '✅ Erledigt' : '○ Offen') + '</span>' +
+      '</div>' +
+      '<label class="al">Titel:</label>' +
+      '<input type="text" class="ai" id="at_' + i + '" value="' + escHtml(t.title) + '">' +
+      '<label class="al">Beschreibung:</label>' +
+      '<textarea class="ai" id="ad_' + i + '">' + escHtml(t.desc) + '</textarea>' +
+      '<label class="al">Coverbild URL (leer = kein Bild):</label>' +
+      '<input type="text" class="ai" id="ac_' + i + '" value="' + escHtml(t.cover) + '" placeholder="https://...">' +
+      '<label class="al">Preis-Icon (Emoji):</label>' +
+      '<input type="text" class="ai" id="api_' + i + '" value="' + escHtml(t.prizeIcon) + '" style="width:80px;">' +
+      '<label class="al">Preis-Text:</label>' +
+      '<input type="text" class="ai" id="apt_' + i + '" value="' + escHtml(t.prizeText) + '">' +
+      '<label class="al">Strafe bei Nicht-Bestehen:</label>' +
+      '<input type="text" class="ai" id="apen_' + i + '" value="' + escHtml(t.penalty) + '">' +
+      '<label class="al">Zeitlimit in Minuten (0 = kein Limit):</label>' +
+      '<input type="number" class="ai" id="atm_' + i + '" value="' + (t.deadlineMins||0) + '" min="0" style="width:100px;">' +
+      '<div class="alrow">' +
+        '<button class="btn btn-green btn-sm" onclick="saveLevel(' + i + ')">💾 Speichern</button>' +
+        (t.done ? '<button class="btn btn-red btn-sm" onclick="adminReset(' + i + ')">🔄 Zurücksetzen</button>' : '') +
+      '</div>';
+    c.appendChild(d);
+  });
+}
+
+function saveLevel(i) {
+  gd.tasks[i].title        = document.getElementById('at_'   + i).value;
+  gd.tasks[i].desc         = document.getElementById('ad_'   + i).value;
+  gd.tasks[i].cover        = document.getElementById('ac_'   + i).value.trim();
+  gd.tasks[i].prizeIcon    = document.getElementById('api_'  + i).value;
+  gd.tasks[i].prizeText    = document.getElementById('apt_'  + i).value;
+  gd.tasks[i].penalty      = document.getElementById('apen_' + i).value;
+  gd.tasks[i].deadlineMins = parseInt(document.getElementById('atm_' + i).value) || 0;
+  saveData();
+  renderAll();
+  alert('✅ Aufgabe ' + (i + 1) + ' gespeichert!');
+}
+
+function adminReset(i) {
+  if (!confirm('Aufgabe ' + (i + 1) + ' «' + gd.tasks[i].title + '» zurücksetzen?')) return;
+  gd.tasks[i].done = false;
+  // Nachfolgende sperren falls nur durch diese freigeschaltet
+  for (var j = i + 1; j < gd.tasks.length; j++) {
+    if (!gd.tasks[j].done) { gd.tasks[j].unlocked = false; }
+    else break;
+  }
+  // Erste Aufgabe immer entsperren
+  if (i === 0) gd.tasks[0].unlocked = true;
+  saveData();
+  renderAdminLevels();
+  renderAdminReset();
+  renderAll();
+  alert('✅ Aufgabe ' + (i + 1) + ' zurückgesetzt.');
+}
+
+function renderAdminReset() {
+  var c = document.getElementById('adminResetList');
+  c.innerHTML = '';
+  gd.tasks.forEach(function(t, i) {
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.07);';
+    row.innerHTML =
+      '<span style="font-size:13px;font-weight:700;">' + NODE_ICONS[i] + ' ' + (i+1) + '. ' + escHtml(t.title) + '</span>' +
+      '<div style="display:flex;align-items:center;gap:8px;">' +
+        '<span style="font-size:12px;color:' + (t.done?'var(--grass)':'#bbb') + ';">' + (t.done?'✅ Erledigt':'○ Offen') + '</span>' +
+        (t.done ? '<button class="btn btn-red btn-sm" onclick="adminReset(' + i + ')">🔄 Reset</button>' : '') +
+      '</div>';
+    c.appendChild(row);
+  });
+}
+
+function saveSettings() {
+  var pw = document.getElementById('settingPw').value.trim();
+  if (pw) gd.password = pw;
+  saveData();
+  alert('✅ Einstellungen gespeichert!');
+  document.getElementById('settingPw').value = '';
+}
+
+function escHtml(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── START ──
+window.addEventListener('DOMContentLoaded', function() {
+  renderAll();
+});
+
+// Global verfügbar machen
+window.openTask      = openTask;
+window.closeModal    = closeModal;
+window.bgClose       = bgClose;
+window.completeTask  = completeTask;
+window.closePrize    = closePrize;
+window.closePenalty  = closePenalty;
+window.checkLogin    = checkLogin;
+window.adminLogout   = adminLogout;
+window.switchTab     = switchTab;
+window.saveIntro     = saveIntro;
+window.saveLevel     = saveLevel;
+window.adminReset    = adminReset;
+window.saveSettings  = saveSettings;
+</script>
+</body>
+</html>
