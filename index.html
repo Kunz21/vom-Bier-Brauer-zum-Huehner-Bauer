@@ -190,14 +190,16 @@ textarea.ai{resize:vertical;min-height:58px;}
     </div>
 
     <!-- Intro -->
-    <div id="adminTabIntro" class="acard hidden">
-      <h2>📝 Einleitungstext</h2>
-      <label class="al">Text (öffentlich sichtbar):</label>
-      <textarea class="ai" id="adminIntroTA" rows="5"></textarea>
-      <button class="btn btn-green mt10" onclick="saveIntro()">💾 Speichern</button>
-    </div>
-<label class="al">Intro-Bild Pfad:</label>
-<input type="text" class="ai" id="adminIntroImg" placeholder="bilder/Hallo.png">
+<div id="adminTabIntro" class="acard hidden">
+  <h2>📝 Einleitungstext</h2>
+  <label class="al">Text (öffentlich sichtbar):</label>
+  <textarea class="ai" id="adminIntroTA" rows="5"></textarea>
+
+  <label class="al">Intro-Bild Pfad:</label>
+  <input type="text" class="ai" id="adminIntroImg" placeholder="bilder/Hallo.png">
+
+  <button class="btn btn-green mt10" onclick="saveIntro()">💾 Speichern</button>
+</div>
     
     <!-- Aufgaben -->
     <div id="adminTabLevels" class="hidden">
