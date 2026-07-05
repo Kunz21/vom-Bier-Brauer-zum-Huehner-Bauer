@@ -124,6 +124,19 @@ textarea.ai{resize:vertical;min-height:58px;}
 .mt14{margin-top:14px;}
 .tc{text-align:center;}
 .divider{border:none;border-top:1.5px solid rgba(0,0,0,.09);margin:13px 0;}
+.confetti{
+  position:fixed;
+  top:-20px;
+  width:10px;
+  height:16px;
+  z-index:10000;
+  animation:confettiFall 2.8s linear forwards;
+}
+
+@keyframes confettiFall{
+  0%{transform:translateY(0) rotate(0deg);opacity:1;}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0;}
+}  
 </style>
 </head>
 <body>
@@ -300,6 +313,7 @@ function loadData() {
         if (st.prizeText    !== undefined) base.tasks[i].prizeText    = st.prizeText;
         if (st.penalty      !== undefined) base.tasks[i].penalty      = st.penalty;
         if (st.deadlineMins !== undefined) base.tasks[i].deadlineMins = st.deadlineMins;
+        if (st.startedAt    !== undefined) base.tasks[i].startedAt    = st.startedAt;
         if (st.done         !== undefined) base.tasks[i].done         = st.done;
         if (st.unlocked     !== undefined) base.tasks[i].unlocked     = st.unlocked;
       });
@@ -488,9 +502,23 @@ function openTask(i) {
   clearInterval(activeTimer);
   activeTimer = null;
   if (t.deadlineMins > 0 && !t.done && t.unlocked) {
-    var totalSecs = t.deadlineMins * 60;
-    timerEndTs = Date.now() + totalSecs * 1000;
-    tickTimer(totalSecs, totalSecs);
+var totalSecs = t.deadlineMins * 60;
+
+if (!t.startedAt) {
+  t.startedAt = Date.now();
+  saveData();
+}
+
+timerEndTs = t.startedAt + totalSecs * 1000;
+
+var remStart = Math.round((timerEndTs - Date.now()) / 1000);
+if (remStart <= 0) {
+  closeModal();
+  showPenalty(t.penalty || 'Zeit abgelaufen!');
+  return;
+}
+
+tickTimer(remStart, totalSecs);
     activeTimer = setInterval(function() {
       var rem = Math.round((timerEndTs - Date.now()) / 1000);
       if (rem <= 0) {
@@ -540,8 +568,23 @@ function completeTask(i) {
   document.getElementById('prizeIcon').textContent    = gd.tasks[i].prizeIcon || '🏆';
   document.getElementById('prizeTextBox').textContent = gd.tasks[i].prizeText || 'Gratulation!';
   document.getElementById('prizeOverlay').classList.remove('hidden');
+  launchConfetti();
 }
+function launchConfetti() {
+  for (var i = 0; i < 90; i++) {
+    var c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = ['#F5C842','#5A9E3A','#C0392B','#87CEEB','#ffffff'][Math.floor(Math.random()*5)];
+    c.style.animationDelay = Math.random() * 0.8 + 's';
+    c.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+    document.body.appendChild(c);
 
+    setTimeout(function(el){
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    }, 3500, c);
+  }
+}
 function closePrize() {
   document.getElementById('prizeOverlay').classList.add('hidden');
   renderAll();
@@ -729,6 +772,7 @@ window.saveIntro     = saveIntro;
 window.saveLevel     = saveLevel;
 window.adminReset    = adminReset;
 window.saveSettings  = saveSettings;
+window.launchConfetti = launchConfetti;  
 </script>
 </body>
 </html>
