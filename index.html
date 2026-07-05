@@ -28,7 +28,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 /* INTRO */
 .intro-card{max-width:680px;margin:22px auto 0;background:var(--cream);border-radius:20px;padding:20px 24px;box-shadow:0 5px 20px rgba(0,0,0,0.13);border:3px solid var(--hay);font-size:15px;line-height:1.75;color:var(--dark);}
 /* INTRO2 */
-.intro-card{max-width:680px;margin:22px auto 0;background:<img src="bilder/Hallo.png" width="300">}
+.intro-img{  max-width:680px;  margin:18px auto 0;  display:block;  width:100%;  border-radius:20px; border:3px solid var(--hay);  box-shadow:0 5px 20px rgba(0,0,0,0.13);}
 /* PROGRESS */
 .prog-wrap{max-width:680px;margin:16px auto 0;background:rgba(255,255,255,0.7);border-radius:14px;padding:14px 20px;backdrop-filter:blur(6px);box-shadow:0 3px 14px rgba(0,0,0,0.1);}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-weight:800;font-size:14px;}
@@ -139,7 +139,9 @@ textarea.ai{resize:vertical;min-height:58px;}
 <div class="intro-card">
   <div id="introText"></div>
 </div>
-
+/* INTRO2 */
+  <div calass="introiImage">
+  <img id="introImage" class="intro-img hidden" src="" alt="Intro Bild">
 <!-- PROGRESS -->
 <div class="prog-wrap">
   <div class="prog-top">
@@ -149,7 +151,9 @@ textarea.ai{resize:vertical;min-height:58px;}
   <div class="prog-bar-bg"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
   <div id="progLabel" style="font-size:12px;color:#777;margin-top:5px;text-align:center;"></div>
 </div>
-
+<div id="progressClock" style="font-size:12px;color:#777;margin-top:6px;text-align:center;font-weight:800;">
+  ⏱ Zeit läuft...
+</div>
 <!-- ROADMAP -->
 <div class="road-outer">
   <div class="road" id="roadmap">
@@ -193,7 +197,9 @@ textarea.ai{resize:vertical;min-height:58px;}
       <textarea class="ai" id="adminIntroTA" rows="5"></textarea>
       <button class="btn btn-green mt10" onclick="saveIntro()">💾 Speichern</button>
     </div>
-
+<label class="al">Intro-Bild Pfad:</label>
+<input type="text" class="ai" id="adminIntroImg" placeholder="bilder/Hallo.png">
+    
     <!-- Aufgaben -->
     <div id="adminTabLevels" class="hidden">
       <div id="adminLevelList"></div>
@@ -252,6 +258,7 @@ var NODE_ICONS = ['🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔'
 var DEFAULT_DATA = {
   password: 'admin123',
   intro: 'Wie der grosse Bierbrauer seinen neuen Weg zum Hühner-Bauer findet.\n\n15 Aufgaben warten auf Marc – eine nach der anderen. Schaffst du es bis zum Ende? 🐔🍺',
+  introImage: 'bilder/Hallo.png',
   tasks: (function() {
     var arr = [];
     for (var i = 0; i < 15; i++) {
@@ -281,6 +288,7 @@ function loadData() {
     var base  = JSON.parse(JSON.stringify(DEFAULT_DATA));
     if (saved.password) base.password = saved.password;
     if (saved.intro)    base.intro    = saved.intro;
+    if (saved.introImage !== undefined) base.introImage = saved.introImage;
     if (Array.isArray(saved.tasks)) {
       saved.tasks.forEach(function(st, i) {
         if (!base.tasks[i]) return;
@@ -317,7 +325,17 @@ function renderAll() {
 function renderIntro() {
   document.getElementById('introText').textContent = gd.intro;
 }
+function renderIntro() {
+  document.getElementById('introText').textContent = gd.intro;
 
+  var img = document.getElementById('introImage');
+  if (gd.introImage) {
+    img.src = gd.introImage;
+    img.classList.remove('hidden');
+  } else {
+    img.classList.add('hidden');
+  }
+}
 function renderProgress() {
   var total = gd.tasks.length;
   var done  = gd.tasks.filter(function(t) { return t.done; }).length;
@@ -580,7 +598,10 @@ function switchTab(tab) {
 function renderAdminIntro() {
   document.getElementById('adminIntroTA').value = gd.intro;
 }
-
+function renderAdminIntro() {
+  document.getElementById('adminIntroTA').value = gd.intro;
+  document.getElementById('adminIntroImg').value = gd.introImage || '';
+}
 function saveIntro() {
   gd.intro = document.getElementById('adminIntroTA').value;
   saveData();
@@ -667,7 +688,14 @@ function renderAdminReset() {
     c.appendChild(row);
   });
 }
+var startTime = Date.now();
 
+function updateProgressClock() {
+  var diff = Math.floor((Date.now() - startTime) / 1000);
+  var min = Math.floor(diff / 60);
+  var sec = String(diff % 60).padStart(2, '0');
+  document.getElementById('progressClock').textContent = '⏱ Spielzeit: ' + min + ':' + sec + ' Minuten';
+}
 function saveSettings() {
   var pw = document.getElementById('settingPw').value.trim();
   if (pw) gd.password = pw;
@@ -682,7 +710,8 @@ function escHtml(str) {
 
 // ── START ──
 window.addEventListener('DOMContentLoaded', function() {
-  renderAll();
+  renderAll();updateProgressClock();
+setInterval(updateProgressClock, 1000);
 });
 
 // Global verfügbar machen
