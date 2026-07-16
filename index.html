@@ -642,7 +642,7 @@ function openTask(i) {
       '<div class="prize-icon-big">' + (t.prizeIcon||'🏆') + '</div>' +
       '<h3>🎉 Dein Preis!</h3>' +
       '<div style="font-size:14px;font-weight:700;">' + (t.prizeText||'Gratulation!') + '</div>' +
-      (drinkList ? '<div style="margin-top:8px;font-size:13px;color:#555;">🍹 ' + drinkList + '</div>' : '') +
+      (drinkList ? '<div style="margin-top:8px;font-size:13px;color:#555;"> Deine Getränke ' + drinkList + '</div>' : '') +
       '</div>';
   } else if (t.penalized) {
     var penDrinkList = drinkSummaryText(t.penaltyDrinks);
@@ -650,7 +650,7 @@ function openTask(i) {
       '<div class="penalty-info" style="text-align:center;">' +
       '<div style="font-size:1.5rem;margin-bottom:4px;">😤</div>' +
       '<div>Strafe: ' + (t.penalty||'') + '</div>' +
-      (penDrinkList ? '<div style="margin-top:5px;">🍹 Strafe-Getränke: ' + penDrinkList + '</div>' : '') +
+      (penDrinkList ? '<div style="margin-top:5px;">🍹 Strafe Getränke: ' + penDrinkList + '</div>' : '') +
       '</div>';
   } else if (t.unlocked) {
     prizeHTML =
