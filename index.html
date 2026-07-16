@@ -650,7 +650,7 @@ function openTask(i) {
       '<div class="penalty-info" style="text-align:center;">' +
       '<div style="font-size:1.5rem;margin-bottom:4px;">😤</div>' +
       '<div>Strafe: ' + (t.penalty||'') + '</div>' +
-      (penDrinkList ? '<div style="margin-top:5px;">🍹 Strafe Getränke: ' + penDrinkList + '</div>' : '') +
+      (penDrinkList ? '<div style="margin-top:5px;"> Straf Getränke: ' + penDrinkList + '</div>' : '') +
       '</div>';
   } else if (t.unlocked) {
     prizeHTML =
@@ -751,7 +751,7 @@ function completeTask(i) {
   var drinkList = drinkSummaryText(gd.tasks[i].prizeDrinks);
   document.getElementById('prizeTextBox').innerHTML   =
     escHtml(gd.tasks[i].prizeText || 'Gratulation!') +
-    (drinkList ? '<br><span style="font-size:0.9em;opacity:0.9;">🍹 ' + escHtml(drinkList) + '</span>' : '');
+    (drinkList ? '<br><span style="font-size:0.9em;opacity:0.9;"> Deine Getränke ' + escHtml(drinkList) + '</span>' : '');
   document.getElementById('prizeOverlay').classList.remove('hidden');
   launchConfetti();
 }
@@ -797,7 +797,7 @@ function showPenalty(text, penDrinks) {
   var drinkList = drinkSummaryText(penDrinks || {});
   var drinkEl = document.getElementById('penDrinkText');
   if (drinkList) {
-    drinkEl.textContent = '🍹 Strafe-Getränke: ' + drinkList;
+    drinkEl.textContent = ' Straf Getränke: ' + drinkList;
     drinkEl.classList.remove('hidden');
   } else {
     drinkEl.classList.add('hidden');
