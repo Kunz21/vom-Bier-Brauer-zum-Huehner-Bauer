@@ -27,13 +27,33 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 
 /* INTRO */
 .intro-card{max-width:680px;margin:22px auto 0;background:var(--cream);border-radius:20px;padding:20px 24px;box-shadow:0 5px 20px rgba(0,0,0,0.13);border:3px solid var(--hay);font-size:15px;line-height:1.75;color:var(--dark);}
-/* INTRO2 */
-.intro-img{  max-width:680px;  margin:18px auto 0;  display:block;  width:100%;  border-radius:20px; border:3px solid var(--hay);  box-shadow:0 5px 20px rgba(0,0,0,0.13);}
+.intro-img{max-width:680px;margin:18px auto 0;display:block;width:100%;border-radius:20px;border:3px solid var(--hay);box-shadow:0 5px 20px rgba(0,0,0,0.13);}
+
 /* PROGRESS */
 .prog-wrap{max-width:680px;margin:16px auto 0;background:rgba(255,255,255,0.7);border-radius:14px;padding:14px 20px;backdrop-filter:blur(6px);box-shadow:0 3px 14px rgba(0,0,0,0.1);}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-weight:800;font-size:14px;}
 .prog-bar-bg{background:rgba(0,0,0,0.1);border-radius:20px;height:13px;overflow:hidden;}
 .prog-bar{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--grass),var(--hay));transition:width .6s ease;}
+
+/* GETRÄNKE-TRACKER */
+.drinks-wrap{max-width:680px;margin:12px auto 0;background:rgba(255,255,255,0.82);border-radius:16px;padding:16px 20px;backdrop-filter:blur(6px);box-shadow:0 3px 14px rgba(0,0,0,0.1);border:2px solid var(--hay);}
+.drinks-title{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--barn);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.drinks-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.drinks-col-head{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:4px;}
+.drink-row{display:flex;align-items:center;justify-content:space-between;padding:5px 9px;border-radius:9px;background:rgba(0,0,0,0.04);margin-bottom:4px;font-size:13px;font-weight:700;}
+.drink-row .drink-label{display:flex;align-items:center;gap:5px;}
+.drink-row .drink-count{background:var(--hay);color:var(--dark);border-radius:20px;padding:2px 9px;font-size:12px;font-weight:800;min-width:28px;text-align:center;}
+.drink-row .drink-count.zero{background:rgba(0,0,0,0.07);color:#bbb;}
+.drink-consume-btn{background:var(--grass);color:#fff;border:none;border-radius:7px;padding:3px 8px;font-size:11px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s;}
+.drink-consume-btn:hover{background:#3d7a26;transform:scale(1.07);}
+.drink-consume-btn:disabled{background:#ccc;cursor:default;transform:none;}
+.drink-consumed-row{display:flex;align-items:center;justify-content:space-between;padding:5px 9px;border-radius:9px;background:rgba(0,0,0,0.04);margin-bottom:4px;font-size:13px;font-weight:700;opacity:0.7;}
+.drink-consumed-row .drink-label{display:flex;align-items:center;gap:5px;text-decoration:line-through;color:#999;}
+.drink-consumed-row .drink-count{background:rgba(0,0,0,0.08);color:#999;border-radius:20px;padding:2px 9px;font-size:12px;font-weight:800;min-width:28px;text-align:center;}
+.drink-undo-btn{background:rgba(0,0,0,0.08);color:#666;border:none;border-radius:7px;padding:3px 8px;font-size:11px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s;}
+.drink-undo-btn:hover{background:rgba(0,0,0,0.15);}
+.drinks-empty{font-size:12px;color:#bbb;text-align:center;padding:8px 0;font-weight:700;}
+.drinks-divider{border:none;border-top:1.5px solid rgba(0,0,0,0.08);margin:10px 0;}
 
 /* ROADMAP */
 .road-outer{max-width:680px;margin:24px auto 40px;padding:0 16px;}
@@ -48,6 +68,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .node-bubble{flex-shrink:0;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.9rem;border:4px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,0.25);cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;z-index:2;}
 .node-bubble:hover:not(.b-locked){transform:scale(1.12);box-shadow:0 6px 20px rgba(0,0,0,0.3);}
 .b-done{background:linear-gradient(135deg,var(--grass),#3d7a26);}
+.b-penalty{background:linear-gradient(135deg,#e74c3c,#8B1A1A);}
 .b-active{background:linear-gradient(135deg,var(--hay),#e0a800);animation:bob 1.8s infinite;}
 .b-locked{background:#ccc;cursor:default;filter:grayscale(.5);}
 @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
@@ -55,6 +76,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .node-card{flex:1;background:var(--cream);border-radius:15px;padding:13px 15px;box-shadow:0 4px 14px rgba(0,0,0,0.12);border:2px solid transparent;cursor:pointer;min-width:0;transition:border-color .2s;}
 .node-card:hover:not(.c-locked){border-color:var(--hay);}
 .c-done{border-color:var(--grass)!important;background:#f0fff4;}
+.c-penalty{border-color:#e74c3c!important;background:#fff5f5;}
 .c-active{border-color:var(--hay)!important;}
 .c-locked{opacity:.5;cursor:default;}
 
@@ -88,6 +110,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .prize-icon-big{font-size:2.8rem;margin-bottom:5px;}
 .penalty-info{background:rgba(231,76,60,.12);border:2px solid #e74c3c;border-radius:11px;padding:11px 14px;margin-top:10px;font-size:13px;color:#c0392b;font-weight:700;}
 .status-ok{background:rgba(90,158,58,.15);border:2px solid var(--grass);border-radius:11px;padding:10px 14px;margin-bottom:12px;font-weight:700;color:var(--grass);text-align:center;}
+.status-penalty{background:rgba(231,76,60,.12);border:2px solid #e74c3c;border-radius:11px;padding:10px 14px;margin-bottom:12px;font-weight:700;color:#c0392b;text-align:center;}
 .status-lock{background:rgba(0,0,0,.07);border-radius:11px;padding:10px 14px;margin-bottom:12px;font-weight:700;color:#999;text-align:center;}
 
 /* BUTTONS */
@@ -119,24 +142,25 @@ textarea.ai{resize:vertical;min-height:58px;}
 #loginBox{text-align:center;padding:10px 0 4px;}
 #loginBox input{padding:10px 13px;border-radius:10px;border:1.5px solid rgba(0,0,0,.18);font-size:15px;font-family:'Nunito',sans-serif;width:175px;margin-right:6px;margin-bottom:8px;}
 
+/* Getränke-Auswahl im Admin */
+.drink-admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px;}
+.drink-admin-item{background:rgba(0,0,0,.04);border:1.5px solid rgba(0,0,0,.1);border-radius:9px;padding:8px 6px;text-align:center;}
+.drink-admin-item label{font-size:11px;font-weight:800;display:block;margin-top:4px;color:#555;}
+.drink-admin-item input[type=number]{width:54px;text-align:center;border:1.5px solid rgba(0,0,0,.15);border-radius:7px;padding:4px;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;background:#fff;}
+
+/* Strafe-Getränk im Admin */
+.penalty-drink-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px;}
+.penalty-drink-item{background:rgba(231,76,60,.06);border:1.5px solid rgba(231,76,60,.2);border-radius:9px;padding:8px 6px;text-align:center;}
+.penalty-drink-item label{font-size:11px;font-weight:800;display:block;margin-top:4px;color:#c0392b;}
+.penalty-drink-item input[type=number]{width:54px;text-align:center;border:1.5px solid rgba(231,76,60,.3);border-radius:7px;padding:4px;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;background:#fff;}
+
 .hidden{display:none!important;}
 .mt10{margin-top:10px;}
 .mt14{margin-top:14px;}
 .tc{text-align:center;}
 .divider{border:none;border-top:1.5px solid rgba(0,0,0,.09);margin:13px 0;}
-.confetti{
-  position:fixed;
-  top:-20px;
-  width:10px;
-  height:16px;
-  z-index:10000;
-  animation:confettiFall 2.8s linear forwards;
-}
-
-@keyframes confettiFall{
-  0%{transform:translateY(0) rotate(0deg);opacity:1;}
-  100%{transform:translateY(110vh) rotate(720deg);opacity:0;}
-}  
+.confetti{position:fixed;top:-20px;width:10px;height:16px;z-index:10000;animation:confettiFall 2.8s linear forwards;}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
 </style>
 </head>
 <body>
@@ -154,6 +178,7 @@ textarea.ai{resize:vertical;min-height:58px;}
 </div>
 <!-- INTRO2 -->
 <img id="introImage" class="intro-img hidden" src="" alt="Intro Bild">
+
 <!-- PROGRESS -->
 <div class="prog-wrap">
   <div class="prog-top">
@@ -163,9 +188,28 @@ textarea.ai{resize:vertical;min-height:58px;}
   <div class="prog-bar-bg"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
   <div id="progLabel" style="font-size:12px;color:#777;margin-top:5px;text-align:center;"></div>
 </div>
+
+<!-- GETRÄNKE-TRACKER -->
+<div class="drinks-wrap" id="drinksWrap">
+  <div class="drinks-title">🍹 Erspielter Getränke-Vorrat</div>
+  <div class="drinks-cols">
+    <!-- Zu konsumieren -->
+    <div>
+      <div class="drinks-col-head">🟢 Zu konsumieren</div>
+      <div id="drinksTodo"></div>
+    </div>
+    <!-- Bereits konsumiert -->
+    <div>
+      <div class="drinks-col-head">✅ Bereits konsumiert</div>
+      <div id="drinksDone"></div>
+    </div>
+  </div>
+</div>
+
 <div id="progressClock" style="font-size:12px;color:#777;margin-top:6px;text-align:center;font-weight:800;">
   ⏱ Zeit läuft...
 </div>
+
 <!-- ROADMAP -->
 <div class="road-outer">
   <div class="road" id="roadmap">
@@ -203,17 +247,15 @@ textarea.ai{resize:vertical;min-height:58px;}
     </div>
 
     <!-- Intro -->
-<div id="adminTabIntro" class="acard hidden">
-  <h2>📝 Einleitungstext</h2>
-  <label class="al">Text (öffentlich sichtbar):</label>
-  <textarea class="ai" id="adminIntroTA" rows="5"></textarea>
+    <div id="adminTabIntro" class="acard hidden">
+      <h2>📝 Einleitungstext</h2>
+      <label class="al">Text (öffentlich sichtbar):</label>
+      <textarea class="ai" id="adminIntroTA" rows="5"></textarea>
+      <label class="al">Intro-Bild Pfad:</label>
+      <input type="text" class="ai" id="adminIntroImg" placeholder="bilder/Hallo.png">
+      <button class="btn btn-green mt10" onclick="saveIntro()">💾 Speichern</button>
+    </div>
 
-  <label class="al">Intro-Bild Pfad:</label>
-  <input type="text" class="ai" id="adminIntroImg" placeholder="bilder/Hallo.png">
-
-  <button class="btn btn-green mt10" onclick="saveIntro()">💾 Speichern</button>
-</div>
-    
     <!-- Aufgaben -->
     <div id="adminTabLevels" class="hidden">
       <div id="adminLevelList"></div>
@@ -257,35 +299,60 @@ textarea.ai{resize:vertical;min-height:58px;}
 <div class="pen-overlay hidden" id="penOverlay">
   <div style="font-size:5rem;margin-bottom:12px;">😤</div>
   <div style="font-family:'Fredoka One',cursive;font-size:2.4rem;color:#fff;margin-bottom:8px;">STRAFE!</div>
-  <div id="penText" style="color:#ffcccc;font-size:1rem;margin-bottom:26px;max-width:380px;"></div>
+  <div id="penText" style="color:#ffcccc;font-size:1rem;margin-bottom:10px;max-width:380px;"></div>
+  <div id="penDrinkText" style="color:#ffeeee;font-size:0.9rem;font-weight:700;margin-bottom:26px;max-width:380px;background:rgba(255,255,255,0.1);border-radius:11px;padding:10px 16px;"></div>
   <button class="btn btn-gray" onclick="closePenalty()">OK, akzeptiert!</button>
 </div>
 
 <script>
 // ============================================================
-// DATEN & SPEICHERN
+// KONSTANTEN
 // ============================================================
 var STORAGE_KEY = 'huehnerstall_v1';
+var NODE_ICONS  = ['🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔'];
 
-var NODE_ICONS = ['🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','🐔'];
+// Getränke-Definitionen
+var DRINK_TYPES = [
+  { id: 'bier',       label: 'Bier',        icon: '🍺' },
+  { id: 'wein',       label: 'Wein',        icon: '🍷' },
+  { id: 'longdrink',  label: 'Longdrink',   icon: '🥤' },
+  { id: 'shot',       label: 'Shot',        icon: '🥃' },
+  { id: 'alkoholfrei',label: 'Alkoholfrei', icon: '🧃' },
+  { id: 'wasser',     label: 'Wasser',      icon: '💧' }
+];
 
+// Leeres Getränke-Objekt erzeugen
+function emptyDrinks() {
+  var obj = {};
+  DRINK_TYPES.forEach(function(d) { obj[d.id] = 0; });
+  return obj;
+}
+
+// ============================================================
+// DEFAULT DATA
+// ============================================================
 var DEFAULT_DATA = {
-  password: 'admin123',
-  intro: 'Wie der grosse Bierbrauer seinen neuen Weg zum Hühner-Bauer findet.\n\n15 Aufgaben warten auf Marc – eine nach der anderen. Schaffst du es bis zum Ende? 🐔🍺',
+  password:   'admin123',
+  intro:      'Wie der grosse Bierbrauer seinen neuen Weg zum Hühner-Bauer findet.\n\n15 Aufgaben warten auf Marc – eine nach der anderen. Schaffst du es bis zum Ende? 🐔🍺',
   introImage: 'bilder/Hallo.png',
+  // Konsumierte Getränke (global, unabhängig von Aufgaben)
+  consumed:   emptyDrinks(),
   tasks: (function() {
     var arr = [];
     for (var i = 0; i < 15; i++) {
       arr.push({
-        title:        'Aufgabe ' + (i + 1),
-        desc:         'Beschreibung der Aufgabe ' + (i + 1) + '. Kann vom Admin bearbeitet werden.',
-        cover:        '',
-        prizeIcon:    '🏆',
-        prizeText:    'Preis für Aufgabe ' + (i + 1) + ' – wird vom Admin definiert.',
-        penalty:      'Ein Bier auf ex! 🍺',
-        deadlineMins: 0,
-        done:         false,
-        unlocked:     i === 0
+        title:          'Aufgabe ' + (i + 1),
+        desc:           'Beschreibung der Aufgabe ' + (i + 1) + '. Kann vom Admin bearbeitet werden.',
+        cover:          '',
+        prizeIcon:      '🏆',
+        prizeText:      'Preis für Aufgabe ' + (i + 1) + ' – wird vom Admin definiert.',
+        prizeDrinks:    emptyDrinks(),   // Getränke als Preis
+        penalty:        'Ein Bier auf ex! 🍺',
+        penaltyDrinks:  { alkoholfrei: 1, wasser: 0, bier: 0, wein: 0, longdrink: 0, shot: 0 }, // Strafe-Getränke
+        deadlineMins:   0,
+        done:           false,
+        penalized:      false,   // true = Aufgabe mit Strafe «akzeptiert»
+        unlocked:       i === 0
       });
     }
     return arr;
@@ -294,28 +361,36 @@ var DEFAULT_DATA = {
 
 var gd = loadData();
 
+// ============================================================
+// SPEICHERN / LADEN
+// ============================================================
 function loadData() {
   try {
     var raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
     var saved = JSON.parse(raw);
     var base  = JSON.parse(JSON.stringify(DEFAULT_DATA));
-    if (saved.password) base.password = saved.password;
-    if (saved.intro)    base.intro    = saved.intro;
+    if (saved.password)             base.password   = saved.password;
+    if (saved.intro)                base.intro      = saved.intro;
     if (saved.introImage !== undefined) base.introImage = saved.introImage;
+    if (saved.consumed)             base.consumed   = Object.assign(emptyDrinks(), saved.consumed);
     if (Array.isArray(saved.tasks)) {
       saved.tasks.forEach(function(st, i) {
         if (!base.tasks[i]) return;
-        if (st.title        !== undefined) base.tasks[i].title        = st.title;
-        if (st.desc         !== undefined) base.tasks[i].desc         = st.desc;
-        if (st.cover        !== undefined) base.tasks[i].cover        = st.cover;
-        if (st.prizeIcon    !== undefined) base.tasks[i].prizeIcon    = st.prizeIcon;
-        if (st.prizeText    !== undefined) base.tasks[i].prizeText    = st.prizeText;
-        if (st.penalty      !== undefined) base.tasks[i].penalty      = st.penalty;
-        if (st.deadlineMins !== undefined) base.tasks[i].deadlineMins = st.deadlineMins;
-        if (st.startedAt    !== undefined) base.tasks[i].startedAt    = st.startedAt;
-        if (st.done         !== undefined) base.tasks[i].done         = st.done;
-        if (st.unlocked     !== undefined) base.tasks[i].unlocked     = st.unlocked;
+        var t = base.tasks[i];
+        if (st.title          !== undefined) t.title          = st.title;
+        if (st.desc           !== undefined) t.desc           = st.desc;
+        if (st.cover          !== undefined) t.cover          = st.cover;
+        if (st.prizeIcon      !== undefined) t.prizeIcon      = st.prizeIcon;
+        if (st.prizeText      !== undefined) t.prizeText      = st.prizeText;
+        if (st.prizeDrinks    !== undefined) t.prizeDrinks    = Object.assign(emptyDrinks(), st.prizeDrinks);
+        if (st.penalty        !== undefined) t.penalty        = st.penalty;
+        if (st.penaltyDrinks  !== undefined) t.penaltyDrinks  = Object.assign(emptyDrinks(), st.penaltyDrinks);
+        if (st.deadlineMins   !== undefined) t.deadlineMins   = st.deadlineMins;
+        if (st.startedAt      !== undefined) t.startedAt      = st.startedAt;
+        if (st.done           !== undefined) t.done           = st.done;
+        if (st.penalized      !== undefined) t.penalized      = st.penalized;
+        if (st.unlocked       !== undefined) t.unlocked       = st.unlocked;
       });
     }
     return base;
@@ -329,20 +404,115 @@ function saveData() {
 }
 
 // ============================================================
+// GETRÄNKE-LOGIK
+// ============================================================
+// Alle verdienten Getränke aus erledigten/bestraften Aufgaben summieren
+function calcEarnedDrinks() {
+  var totals = emptyDrinks();
+  gd.tasks.forEach(function(t) {
+    if (t.done && !t.penalized) {
+      // Preis-Getränke addieren
+      DRINK_TYPES.forEach(function(d) {
+        totals[d.id] += (t.prizeDrinks[d.id] || 0);
+      });
+    }
+    if (t.penalized) {
+      // Strafe-Getränke addieren
+      DRINK_TYPES.forEach(function(d) {
+        totals[d.id] += (t.penaltyDrinks[d.id] || 0);
+      });
+    }
+  });
+  return totals;
+}
+
+// Getränke-Tracker rendern
+function renderDrinks() {
+  var earned   = calcEarnedDrinks();
+  var consumed = gd.consumed;
+
+  var todoEl = document.getElementById('drinksTodo');
+  var doneEl = document.getElementById('drinksDone');
+  todoEl.innerHTML = '';
+  doneEl.innerHTML = '';
+
+  var anyTodo = false;
+  var anyDone = false;
+
+  DRINK_TYPES.forEach(function(d) {
+    var total     = earned[d.id] || 0;
+    var cons      = Math.min(consumed[d.id] || 0, total);
+    var remaining = total - cons;
+
+    if (total === 0) return; // nichts verdient, nicht anzeigen
+
+    // «Zu konsumieren»-Zeile
+    if (remaining > 0) {
+      anyTodo = true;
+      var row = document.createElement('div');
+      row.className = 'drink-row';
+      row.innerHTML =
+        '<span class="drink-label">' + d.icon + ' ' + d.label + '</span>' +
+        '<div style="display:flex;align-items:center;gap:6px;">' +
+          '<span class="drink-count">' + remaining + 'x</span>' +
+          '<button class="drink-consume-btn" onclick="consumeDrink(\'' + d.id + '\')" title="Als konsumiert markieren">✓ Trinken</button>' +
+        '</div>';
+      todoEl.appendChild(row);
+    }
+
+    // «Bereits konsumiert»-Zeile
+    if (cons > 0) {
+      anyDone = true;
+      var rowD = document.createElement('div');
+      rowD.className = 'drink-consumed-row';
+      rowD.innerHTML =
+        '<span class="drink-label">' + d.icon + ' ' + d.label + '</span>' +
+        '<div style="display:flex;align-items:center;gap:6px;">' +
+          '<span class="drink-count">' + cons + 'x</span>' +
+          '<button class="drink-undo-btn" onclick="unconsumeDrink(\'' + d.id + '\')" title="Rückgängig">↩</button>' +
+        '</div>';
+      doneEl.appendChild(rowD);
+    }
+  });
+
+  if (!anyTodo) {
+    todoEl.innerHTML = '<div class="drinks-empty">Noch nichts verdient</div>';
+  }
+  if (!anyDone) {
+    doneEl.innerHTML = '<div class="drinks-empty">Noch nichts getrunken</div>';
+  }
+}
+
+function consumeDrink(drinkId) {
+  var earned   = calcEarnedDrinks();
+  var total    = earned[drinkId] || 0;
+  var cons     = gd.consumed[drinkId] || 0;
+  if (cons >= total) return;
+  gd.consumed[drinkId] = cons + 1;
+  saveData();
+  renderDrinks();
+}
+
+function unconsumeDrink(drinkId) {
+  var cons = gd.consumed[drinkId] || 0;
+  if (cons <= 0) return;
+  gd.consumed[drinkId] = cons - 1;
+  saveData();
+  renderDrinks();
+}
+
+// ============================================================
 // RENDER
 // ============================================================
 function renderAll() {
   renderIntro();
   renderProgress();
+  renderDrinks();
   renderRoadmap();
 }
 
 function renderIntro() {
   document.getElementById('introText').textContent = gd.intro;
-}
-function renderIntro() {
-  document.getElementById('introText').textContent = gd.intro;
-
   var img = document.getElementById('introImage');
   if (gd.introImage) {
     img.src = gd.introImage;
@@ -351,9 +521,10 @@ function renderIntro() {
     img.classList.add('hidden');
   }
 }
+
 function renderProgress() {
   var total = gd.tasks.length;
-  var done  = gd.tasks.filter(function(t) { return t.done; }).length;
+  var done  = gd.tasks.filter(function(t) { return t.done || t.penalized; }).length;
   var pct   = Math.round((done / total) * 100);
   document.getElementById('progBar').style.width   = pct + '%';
   document.getElementById('progPct').textContent   = pct + '%';
@@ -365,25 +536,29 @@ function renderRoadmap() {
   var rm = document.getElementById('roadmap');
   rm.innerHTML = '<div class="road-line"></div>';
 
-  // Nur bis max 5 Aufgaben nach der letzten erledigten anzeigen
   var lastDoneIdx = -1;
-  gd.tasks.forEach(function(t, i) { if (t.done) lastDoneIdx = i; });
+  gd.tasks.forEach(function(t, i) { if (t.done || t.penalized) lastDoneIdx = i; });
   var showUpTo = Math.min(gd.tasks.length - 1, lastDoneIdx + 5);
 
   gd.tasks.forEach(function(t, i) {
-    if (i > showUpTo) return; // max 5 voraus
+    if (i > showUpTo) return;
 
-    var isDone     = t.done;
-    var isUnlocked = t.unlocked;
+    var isDone      = t.done && !t.penalized;
+    var isPenalized = t.penalized;
+    var isUnlocked  = t.unlocked;
 
     var bubbleCls = 'node-bubble ';
     var cardCls   = 'node-card ';
-    if (isDone)           { bubbleCls += 'b-done';   cardCls += 'c-done'; }
-    else if (!isUnlocked) { bubbleCls += 'b-locked'; cardCls += 'c-locked'; }
-    else                  { bubbleCls += 'b-active';  cardCls += 'c-active'; }
+
+    if (isPenalized)    { bubbleCls += 'b-penalty'; cardCls += 'c-penalty'; }
+    else if (isDone)    { bubbleCls += 'b-done';    cardCls += 'c-done'; }
+    else if (!isUnlocked){ bubbleCls += 'b-locked'; cardCls += 'c-locked'; }
+    else                { bubbleCls += 'b-active';  cardCls += 'c-active'; }
 
     var chips = '';
-    if (isDone) {
+    if (isPenalized) {
+      chips += '<span class="chip ch-red">😤 Strafe akzeptiert</span>';
+    } else if (isDone) {
       chips += '<span class="chip ch-green">✅ Erledigt</span>';
       chips += '<span class="chip ch-green">' + (t.prizeIcon||'🏆') + ' Preis erhalten</span>';
     } else if (!isUnlocked) {
@@ -395,7 +570,7 @@ function renderRoadmap() {
       }
     }
 
-    var clickable = (isDone || isUnlocked) ? 'onclick="openTask(' + i + ')"' : '';
+    var clickable = (isDone || isPenalized || isUnlocked) ? 'onclick="openTask(' + i + ')"' : '';
 
     var node = document.createElement('div');
     node.className = 'task-node';
@@ -409,7 +584,6 @@ function renderRoadmap() {
     rm.appendChild(node);
   });
 
-  // Hinweis falls noch mehr kommen
   var remaining = gd.tasks.length - 1 - showUpTo;
   if (remaining > 0) {
     var hint = document.createElement('div');
@@ -422,28 +596,27 @@ function renderRoadmap() {
 // ============================================================
 // MODAL
 // ============================================================
-var activeTimer   = null;
-var activeIdx     = null;
-var timerEndTs    = null;
+var activeTimer = null;
+var activeIdx   = null;
+var timerEndTs  = null;
+var pendingPenaltyIdx = null; // Aufgabe, für die gerade Strafe läuft
 
 function openTask(i) {
   var t = gd.tasks[i];
   activeIdx = i;
-
   var c = document.getElementById('modalContent');
   document.getElementById('taskModal').classList.remove('hidden');
 
   // Cover
-  var coverHTML = '';
-  if (t.cover) {
-    coverHTML = '<img src="' + t.cover + '" class="modal-cover" onerror="this.style.display=\'none\'">';
-  } else {
-    coverHTML = '<div class="modal-cover-ph">' + NODE_ICONS[i] + '</div>';
-  }
+  var coverHTML = t.cover
+    ? '<img src="' + t.cover + '" class="modal-cover" onerror="this.style.display=\'none\'">'
+    : '<div class="modal-cover-ph">' + NODE_ICONS[i] + '</div>';
 
   // Status
   var statusHTML = '';
-  if (t.done) {
+  if (t.penalized) {
+    statusHTML = '<div class="status-penalty">😤 Diese Aufgabe wurde mit Strafe akzeptiert!</div>';
+  } else if (t.done) {
     statusHTML = '<div class="status-ok">✅ Diese Aufgabe ist bereits erledigt!</div>';
   } else if (!t.unlocked) {
     statusHTML = '<div class="status-lock">🔒 Noch gesperrt – schliesse zuerst die vorherige Aufgabe ab.</div>';
@@ -451,7 +624,7 @@ function openTask(i) {
 
   // Timer
   var timerHTML = '';
-  if (t.deadlineMins > 0 && !t.done && t.unlocked) {
+  if (t.deadlineMins > 0 && !t.done && !t.penalized && t.unlocked) {
     timerHTML =
       '<div class="timer-row">' +
       '<div class="t-circle" id="tCircle" style="background:conic-gradient(var(--grass) 360deg,rgba(0,0,0,.08) 0deg);">--</div>' +
@@ -460,14 +633,24 @@ function openTask(i) {
       '</div>';
   }
 
-  // Preis
+  // Preis-Getränke anzeigen (wenn erledigt)
   var prizeHTML = '';
-  if (t.done) {
+  if (t.done && !t.penalized) {
+    var drinkList = drinkSummaryText(t.prizeDrinks);
     prizeHTML =
       '<div class="prize-box">' +
       '<div class="prize-icon-big">' + (t.prizeIcon||'🏆') + '</div>' +
       '<h3>🎉 Dein Preis!</h3>' +
       '<div style="font-size:14px;font-weight:700;">' + (t.prizeText||'Gratulation!') + '</div>' +
+      (drinkList ? '<div style="margin-top:8px;font-size:13px;color:#555;">🍹 ' + drinkList + '</div>' : '') +
+      '</div>';
+  } else if (t.penalized) {
+    var penDrinkList = drinkSummaryText(t.penaltyDrinks);
+    prizeHTML =
+      '<div class="penalty-info" style="text-align:center;">' +
+      '<div style="font-size:1.5rem;margin-bottom:4px;">😤</div>' +
+      '<div>Strafe: ' + (t.penalty||'') + '</div>' +
+      (penDrinkList ? '<div style="margin-top:5px;">🍹 Strafe-Getränke: ' + penDrinkList + '</div>' : '') +
       '</div>';
   } else if (t.unlocked) {
     prizeHTML =
@@ -477,18 +660,21 @@ function openTask(i) {
       '</div>';
   }
 
-  // Strafe
+  // Strafe-Info
   var penHTML = '';
-  if (t.penalty && !t.done && t.unlocked) {
-    penHTML = '<div class="penalty-info">⚠️ Strafe bei Nicht-Bestehen: ' + t.penalty + '</div>';
+  if (t.penalty && !t.done && !t.penalized && t.unlocked) {
+    var penDrinkInfo = drinkSummaryText(t.penaltyDrinks);
+    penHTML = '<div class="penalty-info">⚠️ Strafe bei Nicht-Bestehen: ' + t.penalty +
+      (penDrinkInfo ? ' | 🍹 ' + penDrinkInfo : '') + '</div>';
   }
 
-  // Button
+  // Buttons
   var btnHTML = '';
-  if (!t.done && t.unlocked) {
+  if (!t.done && !t.penalized && t.unlocked) {
     btnHTML =
-      '<div class="tc mt14">' +
+      '<div class="tc mt14" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
       '<button class="btn btn-green" onclick="completeTask(' + i + ')">✅ Aufgabe erledigt!</button>' +
+      '<button class="btn btn-red" onclick="penalizeTask(' + i + ')">😤 Strafe akzeptieren</button>' +
       '</div>';
   }
 
@@ -501,31 +687,26 @@ function openTask(i) {
   // Timer starten
   clearInterval(activeTimer);
   activeTimer = null;
-  if (t.deadlineMins > 0 && !t.done && t.unlocked) {
-var totalSecs = t.deadlineMins * 60;
-
-if (!t.startedAt) {
-  t.startedAt = Date.now();
-  saveData();
-}
-
-timerEndTs = t.startedAt + totalSecs * 1000;
-
-var remStart = Math.round((timerEndTs - Date.now()) / 1000);
-if (remStart <= 0) {
-  closeModal();
-  showPenalty(t.penalty || 'Zeit abgelaufen!');
-  return;
-}
-
-tickTimer(remStart, totalSecs);
+  if (t.deadlineMins > 0 && !t.done && !t.penalized && t.unlocked) {
+    var totalSecs = t.deadlineMins * 60;
+    if (!t.startedAt) { t.startedAt = Date.now(); saveData(); }
+    timerEndTs = t.startedAt + totalSecs * 1000;
+    var remStart = Math.round((timerEndTs - Date.now()) / 1000);
+    if (remStart <= 0) {
+      closeModal();
+      pendingPenaltyIdx = i;
+      showPenalty(gd.tasks[i].penalty || 'Zeit abgelaufen!', gd.tasks[i].penaltyDrinks);
+      return;
+    }
+    tickTimer(remStart, totalSecs);
     activeTimer = setInterval(function() {
       var rem = Math.round((timerEndTs - Date.now()) / 1000);
       if (rem <= 0) {
         clearInterval(activeTimer);
         activeTimer = null;
         closeModal();
-        showPenalty(gd.tasks[activeIdx].penalty || 'Zeit abgelaufen!');
+        pendingPenaltyIdx = activeIdx;
+        showPenalty(gd.tasks[activeIdx].penalty || 'Zeit abgelaufen!', gd.tasks[activeIdx].penaltyDrinks);
       } else {
         tickTimer(rem, totalSecs);
       }
@@ -556,20 +737,42 @@ function bgClose(e) {
   if (e.target === document.getElementById('taskModal')) closeModal();
 }
 
+// Aufgabe als erfolgreich erledigt markieren
 function completeTask(i) {
   if (!confirm('Aufgabe «' + gd.tasks[i].title + '» als erledigt markieren?')) return;
   clearInterval(activeTimer);
   activeTimer = null;
-  gd.tasks[i].done = true;
-  if (i + 1 < gd.tasks.length) gd.tasks[i + 1].unlocked = true;
+  gd.tasks[i].done      = true;
+  gd.tasks[i].penalized = false;
+  unlockNext(i);
   saveData();
   closeModal();
-  // Preis anzeigen
   document.getElementById('prizeIcon').textContent    = gd.tasks[i].prizeIcon || '🏆';
-  document.getElementById('prizeTextBox').textContent = gd.tasks[i].prizeText || 'Gratulation!';
+  var drinkList = drinkSummaryText(gd.tasks[i].prizeDrinks);
+  document.getElementById('prizeTextBox').innerHTML   =
+    escHtml(gd.tasks[i].prizeText || 'Gratulation!') +
+    (drinkList ? '<br><span style="font-size:0.9em;opacity:0.9;">🍹 ' + escHtml(drinkList) + '</span>' : '');
   document.getElementById('prizeOverlay').classList.remove('hidden');
   launchConfetti();
 }
+
+// Aufgabe mit Strafe als «akzeptiert» markieren (manuell, z.B. per Button)
+function penalizeTask(i) {
+  if (!confirm('Strafe für Aufgabe «' + gd.tasks[i].title + '» akzeptieren und Aufgabe rot markieren?')) return;
+  clearInterval(activeTimer);
+  activeTimer = null;
+  closeModal();
+  pendingPenaltyIdx = i;
+  showPenalty(gd.tasks[i].penalty || 'Strafe!', gd.tasks[i].penaltyDrinks);
+}
+
+// Nächste Aufgabe freischalten
+function unlockNext(i) {
+  if (i + 1 < gd.tasks.length) {
+    gd.tasks[i + 1].unlocked = true;
+  }
+}
+
 function launchConfetti() {
   for (var i = 0; i < 90; i++) {
     var c = document.createElement('div');
@@ -579,24 +782,52 @@ function launchConfetti() {
     c.style.animationDelay = Math.random() * 0.8 + 's';
     c.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
     document.body.appendChild(c);
-
-    setTimeout(function(el){
-      if (el && el.parentNode) el.parentNode.removeChild(el);
-    }, 3500, c);
+    setTimeout(function(el){ if (el && el.parentNode) el.parentNode.removeChild(el); }, 3500, c);
   }
 }
+
 function closePrize() {
   document.getElementById('prizeOverlay').classList.add('hidden');
   renderAll();
 }
 
-function showPenalty(text) {
+// Penalty Overlay anzeigen
+function showPenalty(text, penDrinks) {
   document.getElementById('penText').textContent = text;
+  var drinkList = drinkSummaryText(penDrinks || {});
+  var drinkEl = document.getElementById('penDrinkText');
+  if (drinkList) {
+    drinkEl.textContent = '🍹 Strafe-Getränke: ' + drinkList;
+    drinkEl.classList.remove('hidden');
+  } else {
+    drinkEl.classList.add('hidden');
+  }
   document.getElementById('penOverlay').classList.remove('hidden');
 }
 
 function closePenalty() {
   document.getElementById('penOverlay').classList.add('hidden');
+  // Aufgabe als «bestraft» markieren und nächste freischalten
+  if (pendingPenaltyIdx !== null) {
+    var idx = pendingPenaltyIdx;
+    gd.tasks[idx].penalized = true;
+    gd.tasks[idx].done      = false;
+    unlockNext(idx);
+    saveData();
+    pendingPenaltyIdx = null;
+    renderAll();
+  }
+}
+
+// Getränke-Zusammenfassung als lesbaren Text
+function drinkSummaryText(drinks) {
+  if (!drinks) return '';
+  var parts = [];
+  DRINK_TYPES.forEach(function(d) {
+    var n = drinks[d.id] || 0;
+    if (n > 0) parts.push(n + 'x ' + d.icon + ' ' + d.label);
+  });
+  return parts.join(', ');
 }
 
 // ============================================================
@@ -633,24 +864,55 @@ function switchTab(tab) {
   var btn = document.getElementById('tabBtn'   + tab);
   if (el)  el.classList.remove('hidden');
   if (btn) btn.style.opacity = '1';
-
-  if (tab === 'Intro')    renderAdminIntro();
-  if (tab === 'Levels')   renderAdminLevels();
-  if (tab === 'Reset')    renderAdminReset();
+  if (tab === 'Intro')  renderAdminIntro();
+  if (tab === 'Levels') renderAdminLevels();
+  if (tab === 'Reset')  renderAdminReset();
 }
 
 function renderAdminIntro() {
-  document.getElementById('adminIntroTA').value = gd.intro;
-}
-function renderAdminIntro() {
-  document.getElementById('adminIntroTA').value = gd.intro;
+  document.getElementById('adminIntroTA').value  = gd.intro;
   document.getElementById('adminIntroImg').value = gd.introImage || '';
 }
+
 function saveIntro() {
-  gd.intro = document.getElementById('adminIntroTA').value;
+  gd.intro      = document.getElementById('adminIntroTA').value;
+  gd.introImage = document.getElementById('adminIntroImg').value.trim();
   saveData();
   renderIntro();
   alert('✅ Intro gespeichert!');
+}
+
+// Getränke-Input-Grid für Admin erzeugen (prize oder penalty)
+function buildDrinkGrid(prefix, i, drinks, isPenalty) {
+  var gridClass = isPenalty ? 'penalty-drink-grid' : 'drink-admin-grid';
+  var itemClass = isPenalty ? 'penalty-drink-item' : 'drink-admin-item';
+  var types     = isPenalty
+    ? DRINK_TYPES.filter(function(d) { return d.id === 'alkoholfrei' || d.id === 'wasser'; })
+    : DRINK_TYPES;
+  var html = '<div class="' + gridClass + '">';
+  types.forEach(function(d) {
+    html +=
+      '<div class="' + itemClass + '">' +
+        '<div style="font-size:1.5rem;">' + d.icon + '</div>' +
+        '<label>' + d.label + '</label>' +
+        '<input type="number" min="0" max="9" value="' + (drinks[d.id] || 0) + '" id="' + prefix + '_' + d.id + '_' + i + '">' +
+      '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+// Getränke-Werte aus Admin-Grid lesen
+function readDrinkGrid(prefix, i, isPenalty) {
+  var types = isPenalty
+    ? DRINK_TYPES.filter(function(d) { return d.id === 'alkoholfrei' || d.id === 'wasser'; })
+    : DRINK_TYPES;
+  var obj = emptyDrinks();
+  types.forEach(function(d) {
+    var el = document.getElementById(prefix + '_' + d.id + '_' + i);
+    obj[d.id] = el ? (parseInt(el.value) || 0) : 0;
+  });
+  return obj;
 }
 
 function renderAdminLevels() {
@@ -659,11 +921,15 @@ function renderAdminLevels() {
   gd.tasks.forEach(function(t, i) {
     var d = document.createElement('div');
     d.className = 'acard';
+    var statusLabel = t.penalized
+      ? '<span style="font-size:11px;font-weight:600;color:#e74c3c;margin-left:8px;">😤 Strafe</span>'
+      : t.done
+        ? '<span style="font-size:11px;font-weight:600;color:var(--grass);margin-left:8px;">✅ Erledigt</span>'
+        : '<span style="font-size:11px;font-weight:600;color:#aaa;margin-left:8px;">○ Offen</span>';
+
     d.innerHTML =
       '<div style="font-weight:800;font-size:14px;margin-bottom:10px;">' +
-        NODE_ICONS[i] + ' Aufgabe ' + (i + 1) +
-        '<span style="font-size:11px;font-weight:600;color:' + (t.done?'var(--grass)':'#aaa') + ';margin-left:8px;">' +
-        (t.done ? '✅ Erledigt' : '○ Offen') + '</span>' +
+        NODE_ICONS[i] + ' Aufgabe ' + (i + 1) + statusLabel +
       '</div>' +
       '<label class="al">Titel:</label>' +
       '<input type="text" class="ai" id="at_' + i + '" value="' + escHtml(t.title) + '">' +
@@ -675,26 +941,33 @@ function renderAdminLevels() {
       '<input type="text" class="ai" id="api_' + i + '" value="' + escHtml(t.prizeIcon) + '" style="width:80px;">' +
       '<label class="al">Preis-Text:</label>' +
       '<input type="text" class="ai" id="apt_' + i + '" value="' + escHtml(t.prizeText) + '">' +
-      '<label class="al">Strafe bei Nicht-Bestehen:</label>' +
+      '<label class="al">🍹 Preis-Getränke (Anzahl pro Sorte):</label>' +
+      buildDrinkGrid('pd', i, t.prizeDrinks, false) +
+      '<label class="al" style="margin-top:14px;">Strafe-Text bei Nicht-Bestehen:</label>' +
       '<input type="text" class="ai" id="apen_' + i + '" value="' + escHtml(t.penalty) + '">' +
-      '<label class="al">Zeitlimit in Minuten (0 = kein Limit):</label>' +
+      '<label class="al">😤 Strafe-Getränke (Alkoholfrei / Wasser):</label>' +
+      buildDrinkGrid('ppd', i, t.penaltyDrinks, true) +
+      '<label class="al" style="margin-top:14px;">Zeitlimit in Minuten (0 = kein Limit):</label>' +
       '<input type="number" class="ai" id="atm_' + i + '" value="' + (t.deadlineMins||0) + '" min="0" style="width:100px;">' +
       '<div class="alrow">' +
         '<button class="btn btn-green btn-sm" onclick="saveLevel(' + i + ')">💾 Speichern</button>' +
-        (t.done ? '<button class="btn btn-red btn-sm" onclick="adminReset(' + i + ')">🔄 Zurücksetzen</button>' : '') +
+        ((t.done || t.penalized) ? '<button class="btn btn-red btn-sm" onclick="adminReset(' + i + ')">🔄 Zurücksetzen</button>' : '') +
       '</div>';
     c.appendChild(d);
   });
 }
 
 function saveLevel(i) {
-  gd.tasks[i].title        = document.getElementById('at_'   + i).value;
-  gd.tasks[i].desc         = document.getElementById('ad_'   + i).value;
-  gd.tasks[i].cover        = document.getElementById('ac_'   + i).value.trim();
-  gd.tasks[i].prizeIcon    = document.getElementById('api_'  + i).value;
-  gd.tasks[i].prizeText    = document.getElementById('apt_'  + i).value;
-  gd.tasks[i].penalty      = document.getElementById('apen_' + i).value;
-  gd.tasks[i].deadlineMins = parseInt(document.getElementById('atm_' + i).value) || 0;
+  var t = gd.tasks[i];
+  t.title         = document.getElementById('at_'   + i).value;
+  t.desc          = document.getElementById('ad_'   + i).value;
+  t.cover         = document.getElementById('ac_'   + i).value.trim();
+  t.prizeIcon     = document.getElementById('api_'  + i).value;
+  t.prizeText     = document.getElementById('apt_'  + i).value;
+  t.prizeDrinks   = readDrinkGrid('pd',  i, false);
+  t.penalty       = document.getElementById('apen_' + i).value;
+  t.penaltyDrinks = readDrinkGrid('ppd', i, true);
+  t.deadlineMins  = parseInt(document.getElementById('atm_' + i).value) || 0;
   saveData();
   renderAll();
   alert('✅ Aufgabe ' + (i + 1) + ' gespeichert!');
@@ -702,13 +975,13 @@ function saveLevel(i) {
 
 function adminReset(i) {
   if (!confirm('Aufgabe ' + (i + 1) + ' «' + gd.tasks[i].title + '» zurücksetzen?')) return;
-  gd.tasks[i].done = false;
-  // Nachfolgende sperren falls nur durch diese freigeschaltet
+  gd.tasks[i].done      = false;
+  gd.tasks[i].penalized = false;
+  gd.tasks[i].startedAt = undefined;
   for (var j = i + 1; j < gd.tasks.length; j++) {
-    if (!gd.tasks[j].done) { gd.tasks[j].unlocked = false; }
+    if (!gd.tasks[j].done && !gd.tasks[j].penalized) { gd.tasks[j].unlocked = false; }
     else break;
   }
-  // Erste Aufgabe immer entsperren
   if (i === 0) gd.tasks[0].unlocked = true;
   saveData();
   renderAdminLevels();
@@ -723,23 +996,21 @@ function renderAdminReset() {
   gd.tasks.forEach(function(t, i) {
     var row = document.createElement('div');
     row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.07);';
+    var stateLabel = t.penalized
+      ? '<span style="font-size:12px;color:#e74c3c;">😤 Strafe</span>'
+      : t.done
+        ? '<span style="font-size:12px;color:var(--grass);">✅ Erledigt</span>'
+        : '<span style="font-size:12px;color:#bbb;">○ Offen</span>';
     row.innerHTML =
       '<span style="font-size:13px;font-weight:700;">' + NODE_ICONS[i] + ' ' + (i+1) + '. ' + escHtml(t.title) + '</span>' +
       '<div style="display:flex;align-items:center;gap:8px;">' +
-        '<span style="font-size:12px;color:' + (t.done?'var(--grass)':'#bbb') + ';">' + (t.done?'✅ Erledigt':'○ Offen') + '</span>' +
-        (t.done ? '<button class="btn btn-red btn-sm" onclick="adminReset(' + i + ')">🔄 Reset</button>' : '') +
+        stateLabel +
+        ((t.done || t.penalized) ? '<button class="btn btn-red btn-sm" onclick="adminReset(' + i + ')">🔄 Reset</button>' : '') +
       '</div>';
     c.appendChild(row);
   });
 }
-var startTime = Date.now();
 
-function updateProgressClock() {
-  var diff = Math.floor((Date.now() - startTime) / 1000);
-  var min = Math.floor(diff / 60);
-  var sec = String(diff % 60).padStart(2, '0');
-  document.getElementById('progressClock').textContent = '⏱ Spielzeit: ' + min + ':' + sec + ' Minuten';
-}
 function saveSettings() {
   var pw = document.getElementById('settingPw').value.trim();
   if (pw) gd.password = pw;
@@ -752,27 +1023,42 @@ function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+// ============================================================
+// SPIELZEIT-CLOCK
+// ============================================================
+var startTime = Date.now();
+function updateProgressClock() {
+  var diff = Math.floor((Date.now() - startTime) / 1000);
+  var min  = Math.floor(diff / 60);
+  var sec  = String(diff % 60).padStart(2, '0');
+  document.getElementById('progressClock').textContent = '⏱ Spielzeit: ' + min + ':' + sec + ' Minuten';
+}
+
 // ── START ──
 window.addEventListener('DOMContentLoaded', function() {
-  renderAll();updateProgressClock();
-setInterval(updateProgressClock, 1000);
+  renderAll();
+  updateProgressClock();
+  setInterval(updateProgressClock, 1000);
 });
 
 // Global verfügbar machen
-window.openTask      = openTask;
-window.closeModal    = closeModal;
-window.bgClose       = bgClose;
-window.completeTask  = completeTask;
-window.closePrize    = closePrize;
-window.closePenalty  = closePenalty;
-window.checkLogin    = checkLogin;
-window.adminLogout   = adminLogout;
-window.switchTab     = switchTab;
-window.saveIntro     = saveIntro;
-window.saveLevel     = saveLevel;
-window.adminReset    = adminReset;
-window.saveSettings  = saveSettings;
-window.launchConfetti = launchConfetti;  
+window.openTask       = openTask;
+window.closeModal     = closeModal;
+window.bgClose        = bgClose;
+window.completeTask   = completeTask;
+window.penalizeTask   = penalizeTask;
+window.closePrize     = closePrize;
+window.closePenalty   = closePenalty;
+window.checkLogin     = checkLogin;
+window.adminLogout    = adminLogout;
+window.switchTab      = switchTab;
+window.saveIntro      = saveIntro;
+window.saveLevel      = saveLevel;
+window.adminReset     = adminReset;
+window.saveSettings   = saveSettings;
+window.launchConfetti = launchConfetti;
+window.consumeDrink   = consumeDrink;
+window.unconsumeDrink = unconsumeDrink;
 </script>
 </body>
 </html>
