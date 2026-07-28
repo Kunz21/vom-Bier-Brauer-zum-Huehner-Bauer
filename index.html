@@ -32,7 +32,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .hdr-sub{font-size:clamp(0.78rem,2.5vw,0.95rem);color:rgba(255,255,255,0.85);margin-top:5px;font-weight:600;}
 
 /* INTRO */
-.intro-card{max-width:680px;margin:22px auto 0;background:var(--cream);border-radius:20px;padding:20px 24px;box-shadow:0 5px 20px rgba(0,0,0,0.13);border:3px solid var(--hay);font-size:15px;line-height:1.75;color:var(--dark);}
+.intro-card{max-width:680px;margin:22px auto 0;background:var(--cream);border-radius:20px;padding:20px 24px;box-shadow:0 5px 20px rgba(0,0,0,0.13);border:3px solid var(--hay);font-size:15px;line-height:1.75;color:var(--dark);white-space:pre-line;overflow-wrap:anywhere;}
+#introText{white-space:pre-line;overflow-wrap:anywhere;}
+.ai{white-space:pre-wrap;overflow-wrap:anywhere;}
+.node-title,.modal-title,.modal-desc,.penalty-info,.pending-info{overflow-wrap:anywhere;}
+.modal-desc{white-space:pre-line;}
 .intro-img{max-width:680px;margin:18px auto 0;display:block;width:100%;border-radius:20px;border:3px solid var(--hay);box-shadow:0 5px 20px rgba(0,0,0,0.13);}
 
 /* PROGRESS */
@@ -510,6 +514,8 @@ function mergeFromFirebase(val) {
   if (val.consumed)             base.consumed   = Object.assign(emptyDrinks(), val.consumed);
   if (val.requests)             base.requests   = val.requests;
   if (val.bonus)                base.bonus      = Object.assign(base.bonus, val.bonus);
+  if (val.gameStartTime)        base.gameStartTime = val.gameStartTime;
+  if (Array.isArray(val.quizQuestions)) base.quizQuestions = val.quizQuestions;
   if (Array.isArray(val.tasks)) {
     val.tasks.forEach((st, i) => {
       if (!base.tasks[i]) return;
@@ -729,7 +735,7 @@ window.skipBonus = function() {
 };
 
 function renderIntro() {
-  document.getElementById('introText').textContent = gd.intro;
+  document.getElementById('introText').textContent = String(gd.intro || '').replace(/\\r\\n/g, '\\n').replace(/\\r/g, '\\n');
   const img = document.getElementById('introImage');
   if (gd.introImage) { img.src = gd.introImage; img.classList.remove('hidden'); }
   else                { img.classList.add('hidden'); }
@@ -817,6 +823,7 @@ function renderRoadmap() {
 let activeTimer = null, activeIdx = null, timerEndTs = null, pendingPenaltyIdx = null;
 
 window.openTask = function(i) {
+  startGameClock();
   const t = gd.tasks[i];
   activeIdx = i;
   document.getElementById('taskModal').classList.remove('hidden');
@@ -1149,6 +1156,9 @@ function readDrinkGrid(prefix, i, isPenalty) {
   return obj;
 }
 
+function quizEditorHtml() {
+  return '<div class="acard" style="margin-top:14px;background:rgba(21,101,192,.08);border:2px solid rgba(21,101,192,.25);"><h2>⚽ Fussball-Quiz – 20 Fragen</h2><p style="font-size:12px;color:#777;line-height:1.5;">Fragen und Antworten bearbeiten. Die richtige Antwort wird als Buchstabe A–D gespeichert.</p><div id="quizAdminQuestions">'+Q_QUESTIONS.map(function(q,idx){return '<div style="border-top:1px solid rgba(0,0,0,.1);padding:12px 0;"><strong style="font-size:13px;">Frage '+(idx+1)+'</strong><label class="al">Frage:</label><textarea class="ai" id="qq_'+idx+'">'+escHtml(q[0])+'</textarea>'+q[1].map(function(a,j){return '<label class="al">Antwort '+String.fromCharCode(65+j)+':</label><input class="ai" id="qa_'+idx+'_'+j+'" value="'+escHtml(a)+'">';}).join('')+'<label class="al">Richtige Antwort:</label><select class="ai" id="qc_'+idx+'"><option value="0" '+(q[2]===0?'selected':'')+'>A</option><option value="1" '+(q[2]===1?'selected':'')+'>B</option><option value="2" '+(q[2]===2?'selected':'')+'>C</option><option value="3" '+(q[2]===3?'selected':'')+'>D</option></select></div>';}).join('')+'<button class="btn btn-green mt10" onclick="window.saveQuizQuestions()">💾 Quiz speichern</button></div>';
+}
 function renderAdminLevels() {
   const c = document.getElementById('adminLevelList');
   c.innerHTML = '';
@@ -1179,7 +1189,19 @@ function renderAdminLevels() {
       '</div>';
     c.appendChild(d);
   });
+  c.insertAdjacentHTML('beforeend', quizEditorHtml());
 }
+
+window.saveQuizQuestions = function() {
+  Q_QUESTIONS.forEach(function(q, idx) {
+    q[0] = document.getElementById('qq_' + idx).value;
+    for (var j = 0; j < 4; j++) q[1][j] = document.getElementById('qa_' + idx + '_' + j).value;
+    q[2] = parseInt(document.getElementById('qc_' + idx).value, 10);
+  });
+  gd.quizQuestions = JSON.parse(JSON.stringify(Q_QUESTIONS));
+  saveData();
+  alert('✅ Fussball-Quiz gespeichert!');
+};
 
 // Direktgenehmigung aus Aufgaben-Tab
 window.adminApproveFromLevel = function(i) {
@@ -1323,8 +1345,9 @@ var Q_QUESTIONS = [
 ['Welcher Verein gewann in der modernen Champions-League-Ära als erster das Triple?',['Manchester United','FC Barcelona','Bayern München','Ajax Amsterdam'],0]
 ];
 var Q_TIME = 60, qName1='Marc', qName2='Gegner', qIndex=0, qTimer=null, qStarted=0, qTarget='p2';
+function loadQuizQuestionsFromData(){ if (gd.quizQuestions && gd.quizQuestions.length === Q_QUESTIONS.length) Q_QUESTIONS = gd.quizQuestions; }
 var qScore1={right:0,bonus:0}, qScore2={right:0,bonus:0}, qRounds=[];
-function openQuiz(){document.getElementById('quizOverlay').classList.add('active');document.body.style.overflow='hidden';qScreen('qs_setup');}
+function openQuiz(){loadQuizQuestionsFromData();document.getElementById('quizOverlay').classList.add('active');document.body.style.overflow='hidden';qScreen('qs_setup');}
 function closeQuiz(){clearInterval(qTimer);document.getElementById('quizOverlay').classList.remove('active');document.body.style.overflow='';}
 function qScreen(id){document.querySelectorAll('#quizOverlay .qscreen').forEach(function(x){x.classList.remove('active');});document.getElementById(id).classList.add('active');document.getElementById('quizOverlay').scrollTop=0;}
 function qStart(){qName1=document.getElementById('qp1name').value.trim()||'Marc';qName2=document.getElementById('qp2name').value.trim()||'Gegner';qIndex=0;qScore1={right:0,bonus:0};qScore2={right:0,bonus:0};qRounds=[];qUpdateNames();qScreen('qs_q1');qLoad(1);}
@@ -1342,16 +1365,33 @@ window.quizWon=function(){closeQuiz();window.requestComplete(9);};window.quizLos
 // ============================================================
 // SPIELZEIT-CLOCK
 // ============================================================
-const startTime = Date.now();
+let gameStartTime = null;
+function startGameClock() {
+  if (!gameStartTime) {
+    gameStartTime = Date.now();
+    try { localStorage.setItem('huehnerstall_gameStartTime', String(gameStartTime)); } catch(e) {}
+    gd.gameStartTime = gameStartTime;
+    saveData();
+  }
+}
+function restoreGameClock() {
+  if (gd.gameStartTime) gameStartTime = Number(gd.gameStartTime);
+}
 function updateProgressClock() {
-  const diff = Math.floor((Date.now() - startTime) / 1000);
+  const el = document.getElementById('progressClock');
+  if (!gameStartTime) {
+    el.textContent = '⏱ Spielzeit startet mit der ersten Aufgabe';
+    return;
+  }
+  const diff = Math.max(0, Math.floor((Date.now() - gameStartTime) / 1000));
   const min  = Math.floor(diff / 60);
   const sec  = String(diff % 60).padStart(2,'0');
-  document.getElementById('progressClock').textContent = '⏱ Spielzeit: ' + min + ':' + sec + ' Minuten';
+  el.textContent = '⏱ Spielzeit: ' + min + ':' + sec + ' Minuten';
 }
 
 // ── START ──
 window.addEventListener('DOMContentLoaded', () => {
+  restoreGameClock();
   updateProgressClock();
   setInterval(updateProgressClock, 1000);
   // renderAll() wird durch den onValue-Listener automatisch aufgerufen
