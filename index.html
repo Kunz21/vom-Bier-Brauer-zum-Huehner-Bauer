@@ -891,18 +891,36 @@ window.openTask = function(i) {
       '</div>';
   }
 
+  if (!t.done && !t.penalized && !t.pendingApproval && t.unlocked) {
+    if (i === 9) {
+      // Aufgabe 10: Das Quiz ersetzt die normale Erledigungsanfrage.
+      btnHTML =
+        '<div class="tc mt14" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
+          '<button class="btn btn-barn" onclick="window.openQuiz();">' +
+            '⚽ Fussball-Quiz starten' +
+          '</button>' +
+          '<button class="btn btn-red" onclick="window.penalizeTask(' + i + ');">' +
+            '😤 Strafe akzeptieren' +
+          '</button>' +
+        '</div>';
+    } else {
+      // Alle anderen Aufgaben behalten den normalen Ablauf.
+      btnHTML =
+        '<div class="tc mt14" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
+          '<button class="btn btn-orange" onclick="window.requestComplete(' + i + ');">' +
+            '📬 Als erledigt melden' +
+          '</button>' +
+          '<button class="btn btn-red" onclick="window.penalizeTask(' + i + ');">' +
+            '😤 Strafe akzeptieren' +
+          '</button>' +
+        '</div>';
+    }
+  }
+
   c.innerHTML = coverHTML + statusHTML +
     '<div class="modal-title">' + escHtml(t.title) + '</div>' +
-    '<div class="modal-desc">' + escHtml(t.desc||'') + '</div>' +
+    '<div class="modal-desc">' + escHtml(t.desc || '') + '</div>' +
     timerHTML + prizeHTML + penHTML + btnHTML;
-
-  // Aufgabe 10 wird über das integrierte Fussball-Quiz erledigt
-  if (i === 9 && !t.done && !t.penalized && !t.pendingApproval && t.unlocked) {
-    btnHTML = '<div class="tc mt14" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
-      '<button class="btn btn-barn" onclick="window.openQuiz()">⚽ Fussball-Quiz starten!</button>' +
-      '<button class="btn btn-red" onclick="window.penalizeTask(' + i + ')">😤 Strafe akzeptieren</button>' +
-      '</div>';
-  }
 
   // Timer
   clearInterval(activeTimer);
@@ -1230,76 +1248,20 @@ window.saveLevel = function(i) {
   alert('✅ Aufgabe ' + (i+1) + ' gespeichert!');
 };
 
-window.adminReset = async function(i) {
-  i = Number(i);
-
-  if (!Number.isInteger(i) || !gd.tasks[i]) {
-    alert('❌ Diese Aufgabe konnte nicht gefunden werden.');
-    return;
+window.adminReset = function(i) {
+  if (!confirm('Aufgabe ' + (i+1) + ' «' + gd.tasks[i].title + '» zurücksetzen?')) return;
+  gd.tasks[i].done = false; gd.tasks[i].penalized = false;
+  gd.tasks[i].pendingApproval = false; gd.tasks[i].startedAt = undefined;
+  // Zugehörige Anfrage löschen
+  Object.entries(gd.requests||{}).forEach(([k,r]) => { if (r.taskIdx===i) delete gd.requests[k]; });
+  for (let j = i+1; j < gd.tasks.length; j++) {
+    if (!gd.tasks[j].done && !gd.tasks[j].penalized) { gd.tasks[j].unlocked = false; }
+    else break;
   }
-
-  const task = gd.tasks[i];
-
-  if (!confirm(
-    'Aufgabe ' + (i + 1) + ' «' + task.title +
-    '» wirklich zurücksetzen?'
-  )) {
-    return;
-  }
-
-  // Status der ausgewählten Aufgabe zurücksetzen
-  task.done = false;
-  task.penalized = false;
-  task.pendingApproval = false;
-  delete task.startedAt;
-
-  // Offene Anfrage dieser Aufgabe entfernen
-  if (gd.requests) {
-    Object.keys(gd.requests).forEach(function(key) {
-      if (Number(gd.requests[key].taskIdx) === i) {
-        delete gd.requests[key];
-      }
-    });
-  }
-
-  /*
-   * Nachfolgende Aufgaben sperren, solange sie nicht bereits
-   * erfolgreich abgeschlossen oder mit Strafe akzeptiert wurden.
-   */
-  for (let j = i + 1; j < gd.tasks.length; j++) {
-    const followingTask = gd.tasks[j];
-
-    if (!followingTask.done && !followingTask.penalized) {
-      followingTask.unlocked = false;
-      followingTask.pendingApproval = false;
-      delete followingTask.startedAt;
-    }
-  }
-
-  // Die erste Aufgabe bleibt immer geöffnet
-  gd.tasks[0].unlocked = true;
-
-  // Die Aufgabe nach der zuletzt abgeschlossenen Aufgabe öffnen
-  for (let j = 0; j < gd.tasks.length - 1; j++) {
-    if (gd.tasks[j].done || gd.tasks[j].penalized) {
-      gd.tasks[j + 1].unlocked = true;
-    }
-  }
-
-  // Daten zuerst sicher in Firebase speichern
-  try {
-    await saveToFirebase();
-
-    renderAll();
-    renderAdminLevels('<button class="btn btn-red btn-sm" onclick="window.adminReset(' + i + ')">🔄 Zurücksetzen</button>');
-    renderAdminReset('<button class="btn btn-red btn-sm" onclick="window.adminReset(' + i + ')">🔄 Reset</button>');
-    updateReqBadge();
-
-    alert('✅ Aufgabe ' + (i + 1) + ' wurde zurückgesetzt.');
-  } catch (error) {
-    console.error('Reset-Fehler:', error);
-    alert('❌ Die Aufgabe konnte nicht zurückgesetzt werden.');
-  }
+  if (i === 0) gd.tasks[0].unlocked = true;
+  saveData();
+  renderAdminLevels(); renderAdminReset(); renderAll();
+  alert('✅ Aufgabe ' + (i+1) + ' zurückgesetzt.');
 };
 
 // Konsumierte Getränke im Admin anpassen
