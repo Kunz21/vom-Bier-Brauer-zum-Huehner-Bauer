@@ -523,7 +523,7 @@ function mergeFromFirebase(val) {
   if (val.requests)             base.requests   = val.requests;
   if (val.bonus)                base.bonus      = Object.assign(base.bonus, val.bonus);
   if (val.gameStartTime)        base.gameStartTime = val.gameStartTime;
-  if (Array.isArray(val.quizQuestions)) base.quizQuestions = val.quizQuestions;
+  if (val.quizQuestions)        base.quizQuestions = val.quizQuestions;
   if (Array.isArray(val.tasks)) {
     val.tasks.forEach((st, i) => {
       if (!base.tasks[i]) return;
@@ -538,16 +538,30 @@ function mergeFromFirebase(val) {
   gd = base;
 }
 
-function saveToFirebase() {
-  return set(ROOT, gd)
-    .then(() => setSyncStatus('ok', '✅ Gespeichert'))
-    .catch(e => setSyncStatus('err', '❌ Fehler: ' + e.message));
+function firebaseSafeData() {
+  // Firebase akzeptiert keine undefined-Werte. Eine JSON-Kopie entfernt
+  // solche Werte zuverlässig, bevor der komplette Zustand gespeichert wird.
+  return JSON.parse(JSON.stringify(gd));
 }
 
-function saveData() {
-  // Lokaler Fallback + Firebase
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(gd)); } catch(e) {}
-  saveToFirebase();
+function saveToFirebase() {
+  const data = firebaseSafeData();
+  setSyncStatus('loading', '⏳ Speichere…');
+  return set(ROOT, data)
+    .then(() => {
+      setSyncStatus('ok', '✅ In Firebase gespeichert');
+      return true;
+    })
+    .catch(e => {
+      setSyncStatus('err', '❌ Firebase-Fehler: ' + e.message);
+      throw e;
+    });
+}
+
+async function saveData() {
+  // Lokaler Fallback und danach verbindlich Firebase aktualisieren.
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(firebaseSafeData())); } catch(e) {}
+  return saveToFirebase();
 }
 
 // ============================================================
@@ -1256,20 +1270,50 @@ window.saveLevel = function(i) {
   alert('✅ Aufgabe ' + (i+1) + ' gespeichert!');
 };
 
-window.adminReset = function(i) {
-  if (!confirm('Aufgabe ' + (i+1) + ' «' + gd.tasks[i].title + '» zurücksetzen?')) return;
-  gd.tasks[i].done = false; gd.tasks[i].penalized = false;
-  gd.tasks[i].pendingApproval = false; gd.tasks[i].startedAt = undefined;
-  // Zugehörige Anfrage löschen
-  Object.entries(gd.requests||{}).forEach(([k,r]) => { if (r.taskIdx===i) delete gd.requests[k]; });
-  for (let j = i+1; j < gd.tasks.length; j++) {
-    if (!gd.tasks[j].done && !gd.tasks[j].penalized) { gd.tasks[j].unlocked = false; }
-    else break;
+window.adminReset = async function(i) {
+  i = Number(i);
+  if (!Number.isInteger(i) || !gd.tasks[i]) {
+    alert('❌ Aufgabe nicht gefunden.');
+    return;
   }
-  if (i === 0) gd.tasks[0].unlocked = true;
-  saveData();
-  renderAdminLevels(); renderAdminReset(); renderAll();
-  alert('✅ Aufgabe ' + (i+1) + ' zurückgesetzt.');
+  const task = gd.tasks[i];
+  if (!confirm('Aufgabe ' + (i + 1) + ' «' + task.title + '» wirklich zurücksetzen?')) return;
+
+  task.done = false;
+  task.penalized = false;
+  task.pendingApproval = false;
+  delete task.startedAt;
+
+  if (gd.requests) {
+    Object.keys(gd.requests).forEach(function(key) {
+      if (Number(gd.requests[key].taskIdx) === i) delete gd.requests[key];
+    });
+  }
+
+  // Alle nachfolgenden offenen Aufgaben sperren.
+  for (let j = i + 1; j < gd.tasks.length; j++) {
+    if (!gd.tasks[j].done && !gd.tasks[j].penalized) {
+      gd.tasks[j].unlocked = false;
+      gd.tasks[j].pendingApproval = false;
+      delete gd.tasks[j].startedAt;
+    }
+  }
+
+  // Erste Aufgabe immer freigeben; abgeschlossene Kette wiederherstellen.
+  gd.tasks[0].unlocked = true;
+  for (let j = 0; j < gd.tasks.length - 1; j++) {
+    if (gd.tasks[j].done || gd.tasks[j].penalized) gd.tasks[j + 1].unlocked = true;
+  }
+
+  try {
+    await saveData();
+    renderAdminReset();
+    renderAll();
+    alert('✅ Aufgabe ' + (i + 1) + ' wurde in Firebase zurückgesetzt.');
+  } catch (error) {
+    alert('❌ Reset konnte nicht in Firebase gespeichert werden.');
+    console.error(error);
+  }
 };
 
 // Konsumierte Getränke im Admin anpassen
@@ -1301,14 +1345,24 @@ window.adminDrinkAdj = function(id, delta) {
   document.getElementById('cadm_' + id).textContent = cur;
 };
 
-window.saveAdminDrinks = function() {
+window.saveAdminDrinks = async function() {
+  const previous = Object.assign({}, gd.consumed);
   DRINK_TYPES.forEach(d => {
     const el = document.getElementById('cadm_' + d.id);
-    if (el) gd.consumed[d.id] = parseInt(el.textContent) || 0;
+    if (el) gd.consumed[d.id] = Math.max(0, parseInt(el.textContent, 10) || 0);
   });
-  saveData();
-  renderDrinks();
-  alert('✅ Getränke gespeichert!');
+
+  try {
+    await saveData();
+    renderDrinks();
+    renderAdminDrinks();
+    alert('✅ Konsumierte Getränke wurden in Firebase gespeichert.');
+  } catch (error) {
+    gd.consumed = previous;
+    renderAdminDrinks();
+    alert('❌ Getränke konnten nicht in Firebase gespeichert werden.');
+    console.error(error);
+  }
 };
 
 function renderAdminReset() {
