@@ -61,6 +61,38 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .drink-consumed-row .drink-count{background:rgba(0,0,0,0.08);color:#999;border-radius:20px;padding:2px 9px;font-size:12px;font-weight:800;min-width:28px;text-align:center;}
 .drinks-empty{font-size:12px;color:#bbb;text-align:center;padding:8px 0;font-weight:700;}
 
+/* BONUS-AUFGABE */
+.bonus-wrap{max-width:680px;margin:12px auto 0;padding:0 16px;}
+.bonus-card{background:linear-gradient(135deg,rgba(125,40,160,.92),rgba(65,25,100,.92));border:3px solid #d98cff;border-radius:18px;padding:18px 20px;box-shadow:0 5px 20px rgba(0,0,0,.2);color:#fff;}
+.bonus-card h2{font-family:'Fredoka One',cursive;color:#ffe58a;font-size:1.2rem;margin-bottom:8px;}
+.bonus-card p{font-size:13px;line-height:1.6;margin-bottom:12px;color:rgba(255,255,255,.9);}
+.bonus-status{font-size:13px;font-weight:800;padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.12);margin-bottom:10px;}
+.bonus-done{border-color:var(--grass);background:linear-gradient(135deg,rgba(40,120,65,.92),rgba(20,75,45,.92));}
+
+/* QUIZ OVERLAY */
+.quiz-overlay{position:fixed;inset:0;z-index:7000;background:linear-gradient(160deg,#1a472a 0%,#2d5a27 40%,#1a3a1a 100%);overflow-y:auto;display:none;color:#fff;}
+.quiz-overlay.active{display:block;}
+.quiz-inner{max-width:720px;margin:0 auto;padding:20px 16px 60px;}
+.quiz-hdr{position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#0d2b0d,#1a4a1a);padding:18px 20px;text-align:center;border-bottom:4px solid var(--hay);box-shadow:0 4px 20px rgba(0,0,0,.5);}
+.quiz-hdr-title{font-family:'Fredoka One',cursive;font-size:clamp(1.3rem,5vw,2rem);color:var(--hay);}
+.quiz-close{position:absolute;right:14px;top:12px;background:rgba(255,255,255,.12);border:0;border-radius:8px;color:#fff;font-size:1.3rem;padding:4px 10px;cursor:pointer;}
+.qscreen{display:none;}.qscreen.active{display:block;}
+.q-setup,.q-result{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);border-radius:20px;padding:24px;margin-top:20px;}
+.q-setup h2{font-family:'Fredoka One',cursive;color:var(--hay);margin-bottom:14px;}
+.q-players,.q-result-scores{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.q-player{border-radius:14px;padding:14px;text-align:center;}.q-player.p1{background:rgba(21,101,192,.25);border:2px solid #1565c0;}.q-player.p2{background:rgba(198,40,40,.25);border:2px solid #c62828;}
+.q-player label{font-size:11px;font-weight:800;text-transform:uppercase;color:rgba(255,255,255,.7);display:block;margin-bottom:5px;}
+.q-player input{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;text-align:center;font-weight:800;}
+.q-turn{border-radius:14px;padding:14px;text-align:center;font-family:'Fredoka One',cursive;font-size:1.1rem;margin-bottom:14px;}.q-turn.p1{background:rgba(21,101,192,.35);border:2px solid #1565c0;}.q-turn.p2{background:rgba(198,40,40,.35);border:2px solid #c62828;}
+.q-score{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:14px;}.q-score-box{text-align:center;border-radius:12px;padding:10px;}.q-score-box.p1{background:rgba(21,101,192,.25);border:2px solid #1565c0;}.q-score-box.p2{background:rgba(198,40,40,.25);border:2px solid #c62828;}.q-points{font-family:'Fredoka One',cursive;color:var(--hay);font-size:2rem;}.q-detail{font-size:11px;opacity:.7;}.q-vs{font-family:'Fredoka One',cursive;color:rgba(255,255,255,.5);}
+.q-progress{font-size:12px;font-weight:800;color:rgba(255,255,255,.7);margin-bottom:8px;}.q-bar-bg{height:7px;background:rgba(255,255,255,.12);border-radius:20px;margin-bottom:14px;}.q-bar{height:100%;background:linear-gradient(90deg,var(--hay),var(--grass));border-radius:20px;transition:width .3s;}
+.q-timer{display:flex;align-items:center;gap:10px;margin-bottom:14px;}.q-circle{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;border:3px solid rgba(255,255,255,.2);}.q-timer-bar{flex:1;height:10px;background:rgba(255,255,255,.12);border-radius:20px;overflow:hidden;}.q-timer-fill{height:100%;transition:width .1s;}
+.q-question{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.14);border-radius:16px;padding:20px;margin-bottom:12px;}.q-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--hay);font-weight:800;margin-bottom:7px;}.q-text{font-size:1rem;font-weight:800;line-height:1.5;}
+.q-answers{display:grid;grid-template-columns:1fr 1fr;gap:9px;}.q-answer{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);border-radius:12px;color:#fff;padding:13px;text-align:left;font-weight:700;cursor:pointer;line-height:1.4;}.q-answer:hover:not(:disabled){border-color:var(--hay);background:rgba(255,255,255,.16);}.q-answer:disabled{cursor:default;}.q-answer.correct{background:rgba(90,158,58,.4);border-color:var(--grass);}.q-answer.selected-wrong{background:rgba(198,40,40,.45);border-color:#c62828;}
+.q-feedback{border-radius:11px;padding:11px;text-align:center;font-weight:800;margin-top:12px;font-size:13px;}.q-feedback.ok{background:rgba(90,158,58,.3);border:2px solid var(--grass);}.q-feedback.bad{background:rgba(198,40,40,.3);border:2px solid #c62828;}.q-feedback.timeout{background:rgba(245,200,66,.2);border:2px solid var(--hay);}
+.q-handoff{text-align:center;padding:80px 20px;}.q-result{text-align:center;}.q-result h2{font-family:'Fredoka One',cursive;font-size:2rem;margin-bottom:8px;}.q-result-box{border-radius:14px;padding:14px;}.q-result-box.p1{background:rgba(21,101,192,.3);border:2px solid #1565c0;}.q-result-box.p2{background:rgba(198,40,40,.3);border:2px solid #c62828;}.q-result-box.winner{box-shadow:0 0 0 3px var(--hay);}.q-result-points{font-family:'Fredoka One',cursive;color:var(--hay);font-size:2.5rem;}
+.q-btn{border:0;border-radius:10px;padding:10px 18px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:12px;}.q-btn-hay{background:var(--hay);color:var(--dark);}.q-btn-gray{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.2);}.q-btn-red{background:#c62828;color:#fff;}
+
 /* ROADMAP */
 .road-outer{max-width:680px;margin:24px auto 40px;padding:0 16px;}
 .road{position:relative;padding:10px 0;}
@@ -232,6 +264,9 @@ textarea.ai{resize:vertical;min-height:58px;}
 
 <div id="progressClock" style="font-size:12px;color:#777;margin-top:6px;text-align:center;font-weight:800;">⏱ Zeit läuft...</div>
 
+<!-- BONUS-AUFGABE: ab 7 erfolgreich abgeschlossenen Aufgaben -->
+<div class="bonus-wrap" id="bonusWrap"></div>
+
 <!-- ROADMAP -->
 <div class="road-outer">
   <div class="road" id="roadmap"><div class="road-line"></div></div>
@@ -311,6 +346,24 @@ textarea.ai{resize:vertical;min-height:58px;}
   </div>
 </div>
 
+<!-- FUSSBALL-QUIZ OVERLAY -->
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="quiz-hdr"><div class="quiz-hdr-title">⚽ Fussball-Quiz – Aufgabe 10</div><button class="quiz-close" onclick="window.closeQuiz()">✕</button></div>
+  <div class="quiz-inner">
+    <div class="qscreen active" id="qs_setup"><div class="q-setup"><h2>🏟️ Spieler eintragen</h2><div class="q-players"><div class="q-player p1"><label>Spieler 1 (Marc)</label><input id="qp1name" value="Marc"></div><div class="q-player p2"><label>Spieler 2 (Gegner)</label><input id="qp2name" placeholder="Gegner"></div></div><p style="font-size:13px;line-height:1.6;margin-top:14px;color:rgba(255,255,255,.8);">Beide beantworten jede Frage. Eine richtige Antwort gibt 1 Punkt. Die schnellere richtige Antwort erhält einen Bonuspunkt. Es gibt 60 Sekunden pro Frage.</p><button class="q-btn q-btn-hay" onclick="window.qStart()">🚀 Quiz starten</button></div></div>
+    <div class="qscreen" id="qs_q1"><div class="q-turn p1" id="q_turn1"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n11"></b><div class="q-points" id="q_p11">0</div><div class="q-detail" id="q_d11"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n12"></b><div class="q-points" id="q_p12">0</div><div class="q-detail" id="q_d12"></div></div></div><div class="q-progress">Frage <span id="q_num1">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar1"></div></div><div class="q-timer"><div class="q-circle" id="q_c1">60</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t1" style="width:100%;background:#5a9e3a"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text1"></div></div><div class="q-answers" id="q_answers1"></div><div class="q-feedback" id="q_feedback1" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next1" style="display:none" onclick="window.qHandoff('p2')">Weiter zu Spieler 2 →</button></div>
+    <div class="qscreen" id="qs_handoff"><div class="q-handoff"><div style="font-size:4rem">🔄</div><h2 id="q_hTitle" style="font-family:'Fredoka One';color:var(--hay);margin:12px 0"></h2><p id="q_hText"></p><button class="q-btn q-btn-hay" onclick="window.qReady()">▶ Ich bin bereit!</button></div></div>
+    <div class="qscreen" id="qs_q2"><div class="q-turn p2" id="q_turn2"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n21"></b><div class="q-points" id="q_p21">0</div><div class="q-detail" id="q_d21"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n22"></b><div class="q-points" id="q_p22">0</div><div class="q-detail" id="q_d22"></div></div></div><div class="q-progress">Frage <span id="q_num2">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar2"></div></div><div class="q-timer"><div class="q-circle" id="q_c2">60</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t2" style="width:100%;background:#c62828"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text2"></div></div><div class="q-answers" id="q_answers2"></div><div class="q-feedback" id="q_feedback2" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next2" style="display:none" onclick="window.qHandoff('p1')">Nächste Frage →</button><button class="q-btn q-btn-hay" id="q_result" style="display:none" onclick="window.qShowResult()">🏆 Ergebnis anzeigen</button></div>
+    <div class="qscreen" id="qs_result"><div class="q-result"><div style="font-size:4rem">🏆</div><h2 id="q_resultTitle">Ergebnis</h2><p id="q_resultText"></p><div class="q-result-scores"><div class="q-result-box p1" id="q_resultBox1"><b id="q_resultName1"></b><div class="q-result-points" id="q_resultPoints1">0</div></div><div class="q-result-box p2" id="q_resultBox2"><b id="q_resultName2"></b><div class="q-result-points" id="q_resultPoints2">0</div></div></div><div id="q_resultAction"></div><button class="q-btn q-btn-gray" onclick="window.closeQuiz()">✕ Quiz schliessen</button></div></div>
+  </div>
+</div>
+
+<!-- FUSSBALL-QUIZ OVERLAY -->
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="quiz-hdr"><div class="quiz-hdr-title">⚽ Fussball-Quiz – Aufgabe 10</div><button class="quiz-close" onclick="window.closeQuiz()">✕</button></div>
+  <div class="quiz-inner"><div class="qscreen active" id="qs_setup"><div class="q-setup"><h2>🏟️ Spieler eintragen</h2><div class="q-players"><div class="q-player p1"><label>Spieler 1 (Marc)</label><input id="qp1name" value="Marc"></div><div class="q-player p2"><label>Spieler 2 (Gegner)</label><input id="qp2name" placeholder="Gegner"></div></div><p style="font-size:13px;line-height:1.6;margin-top:14px;color:rgba(255,255,255,.8);">Beide beantworten jede Frage. 1 Punkt pro richtige Antwort, plus 1 Bonuspunkt für die schnellere richtige Antwort. 60 Sekunden pro Frage.</p><button class="q-btn q-btn-hay" onclick="window.qStart()">🚀 Quiz starten</button></div></div><div class="qscreen" id="qs_q1"><div class="q-turn p1" id="q_turn1"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n11"></b><div class="q-points" id="q_p11">0</div><div class="q-detail" id="q_d11"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n12"></b><div class="q-points" id="q_p12">0</div><div class="q-detail" id="q_d12"></div></div></div><div class="q-progress">Frage <span id="q_num1">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar1"></div></div><div class="q-timer"><div class="q-circle" id="q_c1">60</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t1" style="width:100%;background:#5a9e3a"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text1"></div></div><div class="q-answers" id="q_answers1"></div><div class="q-feedback" id="q_feedback1" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next1" style="display:none" onclick="window.qHandoff('p2')">Weiter zu Spieler 2 →</button></div><div class="qscreen" id="qs_handoff"><div class="q-handoff"><div style="font-size:4rem">🔄</div><h2 id="q_hTitle" style="font-family:'Fredoka One';color:var(--hay);margin:12px 0"></h2><p id="q_hText"></p><button class="q-btn q-btn-hay" onclick="window.qReady()">▶ Ich bin bereit!</button></div></div><div class="qscreen" id="qs_q2"><div class="q-turn p2" id="q_turn2"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n21"></b><div class="q-points" id="q_p21">0</div><div class="q-detail" id="q_d21"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n22"></b><div class="q-points" id="q_p22">0</div><div class="q-detail" id="q_d22"></div></div></div><div class="q-progress">Frage <span id="q_num2">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar2"></div></div><div class="q-timer"><div class="q-circle" id="q_c2">60</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t2" style="width:100%;background:#c62828"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text2"></div></div><div class="q-answers" id="q_answers2"></div><div class="q-feedback" id="q_feedback2" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next2" style="display:none" onclick="window.qHandoff('p1')">Nächste Frage →</button><button class="q-btn q-btn-hay" id="q_result" style="display:none" onclick="window.qShowResult()">🏆 Ergebnis anzeigen</button></div><div class="qscreen" id="qs_result"><div class="q-result"><div style="font-size:4rem">🏆</div><h2 id="q_resultTitle">Ergebnis</h2><p id="q_resultText"></p><div class="q-result-scores"><div class="q-result-box p1" id="q_resultBox1"><b id="q_resultName1"></b><div class="q-result-points" id="q_resultPoints1">0</div></div><div class="q-result-box p2" id="q_resultBox2"><b id="q_resultName2"></b><div class="q-result-points" id="q_resultPoints2">0</div></div></div><div id="q_resultAction"></div><button class="q-btn q-btn-gray" onclick="window.closeQuiz()">✕ Quiz schliessen</button></div></div></div>
+</div>
+
 <!-- TASK MODAL -->
 <div class="modal-bg hidden" id="taskModal" onclick="bgClose(event)">
   <div class="modal">
@@ -377,7 +430,7 @@ const NODE_ICONS  = ['🍺','🥚','🐔','🍺','🥚','🐔','🍺','🥚','�
 const DRINK_TYPES = [
   { id: 'bier',        label: 'Bier',        icon: '🍺' },
   { id: 'wein',        label: 'Wein',        icon: '🍷' },
-  { id: 'longdrink',   label: 'Longdrink',   icon: '🍹' },
+  { id: 'longdrink',   label: 'Longdrink',   icon: '😎' },
   { id: 'shot',        label: 'Shot',        icon: '🥃' },
   { id: 'alkoholfrei', label: 'Alkoholfrei', icon: '🧃' },
   { id: 'wasser',      label: 'Wasser',      icon: '💧' }
@@ -399,6 +452,12 @@ function makeDefaultData() {
     introImage: 'bilder/Hallo.png',
     consumed:   emptyDrinks(),
     requests:   {},   // offene Genehmigungsanfragen
+    bonus: {
+      unlocked: false,
+      completed: false,
+      skipped: false,
+      shotsAwarded: 0
+    },
     tasks: Array.from({length: 15}, (_, i) => ({
       title:          'Aufgabe ' + (i + 1),
       desc:           'Beschreibung der Aufgabe ' + (i + 1) + '. Kann vom Admin bearbeitet werden.',
@@ -450,6 +509,7 @@ function mergeFromFirebase(val) {
   if (val.introImage !== undefined) base.introImage = val.introImage;
   if (val.consumed)             base.consumed   = Object.assign(emptyDrinks(), val.consumed);
   if (val.requests)             base.requests   = val.requests;
+  if (val.bonus)                base.bonus      = Object.assign(base.bonus, val.bonus);
   if (Array.isArray(val.tasks)) {
     val.tasks.forEach((st, i) => {
       if (!base.tasks[i]) return;
@@ -618,12 +678,55 @@ window.consumeDrink = function(drinkId) {
 // RENDER
 // ============================================================
 function renderAll() {
+  updateBonusUnlock();
   renderIntro();
   renderProgress();
   renderDrinks();
+  renderBonus();
   renderRoadmap();
   updateReqBadge();
 }
+
+function updateBonusUnlock() {
+  if (!gd.bonus) gd.bonus = { unlocked:false, completed:false, skipped:false, shotsAwarded:0 };
+  var successful = gd.tasks.filter(function(t) { return t.done && !t.penalized; }).length;
+  if (successful >= 7) gd.bonus.unlocked = true;
+}
+
+function renderBonus() {
+  var c = document.getElementById('bonusWrap');
+  if (!c) return;
+  updateBonusUnlock();
+  if (!gd.bonus.unlocked) { c.innerHTML = ''; return; }
+  if (gd.bonus.completed) {
+    c.innerHTML = '<div class="bonus-card bonus-done"><h2>🎉 Bonus-Aufgabe geschafft!</h2><div class="bonus-status">✅ Marc hat eine Gabel Surströmming gegessen.</div><p>Jede Person aus der Gruppe nimmt 2 Straf-Shots. 🥃🥃</p></div>';
+    return;
+  }
+  if (gd.bonus.skipped) {
+    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – keine Strafe.</div></div>';
+    return;
+  }
+  c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe freigeschaltet!</h2><p>Marc kann freiwillig eine Gabel Surströmming essen. Wenn er es erfolgreich macht, nimmt jede Person aus der Gruppe 2 Straf-Shots. Wenn er ablehnt, gibt es keine Strafe.</p><div class="bonus-status">⚠️ Freiwillig – bei Ablehnung keine Strafe.</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-red btn-sm" onclick="window.completeBonus()">🍴 Ich esse die Gabel</button><button class="btn btn-gray btn-sm" onclick="window.skipBonus()">⏭️ Nicht machen</button></div></div>';
+}
+
+window.completeBonus = function() {
+  if (!confirm('Hat Marc die Gabel Surströmming erfolgreich gegessen?')) return;
+  gd.bonus.completed = true;
+  gd.bonus.skipped = false;
+  gd.bonus.shotsAwarded = 2;
+  saveData();
+  renderAll();
+  alert('🎉 Bonus geschafft! Jede Person aus der Gruppe nimmt 2 Straf-Shots.');
+};
+
+window.skipBonus = function() {
+  if (!confirm('Bonus-Aufgabe wirklich überspringen? Es gibt dann keine Strafe.')) return;
+  gd.bonus.skipped = true;
+  gd.bonus.completed = false;
+  gd.bonus.shotsAwarded = 0;
+  saveData();
+  renderAll();
+};
 
 function renderIntro() {
   document.getElementById('introText').textContent = gd.intro;
@@ -785,6 +888,14 @@ window.openTask = function(i) {
     '<div class="modal-title">' + escHtml(t.title) + '</div>' +
     '<div class="modal-desc">' + escHtml(t.desc||'') + '</div>' +
     timerHTML + prizeHTML + penHTML + btnHTML;
+
+  // Aufgabe 10 wird über das integrierte Fussball-Quiz erledigt
+  if (i === 9 && !t.done && !t.penalized && !t.pendingApproval && t.unlocked) {
+    btnHTML = '<div class="tc mt14" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
+      '<button class="btn btn-barn" onclick="window.openQuiz()">⚽ Fussball-Quiz starten!</button>' +
+      '<button class="btn btn-red" onclick="window.penalizeTask(' + i + ')">😤 Strafe akzeptieren</button>' +
+      '</div>';
+  }
 
   // Timer
   clearInterval(activeTimer);
@@ -1185,6 +1296,48 @@ window.saveSettings = function() {
 function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
+
+// ============================================================
+// INTEGRIERTES FUSSBALL-QUIZ – Aufgabe 10
+// ============================================================
+var Q_QUESTIONS = [
+['Welcher Verein gewann die UEFA Champions League am häufigsten?',['FC Barcelona','AC Milan','Real Madrid','FC Liverpool'],2],
+['Wer erzielte den Siegtreffer für Manchester United im Champions-League-Finale 1999 gegen Bayern München?',['David Beckham','Ole Gunnar Solskjær','Teddy Sheringham','Dwight Yorke'],1],
+['Welcher Spieler ist Rekordtorschütze der UEFA Champions League?',['Lionel Messi','Robert Lewandowski','Raúl','Cristiano Ronaldo'],3],
+['Welcher Verein wurde als erster Premier-League-Meister der Geschichte (Saison 1992/93)?',['Arsenal','Blackburn Rovers','Manchester United','Leeds United'],2],
+['Welcher Verein gewann die deutsche Bundesliga in der Saison 2001/02?',['Borussia Dortmund','Bayern München','Bayer Leverkusen','Werder Bremen'],0],
+['Welcher Verein gewann als erster die Schweizer Super League nach Einführung dieses Namens im Jahr 2003?',['FC Basel','BSC Young Boys','Grasshopper Club Zürich','FC Zürich'],0],
+['Welches Land gewann die FIFA-Weltmeisterschaft 2010 in Südafrika?',['Spanien','Deutschland','Niederlande','Brasilien'],0],
+['Welcher Spieler erzielte im WM-Finale 2014 das entscheidende Tor in der Verlängerung?',['Thomas Müller','Mario Götze','Miroslav Klose','André Schürrle'],1],
+['Welches Land gewann als erstes zweimal hintereinander die Fußball-Europameisterschaft?',['Deutschland','Frankreich','Spanien','Italien'],2],
+['Welcher Verein gewann die spanische La Liga in der Saison 2003/04 überraschend vor Real Madrid und Barcelona?',['Valencia CF','Deportivo La Coruña','Atlético Madrid','Sevilla FC'],0],
+['Welcher Verein gewann als erster zweimal hintereinander die UEFA Champions League im modernen Format (ab 1992/93)?',['AC Milan','Manchester United','Real Madrid','FC Barcelona'],2],
+['Welcher Spieler gewann als einziger dreimal die FIFA-Weltmeisterschaft?',['Pelé','Franz Beckenbauer','Cafu','Lothar Matthäus'],0],
+['Welcher Verein wurde Premier-League-Meister der Saison 2015/16?',['Tottenham Hotspur','Leicester City','West Ham United','Everton FC'],1],
+['Welcher Verein beendete in der Bundesliga als erster die Meisterserie des FC Bayern München nach elf Titeln in Folge?',['RB Leipzig','Borussia Dortmund','Bayer 04 Leverkusen','VfB Stuttgart'],2],
+['Welcher Spieler erzielte den schnellsten Hattrick der Geschichte der spanischen La Liga?',['Cristiano Ronaldo','Lionel Messi','Kevin Gameiro','David Villa'],2],
+['Welcher Schweizer Verein erreichte in der Saison 2002/03 als erster die zweite Gruppenphase der UEFA Champions League?',['Grasshopper Club Zürich','FC Zürich','FC Basel','BSC Young Boys'],2],
+['Welches Land gewann die erste Fußball-Europameisterschaft im Jahr 1960?',['Sowjetunion','Jugoslawien','Spanien','Deutschland'],0],
+['Welcher Spieler hält nach Abschluss der FIFA-Weltmeisterschaft 2026 den Rekord für die meisten WM-Tore insgesamt?',['Miroslav Klose','Lionel Messi','Kylian Mbappé','Ronaldo'],2],
+['Welcher Trainer gewann die UEFA Champions League als erster dreimal mit zwei verschiedenen Vereinen?',['Carlo Ancelotti','José Mourinho','Pep Guardiola','Ottmar Hitzfeld'],0],
+['Welcher Verein gewann in der modernen Champions-League-Ära als erster das Triple?',['Manchester United','FC Barcelona','Bayern München','Ajax Amsterdam'],0]
+];
+var Q_TIME = 60, qName1='Marc', qName2='Gegner', qIndex=0, qTimer=null, qStarted=0, qTarget='p2';
+var qScore1={right:0,bonus:0}, qScore2={right:0,bonus:0}, qRounds=[];
+function openQuiz(){document.getElementById('quizOverlay').classList.add('active');document.body.style.overflow='hidden';qScreen('qs_setup');}
+function closeQuiz(){clearInterval(qTimer);document.getElementById('quizOverlay').classList.remove('active');document.body.style.overflow='';}
+function qScreen(id){document.querySelectorAll('#quizOverlay .qscreen').forEach(function(x){x.classList.remove('active');});document.getElementById(id).classList.add('active');document.getElementById('quizOverlay').scrollTop=0;}
+function qStart(){qName1=document.getElementById('qp1name').value.trim()||'Marc';qName2=document.getElementById('qp2name').value.trim()||'Gegner';qIndex=0;qScore1={right:0,bonus:0};qScore2={right:0,bonus:0};qRounds=[];qUpdateNames();qScreen('qs_q1');qLoad(1);}
+function qUpdateNames(){['q_n11','q_n21','q_resultName1'].forEach(function(id){document.getElementById(id).textContent=qName1;});['q_n12','q_n22','q_resultName2'].forEach(function(id){document.getElementById(id).textContent=qName2;});document.getElementById('q_turn1').textContent='🍺 '+qName1+' ist dran!';document.getElementById('q_turn2').textContent='⚽ '+qName2+' ist dran!';}
+function qLoad(player){var x=Q_QUESTIONS[qIndex],s=player===1?'1':'2';document.getElementById('q_num'+s).textContent=qIndex+1;document.getElementById('q_bar'+s).style.width=((qIndex+1)/20*100)+'%';document.getElementById('q_text'+s).textContent=x[0];var box=document.getElementById('q_answers'+s);box.innerHTML='';x[1].forEach(function(a,i){var b=document.createElement('button');b.className='q-answer';b.innerHTML='<b>'+String.fromCharCode(65+i)+')</b> '+escHtml(a);b.onclick=function(){qAnswer(player,i);};box.appendChild(b);});document.getElementById('q_feedback'+s).style.display='none';document.getElementById('q_next'+s).style.display='none';if(s==='2')document.getElementById('q_result').style.display='none';qTimerStart(player);}
+function qTimerStart(player){clearInterval(qTimer);var s=player===1?'1':'2',rem=Q_TIME;qStarted=Date.now();document.getElementById('q_c'+s).textContent=Q_TIME;document.getElementById('q_t'+s).style.width='100%';qTimer=setInterval(function(){rem-=.1;document.getElementById('q_c'+s).textContent=Math.ceil(rem);document.getElementById('q_t'+s).style.width=Math.max(0,rem/Q_TIME*100)+'%';if(rem<=0){clearInterval(qTimer);qAnswer(player,-1);}},100);}
+function qAnswer(player,choice){clearInterval(qTimer);var x=Q_QUESTIONS[qIndex],ok=choice===x[2],elapsed=choice<0?Q_TIME+1:(Date.now()-qStarted)/1000,s=player===1?'1':'2';document.getElementById('q_answers'+s).querySelectorAll('button').forEach(function(b,i){b.disabled=true;if(i===x[2])b.classList.add('correct');if(i===choice&&!ok)b.classList.add('selected-wrong');});qRounds[qIndex]=qRounds[qIndex]||{};qRounds[qIndex]['p'+player+'ok']=ok;qRounds[qIndex]['p'+player+'t']=elapsed;if(player===1){if(ok)qScore1.right++;}else{if(ok)qScore2.right++;if(qRounds[qIndex].p1ok&&qRounds[qIndex].p2ok){if(qRounds[qIndex].p1t<qRounds[qIndex].p2t)qScore1.bonus++;else if(qRounds[qIndex].p2t<qRounds[qIndex].p1t)qScore2.bonus++;}}qFeedback(player,ok,choice<0);qScores();if(player===1)document.getElementById('q_next1').style.display='inline-block';else if(qIndex<19)document.getElementById('q_next2').style.display='inline-block';else document.getElementById('q_result').style.display='inline-block';}
+function qFeedback(player,ok,timeout){var s=player===1?'1':'2',e=document.getElementById('q_feedback'+s);e.style.display='block';e.className='q-feedback '+(timeout?'timeout':ok?'ok':'bad');e.textContent=timeout?'⏰ Zeit abgelaufen!':ok?'✅ Richtig!':'❌ Falsch!';}
+function qScores(){var a=qScore1.right+qScore1.bonus,b=qScore2.right+qScore2.bonus;['q_p11','q_p21'].forEach(function(id){document.getElementById(id).textContent=a;});['q_p12','q_p22'].forEach(function(id){document.getElementById(id).textContent=b;});document.getElementById('q_d11').textContent=qScore1.right+' richtig · '+qScore1.bonus+' schnell';document.getElementById('q_d21').textContent=qScore1.right+' richtig · '+qScore1.bonus+' schnell';document.getElementById('q_d12').textContent=qScore2.right+' richtig · '+qScore2.bonus+' schnell';document.getElementById('q_d22').textContent=qScore2.right+' richtig · '+qScore2.bonus+' schnell';}
+function qHandoff(target){qTarget=target;var n=target==='p2'?qName2:qName1;document.getElementById('q_hTitle').textContent='Gerät an '+n+' weitergeben!';document.getElementById('q_hText').textContent=n+', bist du bereit für Frage '+(qIndex+1)+'?';qScreen('qs_handoff');}
+function qReady(){if(qTarget==='p2'){qScreen('qs_q2');qLoad(2);}else{qIndex++;qScreen('qs_q1');qLoad(1);}}
+function qShowResult(){var a=qScore1.right+qScore1.bonus,b=qScore2.right+qScore2.bonus;document.getElementById('q_resultPoints1').textContent=a;document.getElementById('q_resultPoints2').textContent=b;document.getElementById('q_resultBox1').classList.remove('winner');document.getElementById('q_resultBox2').classList.remove('winner');var action=document.getElementById('q_resultAction');if(a>b){document.getElementById('q_resultTitle').textContent=qName1+' gewinnt!';document.getElementById('q_resultText').textContent='Aufgabe 10 ist bestanden!';document.getElementById('q_resultBox1').classList.add('winner');action.innerHTML='<button class="q-btn q-btn-hay" onclick="window.quizWon()">📬 Aufgabe 10 als erledigt melden</button>';}else{document.getElementById('q_resultTitle').textContent=(b>a?qName2:'Unentschieden')+' gewinnt!';document.getElementById('q_resultText').textContent=b>a?'Aufgabe 10 verloren – Strafe fällig!':'Unentschieden – Aufgabe 10 gilt als bestanden.';if(b>a){document.getElementById('q_resultBox2').classList.add('winner');action.innerHTML='<button class="q-btn q-btn-red" onclick="window.quizLost()">😤 Strafe akzeptieren</button>';}else{action.innerHTML='<button class="q-btn q-btn-hay" onclick="window.quizWon()">📬 Aufgabe 10 als erledigt melden</button>';}}qScreen('qs_result');}
+window.quizWon=function(){closeQuiz();window.requestComplete(9);};window.quizLost=function(){closeQuiz();window.penalizeTask(9);};window.qHandoff=qHandoff;window.qReady=qReady;window.qShowResult=qShowResult;window.qStart=qStart;window.openQuiz=openQuiz;window.closeQuiz=closeQuiz;
 
 // ============================================================
 // SPIELZEIT-CLOCK
