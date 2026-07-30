@@ -770,9 +770,25 @@ function renderAll() {
 }
 
 function updateBonusUnlock() {
-  if (!gd.bonus) gd.bonus = { unlocked:false, completed:false, skipped:false, shotsAwarded:0 };
-  var successful = gd.tasks.filter(function(t) { return t.done && !t.penalized; }).length;
-  if (successful >= 7) gd.bonus.unlocked = true;
+  if (!gd.bonus) {
+    gd.bonus = {
+      unlocked: false,
+      completed: false,
+      skipped: false,
+      shotsAwarded: 0
+    };
+  }
+
+  // Nur erfolgreich abgeschlossene Aufgaben zählen.
+  // Aufgaben mit akzeptierter Strafe zählen nicht.
+  var successful = gd.tasks.filter(function(task) {
+    return task.done === true && task.penalized !== true;
+  }).length;
+
+  // Der Wert wird immer neu gesetzt.
+  // Dadurch verschwindet die Bonus-Aufgabe wieder,
+  // sobald weniger als sieben Aufgaben erfolgreich sind.
+  gd.bonus.unlocked = successful >= 7;
 }
 
 function renderBonus() {
