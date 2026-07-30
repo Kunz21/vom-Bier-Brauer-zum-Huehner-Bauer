@@ -731,10 +731,10 @@ function renderBonus() {
     return;
   }
   if (gd.bonus.skipped) {
-    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – keine Strafe.</div></div>';
+    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – Abzug von Getränken nach .</div></div>';
     return;
   }
-  c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe freigeschaltet!</h2><p>Marc kann freiwillig eine Gabel Surströmming essen. Wenn er es erfolgreich macht, nimmt jede Person aus der Gruppe 2 Straf-Shots. Wenn er ablehnt, gibt es keine Strafe.</p><div class="bonus-status">⚠️ Freiwillig – bei Ablehnung keine Strafe.</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-red btn-sm" onclick="window.completeBonus()">🍴 Ich esse die Gabel</button><button class="btn btn-gray btn-sm" onclick="window.skipBonus()">⏭️ Nicht machen</button></div></div>';
+  c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe freigeschaltet!</h2><p>Marc kann freiwillig eine Gabel Surströmming essen. Wenn er es erfolgreich umsetzt, nimmt jede Person aus der Gruppe 2 Straf-Shots. Bei nicht durchführen gibt es unterschiedliche Betrafungen.</p><div class="bonus-status">⚠️ Bei nicht durchführen gelten folgende Regeln: Nicht öffnen der Dose = Minus 5 Konsumgetränke | Nur öffnen der Dose = Minus 1 Konsumgetränk | kleiner Biss vom Surströmming = kein Abzug.</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-red btn-sm" onclick="window.completeBonus()">🍴 Ich esse die Gabel</button><button class="btn btn-gray btn-sm" onclick="window.skipBonus()">⏭️ Nicht machen</button></div></div>';
 }
 
 window.completeBonus = function() {
@@ -748,7 +748,7 @@ window.completeBonus = function() {
 };
 
 window.skipBonus = function() {
-  if (!confirm('Bonus-Aufgabe wirklich überspringen? Es gibt dann keine Strafe.')) return;
+  if (!confirm('Bonus-Aufgabe wirklich überspringen? Es werden dir möglicherweise Konsumgetränke abgezogen! Lies die Bedinungen!')) return;
   gd.bonus.skipped = true;
   gd.bonus.completed = false;
   gd.bonus.shotsAwarded = 0;
