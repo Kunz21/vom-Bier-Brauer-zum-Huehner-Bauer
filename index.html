@@ -1362,11 +1362,25 @@ window.adminReset = async function(i) {
       }
     }
 
-    // Freischaltung anhand der tatsächlich abgeschlossenen Kette neu aufbauen.
-    gd.tasks[0].unlocked = true;
-    for (let j = 0; j < gd.tasks.length - 1; j++) {
-      if (gd.tasks[j].done || gd.tasks[j].penalized) gd.tasks[j + 1].unlocked = true;
-    }
+// WICHTIG: Zuerst sämtliche alten Freischaltungen entfernen.
+// Sonst bleiben beim mehrfachen Reset frühere unlocked=true-Werte erhalten.
+gd.tasks.forEach(function(currentTask) {
+  currentTask.unlocked = false;
+});
+
+// Freischaltung danach strikt von vorne neu berechnen.
+// Aufgabe 1 ist immer zugänglich. Jede weitere Aufgabe wird nur
+// freigeschaltet, wenn die komplette Kette davor abgeschlossen ist.
+gd.tasks[0].unlocked = true;
+
+for (let j = 1; j < gd.tasks.length; j++) {
+  const previousTask = gd.tasks[j - 1];
+
+  gd.tasks[j].unlocked = Boolean(
+    gd.tasks[j - 1].unlocked &&
+    (previousTask.done || previousTask.penalized)
+  );
+}
 
     // Nach dem Reset dürfen konsumierte Mengen nicht höher sein
     // als die weiterhin erspielten Mengen.
