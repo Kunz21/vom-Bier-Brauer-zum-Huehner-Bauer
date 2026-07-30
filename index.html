@@ -365,15 +365,9 @@ textarea.ai{resize:vertical;min-height:58px;}
     <div class="qscreen active" id="qs_setup"><div class="q-setup"><h2>🏟️ Spieler eintragen</h2><div class="q-players"><div class="q-player p1"><label>Spieler 1 (Marc)</label><input id="qp1name" value="Marc"></div><div class="q-player p2"><label>Spieler 2 (Gegner)</label><input id="qp2name" placeholder="Gegner"></div></div><p style="font-size:13px;line-height:1.6;margin-top:14px;color:rgba(255,255,255,.8);">Beide beantworten jede Frage. Eine richtige Antwort gibt 1 Punkt. Die schnellere richtige Antwort erhält einen Bonuspunkt. Es gibt 40 Sekunden pro Frage.</p><button class="q-btn q-btn-hay" onclick="window.qStart()">🚀 Quiz starten</button></div></div>
     <div class="qscreen" id="qs_q1"><div class="q-turn p1" id="q_turn1"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n11"></b><div class="q-points" id="q_p11">0</div><div class="q-detail" id="q_d11"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n12"></b><div class="q-points" id="q_p12">0</div><div class="q-detail" id="q_d12"></div></div></div><div class="q-progress">Frage <span id="q_num1">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar1"></div></div><div class="q-timer"><div class="q-circle" id="q_c1">40</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t1" style="width:100%;background:#5a9e3a"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text1"></div></div><div class="q-answers" id="q_answers1"></div><div class="q-feedback" id="q_feedback1" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next1" style="display:none" onclick="window.qHandoff('p2')">Weiter zu Spieler 2 →</button></div>
     <div class="qscreen" id="qs_handoff"><div class="q-handoff"><div style="font-size:4rem">🔄</div><h2 id="q_hTitle" style="font-family:'Fredoka One';color:var(--hay);margin:12px 0"></h2><p id="q_hText"></p><button class="q-btn q-btn-hay" onclick="window.qReady()">▶ Ich bin bereit!</button></div></div>
-    <div class="qscreen" id="qs_q2"><div class="q-turn p2" id="q_turn2"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n21"></b><div class="q-points" id="q_p21">0</div><div class="q-detail" id="q_d21"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n22"></b><div class="q-points" id="q_p22">0</div><div class="q-detail" id="q_d22"></div></div></div><div class="q-progress">Frage <span id="q_num2">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar2"></div></div><div class="q-timer"><div class="q-circle" id="q_c2">60</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t2" style="width:100%;background:#c62828"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text2"></div></div><div class="q-answers" id="q_answers2"></div><div class="q-feedback" id="q_feedback2" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next2" style="display:none" onclick="window.qHandoff('p1')">Nächste Frage →</button><button class="q-btn q-btn-hay" id="q_result" style="display:none" onclick="window.qShowResult()">🏆 Ergebnis anzeigen</button></div>
+    <div class="qscreen" id="qs_q2"><div class="q-turn p2" id="q_turn2"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n21"></b><div class="q-points" id="q_p21">0</div><div class="q-detail" id="q_d21"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n22"></b><div class="q-points" id="q_p22">0</div><div class="q-detail" id="q_d22"></div></div></div><div class="q-progress">Frage <span id="q_num2">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar2"></div></div><div class="q-timer"><div class="q-circle" id="q_c2">40</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t2" style="width:100%;background:#c62828"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text2"></div></div><div class="q-answers" id="q_answers2"></div><div class="q-feedback" id="q_feedback2" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next2" style="display:none" onclick="window.qHandoff('p1')">Nächste Frage →</button><button class="q-btn q-btn-hay" id="q_result" style="display:none" onclick="window.qShowResult()">🏆 Ergebnis anzeigen</button></div>
     <div class="qscreen" id="qs_result"><div class="q-result"><div style="font-size:4rem">🏆</div><h2 id="q_resultTitle">Ergebnis</h2><p id="q_resultText"></p><div class="q-result-scores"><div class="q-result-box p1" id="q_resultBox1"><b id="q_resultName1"></b><div class="q-result-points" id="q_resultPoints1">0</div></div><div class="q-result-box p2" id="q_resultBox2"><b id="q_resultName2"></b><div class="q-result-points" id="q_resultPoints2">0</div></div></div><div id="q_resultAction"></div><div class="q-rounds-overview"><h3 style="font-family:'Fredoka One';color:var(--hay);margin-bottom:8px;">📊 Fragenstatistik</h3><div id="q_roundsOverview"></div></div><button class="q-btn q-btn-gray" onclick="window.closeQuiz()">✕ Quiz schliessen</button></div></div>
   </div>
-</div>
-
-<!-- FUSSBALL-QUIZ OVERLAY -->
-<div class="quiz-overlay" id="quizOverlay">
-  <div class="quiz-hdr"><div class="quiz-hdr-title">⚽ Fussball-Quiz – Aufgabe 10</div><button class="quiz-close" onclick="window.closeQuiz()">✕</button></div>
-  <div class="quiz-inner"><div class="qscreen active" id="qs_setup"><div class="q-setup"><h2>🏟️ Spieler eintragen</h2><div class="q-players"><div class="q-player p1"><label>Spieler 1 (Marc)</label><input id="qp1name" value="Marc"></div><div class="q-player p2"><label>Spieler 2 (Gegner)</label><input id="qp2name" placeholder="Gegner"></div></div><p style="font-size:13px;line-height:1.6;margin-top:14px;color:rgba(255,255,255,.8);">Beide beantworten jede Frage. 1 Punkt pro richtige Antwort, plus 1 Bonuspunkt für die schnellere richtige Antwort. 60 Sekunden pro Frage.</p><button class="q-btn q-btn-hay" onclick="window.qStart()">🚀 Quiz starten</button></div></div><div class="qscreen" id="qs_q1"><div class="q-turn p1" id="q_turn1"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n11"></b><div class="q-points" id="q_p11">0</div><div class="q-detail" id="q_d11"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n12"></b><div class="q-points" id="q_p12">0</div><div class="q-detail" id="q_d12"></div></div></div><div class="q-progress">Frage <span id="q_num1">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar1"></div></div><div class="q-timer"><div class="q-circle" id="q_c1">40</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t1" style="width:100%;background:#5a9e3a"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text1"></div></div><div class="q-answers" id="q_answers1"></div><div class="q-feedback" id="q_feedback1" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next1" style="display:none" onclick="window.qHandoff('p2')">Weiter zu Spieler 2 →</button></div><div class="qscreen" id="qs_handoff"><div class="q-handoff"><div style="font-size:4rem">🔄</div><h2 id="q_hTitle" style="font-family:'Fredoka One';color:var(--hay);margin:12px 0"></h2><p id="q_hText"></p><button class="q-btn q-btn-hay" onclick="window.qReady()">▶ Ich bin bereit!</button></div></div><div class="qscreen" id="qs_q2"><div class="q-turn p2" id="q_turn2"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n21"></b><div class="q-points" id="q_p21">0</div><div class="q-detail" id="q_d21"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n22"></b><div class="q-points" id="q_p22">0</div><div class="q-detail" id="q_d22"></div></div></div><div class="q-progress">Frage <span id="q_num2">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar2"></div></div><div class="q-timer"><div class="q-circle" id="q_c2">60</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t2" style="width:100%;background:#c62828"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text2"></div></div><div class="q-answers" id="q_answers2"></div><div class="q-feedback" id="q_feedback2" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next2" style="display:none" onclick="window.qHandoff('p1')">Nächste Frage →</button><button class="q-btn q-btn-hay" id="q_result" style="display:none" onclick="window.qShowResult()">🏆 Ergebnis anzeigen</button></div><div class="qscreen" id="qs_result"><div class="q-result"><div style="font-size:4rem">🏆</div><h2 id="q_resultTitle">Ergebnis</h2><p id="q_resultText"></p><div class="q-result-scores"><div class="q-result-box p1" id="q_resultBox1"><b id="q_resultName1"></b><div class="q-result-points" id="q_resultPoints1">0</div></div><div class="q-result-box p2" id="q_resultBox2"><b id="q_resultName2"></b><div class="q-result-points" id="q_resultPoints2">0</div></div></div><div id="q_resultAction"></div><button class="q-btn q-btn-gray" onclick="window.closeQuiz()">✕ Quiz schliessen</button></div></div></div>
 </div>
 
 <!-- TASK MODAL -->
@@ -409,8 +403,17 @@ textarea.ai{resize:vertical;min-height:58px;}
 <script type="module">
 // ── Firebase Imports ──
 import { initializeApp }                            from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getDatabase, ref, set, get, onValue, update, push, remove }
-                                                    from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+import {
+  getDatabase,
+  ref,
+  set,
+  get,
+  onValue,
+  update,
+  push,
+  remove,
+  runTransaction
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
 // ── Firebase Init ──
 const firebaseConfig = {
@@ -640,66 +643,117 @@ function updateReqBadge() {
 // ============================================================
 function calcEarnedDrinks() {
   const totals = emptyDrinks();
-  gd.tasks.forEach(t => {
-    if (t.done && !t.penalized) {
-      DRINK_TYPES.forEach(d => { totals[d.id] += (t.prizeDrinks[d.id] || 0); });
+
+  gd.tasks.forEach(function(task) {
+    if (task.done && !task.penalized) {
+      DRINK_TYPES.forEach(function(drink) {
+        totals[drink.id] += Math.max(0, parseInt(task.prizeDrinks?.[drink.id], 10) || 0);
+      });
     }
-    if (t.penalized) {
-      DRINK_TYPES.forEach(d => { totals[d.id] += (t.penaltyDrinks[d.id] || 0); });
+
+    if (task.penalized) {
+      DRINK_TYPES.forEach(function(drink) {
+        totals[drink.id] += Math.max(0, parseInt(task.penaltyDrinks?.[drink.id], 10) || 0);
+      });
     }
   });
+
   return totals;
 }
 
+function normalizeConsumedDrinks(consumed, earned) {
+  const normalized = emptyDrinks();
+
+  DRINK_TYPES.forEach(function(drink) {
+    const consumedAmount = Math.max(0, parseInt(consumed?.[drink.id], 10) || 0);
+    const earnedAmount = Math.max(0, parseInt(earned?.[drink.id], 10) || 0);
+    normalized[drink.id] = Math.min(consumedAmount, earnedAmount);
+  });
+
+  return normalized;
+}
+
 function renderDrinks() {
-  const earned   = calcEarnedDrinks();
-  const consumed = gd.consumed;
-  const todoEl   = document.getElementById('drinksTodo');
-  const doneEl   = document.getElementById('drinksDone');
+  const earned = calcEarnedDrinks();
+  const consumed = normalizeConsumedDrinks(gd.consumed || emptyDrinks(), earned);
+  const todoEl = document.getElementById('drinksTodo');
+  const doneEl = document.getElementById('drinksDone');
+
+  if (!todoEl || !doneEl) return;
+
   todoEl.innerHTML = '';
   doneEl.innerHTML = '';
-  let anyTodo = false, anyDone = false;
+  let anyTodo = false;
+  let anyDone = false;
 
-  DRINK_TYPES.forEach(d => {
-    const total     = earned[d.id] || 0;
-    const cons      = Math.min(consumed[d.id] || 0, total);
-    const remaining = total - cons;
-    if (total === 0) return;
+  DRINK_TYPES.forEach(function(drink) {
+    const total = earned[drink.id] || 0;
+    const consumedAmount = consumed[drink.id] || 0;
+    const remaining = Math.max(0, total - consumedAmount);
+
+    if (total <= 0) return;
 
     if (remaining > 0) {
       anyTodo = true;
       const row = document.createElement('div');
       row.className = 'drink-row';
       row.innerHTML =
-        '<span class="drink-label">' + d.icon + ' ' + d.label + '</span>' +
+        '<span class="drink-label">' + drink.icon + ' ' + drink.label + '</span>' +
         '<div style="display:flex;align-items:center;gap:6px;">' +
           '<span class="drink-count">' + remaining + 'x</span>' +
-          '<button class="drink-consume-btn" onclick="window.consumeDrink(\'' + d.id + '\')">✓ Trinken</button>' +
+          '<button class="drink-consume-btn" onclick="window.consumeDrink(\'' + drink.id + '\')">✓ Trinken</button>' +
         '</div>';
       todoEl.appendChild(row);
     }
-    if (cons > 0) {
+
+    if (consumedAmount > 0) {
       anyDone = true;
-      const rowD = document.createElement('div');
-      rowD.className = 'drink-consumed-row';
-      rowD.innerHTML =
-        '<span class="drink-label">' + d.icon + ' ' + d.label + '</span>' +
-        '<span class="drink-count">' + cons + 'x</span>';
-      doneEl.appendChild(rowD);
+      const row = document.createElement('div');
+      row.className = 'drink-consumed-row';
+      row.innerHTML =
+        '<span class="drink-label">' + drink.icon + ' ' + drink.label + '</span>' +
+        '<span class="drink-count">' + consumedAmount + 'x</span>';
+      doneEl.appendChild(row);
     }
   });
-  if (!anyTodo) todoEl.innerHTML = '<div class="drinks-empty">Noch nichts verdient</div>';
+
+  if (!anyTodo) todoEl.innerHTML = '<div class="drinks-empty">Keine offenen Getränke</div>';
   if (!anyDone) doneEl.innerHTML = '<div class="drinks-empty">Noch nichts getrunken</div>';
 }
 
-window.consumeDrink = function(drinkId) {
-  const earned = calcEarnedDrinks();
-  const total  = earned[drinkId] || 0;
-  const cons   = gd.consumed[drinkId] || 0;
-  if (cons >= total) return;
-  gd.consumed[drinkId] = cons + 1;
-  saveData();
-  renderDrinks();
+window.consumeDrink = async function(drinkId) {
+  const drinkExists = DRINK_TYPES.some(function(drink) { return drink.id === drinkId; });
+  if (!drinkExists) return;
+
+  const maximum = calcEarnedDrinks()[drinkId] || 0;
+  if (maximum <= 0) return;
+
+  try {
+    setSyncStatus('loading', '⏳ Getränk wird gespeichert…');
+
+    const result = await runTransaction(
+      ref(db, 'huehnerstall/consumed/' + drinkId),
+      function(currentValue) {
+        const current = Math.max(0, parseInt(currentValue, 10) || 0);
+        return current >= maximum ? current : current + 1;
+      }
+    );
+
+    if (result.committed) {
+      if (!gd.consumed) gd.consumed = emptyDrinks();
+      gd.consumed[drinkId] = Math.max(0, parseInt(result.snapshot.val(), 10) || 0);
+      renderDrinks();
+
+      const adminDrinks = document.getElementById('adminTabDrinks');
+      if (adminDrinks && !adminDrinks.classList.contains('hidden')) renderAdminDrinks();
+
+      setSyncStatus('ok', '✅ Getränk in Firebase gespeichert');
+    }
+  } catch (error) {
+    console.error('Fehler beim Konsumieren:', error);
+    setSyncStatus('err', '❌ Getränk konnte nicht gespeichert werden');
+    alert('❌ Das Getränk konnte nicht in Firebase gespeichert werden.');
+  }
 };
 
 // ============================================================
@@ -731,10 +785,10 @@ function renderBonus() {
     return;
   }
   if (gd.bonus.skipped) {
-    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – Abzug von Getränken nach .</div></div>';
+    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – keine Strafe.</div></div>';
     return;
   }
-  c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe freigeschaltet!</h2><p>Marc kann freiwillig eine Gabel Surströmming essen. Wenn er es erfolgreich umsetzt, nimmt jede Person aus der Gruppe 2 Straf-Shots. Bei nicht durchführen gibt es unterschiedliche Betrafungen.</p><div class="bonus-status">⚠️ Bei nicht durchführen gelten folgende Regeln: Nicht öffnen der Dose = Minus 5 Konsumgetränke | Nur öffnen der Dose = Minus 1 Konsumgetränk | kleiner Biss vom Surströmming = kein Abzug.</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-red btn-sm" onclick="window.completeBonus()">🍴 Ich esse die Gabel</button><button class="btn btn-gray btn-sm" onclick="window.skipBonus()">⏭️ Nicht machen</button></div></div>';
+  c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe freigeschaltet!</h2><p>Marc kann freiwillig eine Gabel Surströmming essen. Wenn er es erfolgreich macht, nimmt jede Person aus der Gruppe 2 Straf-Shots. Wenn er ablehnt, gibt es keine Strafe.</p><div class="bonus-status">⚠️ Freiwillig – bei Ablehnung keine Strafe.</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-red btn-sm" onclick="window.completeBonus()">🍴 Ich esse die Gabel</button><button class="btn btn-gray btn-sm" onclick="window.skipBonus()">⏭️ Nicht machen</button></div></div>';
 }
 
 window.completeBonus = function() {
@@ -748,7 +802,7 @@ window.completeBonus = function() {
 };
 
 window.skipBonus = function() {
-  if (!confirm('Bonus-Aufgabe wirklich überspringen? Es werden dir möglicherweise Konsumgetränke abgezogen! Lies die Bedinungen!')) return;
+  if (!confirm('Bonus-Aufgabe wirklich überspringen? Es gibt dann keine Strafe.')) return;
   gd.bonus.skipped = true;
   gd.bonus.completed = false;
   gd.bonus.shotsAwarded = 0;
@@ -1272,45 +1326,70 @@ window.saveLevel = function(i) {
 
 window.adminReset = async function(i) {
   i = Number(i);
+
   if (!Number.isInteger(i) || !gd.tasks[i]) {
     alert('❌ Aufgabe nicht gefunden.');
     return;
   }
+
   const task = gd.tasks[i];
   if (!confirm('Aufgabe ' + (i + 1) + ' «' + task.title + '» wirklich zurücksetzen?')) return;
 
-  task.done = false;
-  task.penalized = false;
-  task.pendingApproval = false;
-  delete task.startedAt;
-
-  if (gd.requests) {
-    Object.keys(gd.requests).forEach(function(key) {
-      if (Number(gd.requests[key].taskIdx) === i) delete gd.requests[key];
-    });
-  }
-
-  // Alle nachfolgenden offenen Aufgaben sperren.
-  for (let j = i + 1; j < gd.tasks.length; j++) {
-    if (!gd.tasks[j].done && !gd.tasks[j].penalized) {
-      gd.tasks[j].unlocked = false;
-      gd.tasks[j].pendingApproval = false;
-      delete gd.tasks[j].startedAt;
-    }
-  }
-
-  // Erste Aufgabe immer freigeben; abgeschlossene Kette wiederherstellen.
-  gd.tasks[0].unlocked = true;
-  for (let j = 0; j < gd.tasks.length - 1; j++) {
-    if (gd.tasks[j].done || gd.tasks[j].penalized) gd.tasks[j + 1].unlocked = true;
-  }
+  // Zustand sichern, damit die Oberfläche bei einem Firebase-Fehler
+  // auf den letzten gültigen Stand zurückgestellt werden kann.
+  const previousState = firebaseSafeData();
 
   try {
+    setSyncStatus('loading', '⏳ Aufgabe und Getränke werden zurückgesetzt…');
+
+    task.done = false;
+    task.penalized = false;
+    task.pendingApproval = false;
+    delete task.startedAt;
+
+    if (gd.requests) {
+      Object.keys(gd.requests).forEach(function(key) {
+        if (Number(gd.requests[key].taskIdx) === i) delete gd.requests[key];
+      });
+    }
+
+    // Nachfolgende offene Aufgaben wieder sperren.
+    for (let j = i + 1; j < gd.tasks.length; j++) {
+      if (!gd.tasks[j].done && !gd.tasks[j].penalized) {
+        gd.tasks[j].unlocked = false;
+        gd.tasks[j].pendingApproval = false;
+        delete gd.tasks[j].startedAt;
+      }
+    }
+
+    // Freischaltung anhand der tatsächlich abgeschlossenen Kette neu aufbauen.
+    gd.tasks[0].unlocked = true;
+    for (let j = 0; j < gd.tasks.length - 1; j++) {
+      if (gd.tasks[j].done || gd.tasks[j].penalized) gd.tasks[j + 1].unlocked = true;
+    }
+
+    // Nach dem Reset dürfen konsumierte Mengen nicht höher sein
+    // als die weiterhin erspielten Mengen.
+    gd.consumed = normalizeConsumedDrinks(
+      gd.consumed || emptyDrinks(),
+      calcEarnedDrinks()
+    );
+
+    // Aufgabe und korrigierte Getränkemengen gemeinsam speichern.
     await saveData();
-    renderAdminReset();
+
     renderAll();
-    alert('✅ Aufgabe ' + (i + 1) + ' wurde in Firebase zurückgesetzt.');
+    renderAdminReset();
+    if (!document.getElementById('adminTabDrinks').classList.contains('hidden')) {
+      renderAdminDrinks();
+    }
+
+    alert('✅ Aufgabe ' + (i + 1) + ' und die Getränkemengen wurden in Firebase zurückgesetzt.');
   } catch (error) {
+    mergeFromFirebase(previousState);
+    renderAll();
+    renderAdminReset();
+    setSyncStatus('err', '❌ Reset konnte nicht gespeichert werden');
     alert('❌ Reset konnte nicht in Firebase gespeichert werden.');
     console.error(error);
   }
@@ -1318,50 +1397,73 @@ window.adminReset = async function(i) {
 
 // Konsumierte Getränke im Admin anpassen
 function renderAdminDrinks() {
-  const c = document.getElementById('adminDrinksList');
-  c.innerHTML = '';
+  const container = document.getElementById('adminDrinksList');
+  if (!container) return;
+
+  container.innerHTML = '';
   const earned = calcEarnedDrinks();
-  DRINK_TYPES.forEach(d => {
-    const total = earned[d.id] || 0;
-    const cons  = gd.consumed[d.id] || 0;
-    const row   = document.createElement('div');
+  const consumed = normalizeConsumedDrinks(gd.consumed || emptyDrinks(), earned);
+
+  DRINK_TYPES.forEach(function(drink) {
+    const total = earned[drink.id] || 0;
+    const consumedAmount = consumed[drink.id] || 0;
+    const available = Math.max(0, total - consumedAmount);
+    const row = document.createElement('div');
     row.className = 'consumed-admin-row';
     row.innerHTML =
-      '<span>' + d.icon + ' ' + d.label + ' <span style="font-size:11px;color:#aaa;">(max. ' + total + 'x verdient)</span></span>' +
+      '<div><strong>' + drink.icon + ' ' + drink.label + '</strong>' +
+        '<div class="admin-drink-info" style="font-size:11px;color:#888;margin-top:2px;">' +
+          'Erspeilt: ' + total + ' · Verfügbar: ' + available +
+        '</div>' +
+      '</div>' +
       '<div class="consumed-admin-controls">' +
-        '<button onclick="window.adminDrinkAdj(\'' + d.id + '\',-1)">−</button>' +
-        '<span class="cnt" id="cadm_' + d.id + '">' + cons + '</span>' +
-        '<button onclick="window.adminDrinkAdj(\'' + d.id + '\',1)">+</button>' +
+        '<button type="button" onclick="window.adminDrinkAdj(\'' + drink.id + '\',-1)">−</button>' +
+        '<span class="cnt" id="cadm_' + drink.id + '">' + consumedAmount + '</span>' +
+        '<button type="button" onclick="window.adminDrinkAdj(\'' + drink.id + '\',1)">+</button>' +
       '</div>';
-    c.appendChild(row);
+    container.appendChild(row);
   });
 }
 
-window.adminDrinkAdj = function(id, delta) {
-  const earned = calcEarnedDrinks();
-  const max    = earned[id] || 0;
-  let cur = parseInt(document.getElementById('cadm_' + id).textContent) || 0;
-  cur = Math.max(0, Math.min(max, cur + delta));
-  document.getElementById('cadm_' + id).textContent = cur;
+window.adminDrinkAdj = function(drinkId, delta) {
+  const element = document.getElementById('cadm_' + drinkId);
+  if (!element) return;
+
+  const maximum = Math.max(0, parseInt(calcEarnedDrinks()[drinkId], 10) || 0);
+  const current = Math.max(0, parseInt(element.textContent, 10) || 0);
+  const nextValue = Math.min(maximum, Math.max(0, current + delta));
+  element.textContent = nextValue;
+
+  const info = element.closest('.consumed-admin-row')?.querySelector('.admin-drink-info');
+  if (info) info.textContent = 'Erspeilt: ' + maximum + ' · Verfügbar: ' + (maximum - nextValue);
 };
 
 window.saveAdminDrinks = async function() {
-  const previous = Object.assign({}, gd.consumed);
-  DRINK_TYPES.forEach(d => {
-    const el = document.getElementById('cadm_' + d.id);
-    if (el) gd.consumed[d.id] = Math.max(0, parseInt(el.textContent, 10) || 0);
+  const earned = calcEarnedDrinks();
+  const nextConsumed = emptyDrinks();
+
+  DRINK_TYPES.forEach(function(drink) {
+    const element = document.getElementById('cadm_' + drink.id);
+    const enteredAmount = element ? Math.max(0, parseInt(element.textContent, 10) || 0) : 0;
+    nextConsumed[drink.id] = Math.min(enteredAmount, earned[drink.id] || 0);
   });
 
   try {
-    await saveData();
+    setSyncStatus('loading', '⏳ Getränke werden gespeichert…');
+
+    // Nur den Getränke-Zweig schreiben. Andere aktuelle Firebase-Daten
+    // werden dadurch nicht versehentlich überschrieben.
+    await set(ref(db, 'huehnerstall/consumed'), nextConsumed);
+    gd.consumed = Object.assign(emptyDrinks(), nextConsumed);
+
     renderDrinks();
     renderAdminDrinks();
-    alert('✅ Konsumierte Getränke wurden in Firebase gespeichert.');
+    setSyncStatus('ok', '✅ Getränke in Firebase gespeichert');
+    alert('✅ Konsumierte und verfügbare Getränke wurden aktualisiert.');
   } catch (error) {
-    gd.consumed = previous;
-    renderAdminDrinks();
-    alert('❌ Getränke konnten nicht in Firebase gespeichert werden.');
-    console.error(error);
+    console.error('Fehler beim Speichern der Getränke:', error);
+    setSyncStatus('err', '❌ Getränke konnten nicht gespeichert werden');
+    alert('❌ Die Getränke konnten nicht in Firebase gespeichert werden.');
   }
 };
 
@@ -1404,7 +1506,7 @@ function escHtml(str) {
 // ============================================================
 var Q_QUESTIONS = [
 ['Welcher Verein gewann die UEFA Champions League am häufigsten?',['FC Barcelona','AC Milan','Real Madrid','FC Liverpool'],2],
-['Wer erzielte den Siegtreffer für Manchester United im Champions-League-Finale 1999 gegen Bayern München?',['David Beckham','Ole Gunnar Solskjær','Georges Bregy','Stéphane Chapuisat'],1],
+['Wer erzielte den Siegtreffer für Manchester United im Champions-League-Finale 1999 gegen Bayern München?',['David Beckham','Ole Gunnar Solskjær','Teddy Sheringham','Dwight Yorke'],1],
 ['Welcher Spieler ist Rekordtorschütze der UEFA Champions League?',['Lionel Messi','Robert Lewandowski','Raúl','Cristiano Ronaldo'],3],
 ['Welcher Verein wurde als erster Premier-League-Meister der Geschichte (Saison 1992/93)?',['Arsenal','Blackburn Rovers','Manchester United','Leeds United'],2],
 ['Welcher Verein gewann die deutsche Bundesliga in der Saison 2001/02?',['Borussia Dortmund','Bayern München','Bayer Leverkusen','Werder Bremen'],0],
