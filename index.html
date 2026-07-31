@@ -926,10 +926,11 @@ function formatMiniTime(ms) {
 }
 
 function miniResultLine(challenge) {
+  const title    = escHtml(challenge.title || 'Mini-Challenge');
   const opponent = escHtml(challenge.opponent || 'Unbekannt');
   return challenge.status === 'won'
-    ? '🏆 Marc gewonnen gegen ' + opponent + ' (+1 Shot)'
-    : '😤 Marc verloren gegen ' + opponent;
+    ? '🏆 "' + title + '" - Marc gewonnen gegen ' + opponent + ' (+1 Shot)'
+    : '😤 "' + title + '" - Marc verloren gegen ' + opponent;
 }
 
 function renderMiniHistoryHtml(challenges) {
