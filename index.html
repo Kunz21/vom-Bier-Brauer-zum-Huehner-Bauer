@@ -67,25 +67,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 
 /* BONUS-AUFGABE */
 .bonus-wrap{max-width:680px;margin:12px auto 0;padding:0 16px;}
-.bonus-card {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 244, 191, 0.96),
-    rgba(245, 215, 110, 0.96)
-  );
-  border: 3px solid #d4a72c;
-  border-radius: 18px;
-  padding: 18px 20px;
-  box-shadow: 0 5px 20px rgba(120, 85, 0, 0.2);
-  color: #4a3500;
-}
-
-.bonus-card h2 {
-  font-family: 'Fredoka One', cursive;
-  color: #8a6500;
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-}
+.bonus-card { background: linear-gradient(135deg, rgba(255, 244, 191, 0.96), rgba(245, 215, 110, 0.96)); border: 3px solid #d4a72c; border-radius: 18px; padding: 18px 20px; box-shadow: 0 5px 20px rgba(120, 85, 0, 0.2); color: #4a3500;}
+.bonus-card h2 { font-family: 'Fredoka One', cursive; color: #8a6500; font-size: 1.2rem; margin-bottom: 8px;}
 .bonus-card p{font-size:13px;line-height:1.6;margin-bottom:12px;color: #5d4700;}
 .bonus-status{font-size:13px;font-weight:800;padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.12);color: #5d4700:10px;}
 .bonus-done{border-color:var(--grass);background:linear-gradient(135deg,rgba(40,120,65,.92),rgba(20,75,45,.92));}
@@ -513,6 +496,7 @@ function makeDefaultData() {
     miniChallenges: [],
     miniNextId: 1,
     miniPeriodStart: null,
+    miniChallengeShots: 0,
     tasks: Array.from({length: 15}, (_, i) => ({
       title:          'Aufgabe ' + (i + 1),
       desc:           'Beschreibung der Aufgabe ' + (i + 1) + '. Kann vom Admin bearbeitet werden.',
@@ -570,6 +554,7 @@ function mergeFromFirebase(val) {
   if (Array.isArray(val.miniChallenges)) base.miniChallenges = val.miniChallenges;
   if (val.miniNextId !== undefined) base.miniNextId = Number(val.miniNextId) || 1;
   if (val.miniPeriodStart !== undefined) base.miniPeriodStart = val.miniPeriodStart;
+  if (val.miniChallengeShots !== undefined) base.miniChallengeShots = Number(val.miniChallengeShots) || 0;
   if (Array.isArray(val.tasks)) {
     val.tasks.forEach((st, i) => {
       if (!base.tasks[i]) return;
@@ -701,6 +686,9 @@ function calcEarnedDrinks() {
       });
     }
   });
+
+  // Gewinne aus Mini-Challenges sind zusätzliche Shots.
+  totals.shot += Math.max(0, parseInt(gd.miniChallengeShots, 10) || 0);
 
   return totals;
 }
@@ -846,7 +834,7 @@ function renderBonus() {
     return;
   }
   if (gd.bonus.skipped) {
-    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – Bestrafung Nach Vorgaben!</div></div>';
+    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – kBestrafung nach Vorgaben!</div></div>';
     return;
   }
   c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe freigeschaltet!</h2><p>Marc kann freiwillig eine Gabel Surströmming essen. Wenn er es erfolgreich umsetzt, nimmt jede Person aus der Gruppe 2 Straf-Shots. Bei nicht durchführen gibt es unterschiedliche Bestrafungen.</p><div class="bonus-status">⚠️ Bei nicht durchführen gelten folgende Regeln: Nicht öffnen der Dose = Minus 5 Konsumgetränke | Nur öffnen der Dose = Minus 1 Konsumgetränk | kleiner Biss vom Surströmming = kein Abzug.</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-red btn-sm" onclick="window.completeBonus()">🍴 Ich esse die Gabel</button><button class="btn btn-gray btn-sm" onclick="window.skipBonus()">⏭️ Nicht machen</button></div></div>';
@@ -882,6 +870,17 @@ function formatMiniTime(ms) {
     String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
 }
 
+function renderMiniHistoryHtml(challenges) {
+  if (!challenges || !challenges.length) return '';
+  return '<div class="mini-meta" style="margin-top:14px;text-align:left;"><strong>📜 Bereits erledigte Mini-Challenges</strong>' +
+    challenges.slice().reverse().map(function(challenge) {
+      return '<div style="margin-top:6px;">' +
+        (challenge.status === 'won' ? '🏆' : '😤') + ' ' + escHtml(challenge.title || 'Mini-Challenge') +
+        ' – ' + (challenge.status === 'won' ? 'Marc gewonnen (+1 Shot)' : 'Marc verloren') +
+        '</div>';
+    }).join('') + '</div>';
+}
+
 function renderMiniChallenges() {
   const container = document.getElementById('miniChallengeWrap');
   if (!container) return;
@@ -899,8 +898,17 @@ function renderMiniChallenges() {
   }
 
   const challenge = getOpenMiniChallenge();
+  const completedChallenges = (gd.miniChallenges || []).filter(function(item) {
+    return item.status === 'won' || item.status === 'lost';
+  });
+
   if (!challenge) {
-    container.innerHTML = '<div class="mini-card"><h2>⚔️ Mini-Challenge bereit</h2><p>Tragt eine Challenge und eine beliebige Gegenperson ein. Die Challenge darf höchstens 5 Minuten dauern.</p><div class="mini-meta">Noch keine Challenge durch den Admin erfasst.</div></div>';
+    container.innerHTML = '<div class="mini-card"><h2>⚔️ Mini-Challenge bereit</h2><p>Tragt eine Challenge und eine beliebige Gegenperson ein. Die Challenge darf höchstens 5 Minuten dauern.</p>' +
+      '<input class="mini-public-input" id="miniPublicTitle" placeholder="Titel der Challenge">' +
+      '<input class="mini-public-input" id="miniPublicOpponent" placeholder="Gegner aus der Gruppe">' +
+      '<textarea class="mini-public-input" id="miniPublicDescription" placeholder="Beschreibung und Regeln"></textarea>' +
+      '<button class="btn btn-green btn-sm" onclick="window.savePublicMiniChallenge()">⚔️ Challenge erfassen</button>' +
+      renderMiniHistoryHtml(completedChallenges) + '</div>';
     return;
   }
 
@@ -1003,7 +1011,7 @@ function renderAdminMiniChallenges() {
     '<label class="al">Gegner:</label>' +
     '<input class="ai" id="miniOpponent" value="' + escHtml(active?.opponent || '') + '" placeholder="Name der Person">' +
     '<label class="al">Beschreibung:</label>' +
-    '<textarea class="ai" id="miniDescription" placeholder="Aufgabe und Regeln"></textarea>' +
+    '<textarea class="ai" id="miniDescription" placeholder="Aufgabe und Regeln">' + escHtml(active?.description || '') + '</textarea>' +
     '<button class="btn btn-green btn-sm mt10" onclick="window.saveMiniChallenge()">💾 Challenge speichern</button>' +
     '</div>' +
     '<h3 style="font-family:Fredoka One;margin:14px 0 8px;color:var(--barn);">Abgeschlossene Mini-Challenges</h3>';
@@ -1603,6 +1611,17 @@ window.adminReset = async function(i) {
     task.penalized = false;
     task.pendingApproval = false;
     delete task.startedAt;
+
+    // Wird Aufgabe 1 zurückgesetzt, beginnt auch die globale Spielzeit
+    // und damit der Mini-Challenge-Zyklus wieder bei null.
+    if (i === 0) {
+      gameStartTime = null;
+      gd.gameStartTime = null;
+      gd.miniPeriodStart = null;
+      gd.miniChallenges = [];
+      gd.miniNextId = 1;
+      gd.miniChallengeShots = 0;
+    }
 
     if (gd.requests) {
       Object.keys(gd.requests).forEach(function(key) {
