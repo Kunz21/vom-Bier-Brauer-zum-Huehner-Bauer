@@ -70,6 +70,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .bonus-card { background: linear-gradient(135deg, rgba(255, 244, 191, 0.96), rgba(245, 215, 110, 0.96)); border: 3px solid #d4a72c; border-radius: 18px; padding: 18px 20px; box-shadow: 0 5px 20px rgba(120, 85, 0, 0.2); color: #4a3500;}
 .bonus-card h2 { font-family: 'Fredoka One', cursive; color: #8a6500; font-size: 1.2rem; margin-bottom: 8px;}
 .bonus-card p{font-size:13px;line-height:1.6;margin-bottom:12px;color: #5d4700;}
+.bonus-skipped{border-color:#e74c3c;background:linear-gradient(135deg,rgba(231,76,60,.16),rgba(192,57,43,.16));}
 .bonus-status{font-size:13px;font-weight:800;padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.12);color: #5d4700:10px;}
 /* .bonus-done entfernt: der "geschafft"-Zustand behält bewusst denselben
    goldenen Rahmen/Hintergrund wie der ursprüngliche "freigeschaltet"-Zustand. */
@@ -885,8 +886,8 @@ function renderBonus() {
     c.innerHTML = '<div class="bonus-card"><h2>🎉 Bonus-Aufgabe geschafft!</h2><div class="bonus-status">✅ Marc hat eine Gabel Surströmming gegessen.</div><p>Jede Person aus der Gruppe nimmt 2 Straf-Shots. 🥃🥃</p></div>';
     return;
   }
-  if (gd.bonus.skipped) {
-    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – Bestrafung nach Vorgaben!</div></div>';
+if (gd.bonus.skipped) {
+    c.innerHTML = '<div class="bonus-card bonus-skipped"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – Bestrafung nach Vorgaben!</div></div>';
     return;
   }
   c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe freigeschaltet!</h2><p>Marc kann freiwillig eine Gabel Surströmming essen. Wenn er es erfolgreich umsetzt, nimmt jede Person aus der Gruppe 2 Straf-Shots. Bei nicht durchführen gibt es unterschiedliche Bestrafungen.</p><div class="bonus-status">⚠️ Bei nicht durchführen gelten folgende Regeln: Nicht öffnen der Dose = Minus 5 Konsumgetränke | Nur öffnen der Dose = Minus 1 Konsumgetränk | kleiner Biss vom Surströmming = kein Abzug.</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-red btn-sm" onclick="window.completeBonus()">🍴 Ich esse die Gabel</button><button class="btn btn-gray btn-sm" onclick="window.skipBonus()">⏭️ Nicht machen</button></div></div>';
