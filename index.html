@@ -930,8 +930,8 @@ function miniResultLine(challenge) {
   const title    = escHtml(challenge.title || 'Mini-Challenge');
   const opponent = escHtml(challenge.opponent || 'Unbekannt');
   return challenge.status === 'won'
-    ? '🏆 "' + title + '" - Marc hat gegen ' + opponent + 'gewonnen' ' (+1 Shot)'
-    : '😤 "' + title + '" - Marc hat gegen ' + opponent + 'verloren';
+    ? '🏆 "' + title + '" - Marc hat gegen ' + opponent + ' gewonnen (+1 Shot)'
+    : '😤 "' + title + '" - Marc hat gegen ' + opponent + ' verloren';
 }
 
 function renderMiniHistoryHtml(challenges) {
