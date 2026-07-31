@@ -71,7 +71,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .bonus-card h2 { font-family: 'Fredoka One', cursive; color: #8a6500; font-size: 1.2rem; margin-bottom: 8px;}
 .bonus-card p{font-size:13px;line-height:1.6;margin-bottom:12px;color: #5d4700;}
 .bonus-status{font-size:13px;font-weight:800;padding:9px 12px;border-radius:10px;background:rgba(255,255,255,.12);color: #5d4700:10px;}
-.bonus-done{border-color:var(--grass);background:linear-gradient(135deg,rgba(40,120,65,.92),rgba(20,75,45,.92));}
+/* .bonus-done entfernt: der "geschafft"-Zustand behält bewusst denselben
+   goldenen Rahmen/Hintergrund wie der ursprüngliche "freigeschaltet"-Zustand. */
 
 /* MINI-CHALLENGES */
 .mini-wrap{max-width:680px;margin:12px auto 0;padding:0 16px;}
@@ -373,12 +374,17 @@ textarea.mini-public-input{resize:vertical;min-height:64px;}
       <p style="font-size:13px;color:#777;margin-bottom:12px;">Hier können konsumierte Getränke korrigiert werden.</p>
       <div id="adminDrinksList"></div>
       <button class="btn btn-green mt10" onclick="saveAdminDrinks()">💾 Speichern</button>
+      <hr class="divider">
+      <h2>➖ Manuelle Korrektur der erspielten Getränke</h2>
+      <p style="font-size:13px;color:#777;margin-bottom:12px;">Damit können erspielte (verfügbare) Getränke manuell erhöht oder reduziert werden – z.B. als Strafe, wenn Marc die Bonus-Aufgabe überspringt. Negative Zahlen reduzieren die verfügbare Menge.</p>
+      <div id="adminManualDrinkList"></div>
+      <button class="btn btn-orange mt10" onclick="window.saveManualDrinkAdjustments()">💾 Korrektur speichern</button>
     </div>
 
     <!-- Mini-Challenges -->
     <div id="adminTabMini" class="acard hidden">
       <h2>⚔️ Mini-Challenges verwalten</h2>
-      <p style="font-size:13px;color:#777;margin-bottom:12px;">Eine Mini-Challenge wird nach 50 Minuten Spielzeit verfügbar. Nach Abschluss startet der nächste 50-Minuten-Zeitraum.</p>
+      <p style="font-size:13px;color:#777;margin-bottom:12px;">Eine Mini-Challenge wird nach 55 Minuten Spielzeit verfügbar. Nach Abschluss startet der nächste 55-Minuten-Zeitraum.</p>
       <div id="adminMiniList"></div>
     </div>
 
@@ -395,15 +401,20 @@ textarea.mini-public-input{resize:vertical;min-height:64px;}
       <h2>🔄 Aufgaben zurücksetzen</h2>
       <p style="font-size:13px;color:#777;margin-bottom:12px;">Erledigte Aufgaben können hier einzeln zurückgesetzt werden.</p>
       <div id="adminResetList"></div>
+      <hr class="divider">
+      <h2>🍴 Bonus-Aufgabe</h2>
+      <div id="adminBonusResetInfo" style="font-size:13px;color:#777;margin-bottom:10px;"></div>
+      <button class="btn btn-orange btn-sm" onclick="window.resetBonusTask()">🔄 Bonus-Status zurücksetzen</button>
     </div>
   </div>
 </div>
+
 
 <!-- FUSSBALL-QUIZ OVERLAY -->
 <div class="quiz-overlay" id="quizOverlay">
   <div class="quiz-hdr"><div class="quiz-hdr-title">⚽ Fussball-Quiz – Aufgabe 10</div><button class="quiz-close" onclick="window.closeQuiz()">✕</button></div>
   <div class="quiz-inner">
-    <div class="qscreen active" id="qs_setup"><div class="q-setup"><h2>🏟️ Spieler eintragen</h2><div class="q-players"><div class="q-player p1"><label>Spieler 1 (Marc)</label><input id="qp1name" value="Marc"></div><div class="q-player p2"><label>Spieler 2 (Gegner)</label><input id="qp2name" placeholder="Gegner"></div></div><p style="font-size:13px;line-height:1.6;margin-top:14px;color:rgba(255,255,255,.8);">Beide beantworten jede Frage. Eine richtige Antwort gibt 1 Punkt. Die schnellere richtige Antwort erhält einen Bonuspunkt. Es gibt 40 Sekunden pro Frage.</p><button class="q-btn q-btn-hay" onclick="window.qStart()">🚀 Quiz starten</button></div></div>
+    <div class="qscreen active" id="qs_setup"><div class="q-setup"><h2>🏟️ Bereit?</h2><div class="q-players"><div class="q-player p1"><label>Spieler 1</label><div style="font-family:'Fredoka One',cursive;font-size:1.1rem;">Marc</div></div><div class="q-player p2"><label>Spieler 2</label><div style="font-family:'Fredoka One',cursive;font-size:1.1rem;">Gegner</div></div></div><p style="font-size:13px;line-height:1.6;margin-top:14px;color:rgba(255,255,255,.8);">Beide beantworten jede Frage. Eine richtige Antwort gibt 1 Punkt. Die schnellere richtige Antwort erhält einen Bonuspunkt. Es gibt 40 Sekunden pro Frage.</p><button class="q-btn q-btn-hay" onclick="window.qStart()">🚀 Quiz starten</button></div></div>
     <div class="qscreen" id="qs_q1"><div class="q-turn p1" id="q_turn1"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n11"></b><div class="q-points" id="q_p11">0</div><div class="q-detail" id="q_d11"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n12"></b><div class="q-points" id="q_p12">0</div><div class="q-detail" id="q_d12"></div></div></div><div class="q-progress">Frage <span id="q_num1">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar1"></div></div><div class="q-timer"><div class="q-circle" id="q_c1">40</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t1" style="width:100%;background:#5a9e3a"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text1"></div></div><div class="q-answers" id="q_answers1"></div><div class="q-feedback" id="q_feedback1" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next1" style="display:none" onclick="window.qHandoff('p2')">Weiter zu Spieler 2 →</button></div>
     <div class="qscreen" id="qs_handoff"><div class="q-handoff"><div style="font-size:4rem">🔄</div><h2 id="q_hTitle" style="font-family:'Fredoka One';color:var(--hay);margin:12px 0"></h2><p id="q_hText"></p><button class="q-btn q-btn-hay" onclick="window.qReady()">▶ Ich bin bereit!</button></div></div>
     <div class="qscreen" id="qs_q2"><div class="q-turn p2" id="q_turn2"></div><div class="q-score"><div class="q-score-box p1"><b id="q_n21"></b><div class="q-points" id="q_p21">0</div><div class="q-detail" id="q_d21"></div></div><div class="q-vs">VS</div><div class="q-score-box p2"><b id="q_n22"></b><div class="q-points" id="q_p22">0</div><div class="q-detail" id="q_d22"></div></div></div><div class="q-progress">Frage <span id="q_num2">1</span> / 20</div><div class="q-bar-bg"><div class="q-bar" id="q_bar2"></div></div><div class="q-timer"><div class="q-circle" id="q_c2">40</div><div class="q-timer-bar"><div class="q-timer-fill" id="q_t2" style="width:100%;background:#c62828"></div></div></div><div class="q-question"><div class="q-label">Frage</div><div class="q-text" id="q_text2"></div></div><div class="q-answers" id="q_answers2"></div><div class="q-feedback" id="q_feedback2" style="display:none"></div><button class="q-btn q-btn-gray" id="q_next2" style="display:none" onclick="window.qHandoff('p1')">Nächste Frage →</button><button class="q-btn q-btn-hay" id="q_result" style="display:none" onclick="window.qShowResult()">🏆 Ergebnis anzeigen</button></div>
@@ -507,6 +518,7 @@ function makeDefaultData() {
     intro:      'Wie der grosse Bierbrauer seinen neuen Weg zum Hühner-Bauer findet.\n\n15 Aufgaben warten auf Marc – eine nach der anderen. Schaffst du es bis zum Ende? 🐔🍺',
     introImage: 'bilder/Hallo.png',
     consumed:   emptyDrinks(),
+    manualDrinkAdjustments: emptyDrinks(), // manuelle Korrektur (kann negativ sein), z.B. Bonus-Strafe
     requests:   {},   // offene Genehmigungsanfragen
     bonus: {
       unlocked: false,
@@ -569,6 +581,7 @@ function mergeFromFirebase(val) {
   if (val.intro)                base.intro      = val.intro;
   if (val.introImage !== undefined) base.introImage = val.introImage;
   if (val.consumed)             base.consumed   = Object.assign(emptyDrinks(), val.consumed);
+  if (val.manualDrinkAdjustments) base.manualDrinkAdjustments = Object.assign(emptyDrinks(), val.manualDrinkAdjustments);
   if (val.requests)             base.requests   = val.requests;
   if (val.bonus)                base.bonus      = Object.assign(base.bonus, val.bonus);
   if (val.gameStartTime)        base.gameStartTime = val.gameStartTime;
@@ -722,6 +735,13 @@ function calcEarnedDrinks() {
   // Gewinne aus Mini-Challenges sind zusätzliche Shots.
   totals.shot += Math.max(0, parseInt(gd.miniChallengeShots, 10) || 0);
 
+  // Manuelle Admin-Korrektur (z.B. Strafe fürs Überspringen der Bonus-Aufgabe).
+  // Kann pro Getränk auch negativ sein, das Ergebnis wird nie unter 0 gekürzt.
+  DRINK_TYPES.forEach(function(drink) {
+    const adjustment = parseInt(gd.manualDrinkAdjustments?.[drink.id], 10) || 0;
+    totals[drink.id] = Math.max(0, totals[drink.id] + adjustment);
+  });
+
   return totals;
 }
 
@@ -862,7 +882,7 @@ function renderBonus() {
   updateBonusUnlock();
   if (!gd.bonus.unlocked) { c.innerHTML = ''; return; }
   if (gd.bonus.completed) {
-    c.innerHTML = '<div class="bonus-card bonus-done"><h2>🎉 Bonus-Aufgabe geschafft!</h2><div class="bonus-status">✅ Marc hat eine Gabel Surströmming gegessen.</div><p>Jede Person aus der Gruppe nimmt 2 Straf-Shots. 🥃🥃</p></div>';
+    c.innerHTML = '<div class="bonus-card"><h2>🎉 Bonus-Aufgabe geschafft!</h2><div class="bonus-status">✅ Marc hat eine Gabel Surströmming gegessen.</div><p>Jede Person aus der Gruppe nimmt 2 Straf-Shots. 🥃🥃</p></div>';
     return;
   }
   if (gd.bonus.skipped) {
@@ -880,8 +900,8 @@ function getMiniPeriodStart() {
   return gd.gameStartTime ? Number(gd.gameStartTime) : null;
 }
 
-// Zeitraum zwischen zwei Mini-Challenges: 50 Minuten.
-const MINI_PERIOD_MS = 50 * 60 * 1000;
+// Zeitraum zwischen zwei Mini-Challenges: 55 Minuten.
+const MINI_PERIOD_MS = 55 * 60 * 1000;
 
 function getMiniRemainingMs() {
   const start = getMiniPeriodStart();
@@ -913,14 +933,15 @@ function miniResultLine(challenge) {
 }
 
 function renderMiniHistoryHtml(challenges) {
-  if (!challenges || !challenges.length) {
-    return '<div class="mini-meta" style="margin-top:14px;text-align:left;"><strong>📜 Bereits erledigte Mini-Challenges</strong>' +
-      '<div style="margin-top:6px;color:rgba(255,255,255,.65);">Noch keine abgeschlossen.</div></div>';
-  }
-  return '<div class="mini-meta" style="margin-top:14px;text-align:left;"><strong>📜 Bereits erledigte Mini-Challenges</strong>' +
-    challenges.slice().reverse().map(function(challenge) {
-      return '<div style="margin-top:6px;">' + miniResultLine(challenge) + '</div>';
-    }).join('') + '</div>';
+  const inner = (!challenges || !challenges.length)
+    ? '<div style="color:rgba(255,255,255,.65);">Noch keine abgeschlossen.</div>'
+    : challenges.slice().reverse().map(function(challenge) {
+        return '<div style="margin-top:6px;">' + miniResultLine(challenge) + '</div>';
+      }).join('');
+  // Gleiche Klasse (mini-card) wie der Mini-Challenge-Block selbst,
+  // damit Farbe und Rahmen identisch sind.
+  return '<div class="mini-card" style="margin-top:12px;text-align:left;">' +
+    '<h2>📜 Bereits erledigte Mini-Challenges</h2>' + inner + '</div>';
 }
 
 // Merkt sich den zuletzt gerenderten Anzeige-Modus. Nur bei einem Moduswechsel
@@ -946,10 +967,10 @@ function renderMiniChallenges(force) {
 
   if (!start) {
     mode = 'not-started';
-    bodyHtml = '<h2>⚔️ Mini-Challenge</h2><p>Die Spielzeit startet mit der ersten geöffneten Aufgabe. Nach 50 Minuten kann Marc gegen eine Person aus der Gruppe um einen Shot antreten.</p><div class="mini-timer">⏱ Spiel noch nicht gestartet</div>';
+    bodyHtml = '<h2>⚔️ Mini-Challenge</h2><p>Die Spielzeit startet mit der ersten geöffneten Aufgabe. Nach 55 Minuten kann Marc gegen eine Person aus der Gruppe um einen Shot antreten.</p><div class="mini-timer">⏱ Spiel noch nicht gestartet</div>';
   } else if (remaining > 0) {
     mode = 'waiting';
-    bodyHtml = '<h2>⚔️ Mini-Challenge</h2><p>Alle 50 Minuten kann Marc eine Mini-Challenge gegen eine beliebige Person aus der Gruppe spielen. Die Challenge darf höchstens 5 Minuten dauern. Nach Abschluss beginnt der nächste 50-Minuten-Timer.</p><div class="mini-timer" id="miniCountdownText">⏱ Nächste Challenge in ' + formatMiniTime(remaining) + '</div>';
+    bodyHtml = '<h2>⚔️ Mini-Challenge</h2><p>Alle 55 Minuten kann Marc eine Mini-Challenge gegen eine beliebige Person aus der Gruppe spielen. Die Challenge darf höchstens 5 Minuten dauern. Nach Abschluss beginnt der nächste 55-Minuten-Timer.</p><div class="mini-timer" id="miniCountdownText">⏱ Nächste Challenge in ' + formatMiniTime(remaining) + '</div>';
   } else if (!challenge) {
     mode = 'form';
     bodyHtml = '<h2>⚔️ Mini-Challenge bereit</h2><p>Tragt eine Challenge und eine beliebige Gegenperson ein. Die Challenge darf höchstens 5 Minuten dauern.</p>' +
@@ -1320,7 +1341,10 @@ function renderRoadmap() {
     else if (isDone)    chips += '<span class="chip ch-green">✅ Erledigt</span><span class="chip ch-green">' + (t.prizeIcon||'🏆') + ' Preis erhalten</span>';
     else if (isPending) chips += '<span class="chip ch-orange">⏳ Warte auf Admin</span>';
     else if (!isUnlocked) chips += '<span class="chip ch-gray">🔒 Gesperrt</span>';
-    else if (isJustUnlocked) chips += '<span class="chip ch-yellow">🔓 Freigeschaltet</span>';
+    else if (isJustUnlocked) {
+      chips += '<span class="chip ch-yellow">🔓 Freigeschaltet</span>';
+      if (t.deadlineMins > 0) chips += '<span class="chip ch-yellow">⏱ ' + t.deadlineMins + ' Min.</span>';
+    }
     else {
       chips += '<span class="chip ch-yellow">▶ Aktiv</span>';
       if (t.deadlineMins > 0) chips += '<span class="chip ch-yellow">⏱ ' + t.deadlineMins + ' Min.</span>';
@@ -1361,9 +1385,13 @@ window.openTask = function(i) {
   activeIdx = i;
 
   // Erster Aufruf: Status wechselt von "🔓 Freigeschaltet" zu "▶ Aktiv".
-  // Erst ab jetzt läuft (falls vorhanden) auch der Zeitlimit-Timer der Aufgabe.
+  // WICHTIG: Status UND Timer-Start werden hier in einem einzigen Schritt
+  // gesetzt und mit EINEM saveData()-Aufruf gespeichert. Zwei separate,
+  // parallel laufende Firebase-Schreibvorgänge könnten sich sonst überholen
+  // und dazu führen, dass der Timer-Start nicht zuverlässig persistiert wird.
   if (t.unlocked && !t.done && !t.penalized && !t.pendingApproval && !t.started) {
     t.started = true;
+    if (t.deadlineMins > 0 && !t.startedAt) t.startedAt = Date.now();
     saveData();
     renderRoadmap();
   }
@@ -1906,7 +1934,66 @@ function renderAdminDrinks() {
       '</div>';
     container.appendChild(row);
   });
+
+  renderAdminManualDrinkAdjustments();
 }
+
+// Manuelle Korrektur der erspielten (verfügbaren) Getränke – z.B. Bonus-Strafe.
+function renderAdminManualDrinkAdjustments() {
+  const container = document.getElementById('adminManualDrinkList');
+  if (!container) return;
+  container.innerHTML = '';
+  const adjustments = gd.manualDrinkAdjustments || emptyDrinks();
+
+  DRINK_TYPES.forEach(function(drink) {
+    const value = parseInt(adjustments[drink.id], 10) || 0;
+    const row = document.createElement('div');
+    row.className = 'consumed-admin-row';
+    row.innerHTML =
+      '<div><strong>' + drink.icon + ' ' + drink.label + '</strong></div>' +
+      '<div class="consumed-admin-controls">' +
+        '<button type="button" onclick="window.adminManualDrinkAdj(\'' + drink.id + '\',-1)">−</button>' +
+        '<span class="cnt" id="madj_' + drink.id + '">' + value + '</span>' +
+        '<button type="button" onclick="window.adminManualDrinkAdj(\'' + drink.id + '\',1)">+</button>' +
+      '</div>';
+    container.appendChild(row);
+  });
+}
+
+window.adminManualDrinkAdj = function(drinkId, delta) {
+  const element = document.getElementById('madj_' + drinkId);
+  if (!element) return;
+  const current = parseInt(element.textContent, 10) || 0;
+  element.textContent = current + delta;
+};
+
+window.saveManualDrinkAdjustments = async function() {
+  const next = emptyDrinks();
+  DRINK_TYPES.forEach(function(drink) {
+    const element = document.getElementById('madj_' + drink.id);
+    next[drink.id] = element ? (parseInt(element.textContent, 10) || 0) : 0;
+  });
+
+  const previousState = firebaseSafeData();
+  try {
+    setSyncStatus('loading', '⏳ Korrektur wird gespeichert…');
+    gd.manualDrinkAdjustments = next;
+    // Konsumierte Getränke dürfen die neu berechnete (evtl. tiefere) Menge nicht überschreiten.
+    gd.consumed = normalizeConsumedDrinks(gd.consumed || emptyDrinks(), calcEarnedDrinks());
+    await saveData();
+    renderAll();
+    renderAdminDrinks();
+    setSyncStatus('ok', '✅ Korrektur in Firebase gespeichert');
+    alert('✅ Manuelle Korrektur gespeichert.');
+  } catch (error) {
+    mergeFromFirebase(previousState);
+    renderAll();
+    renderAdminDrinks();
+    setSyncStatus('err', '❌ Korrektur konnte nicht gespeichert werden');
+    alert('❌ Die Korrektur konnte nicht in Firebase gespeichert werden.');
+    console.error(error);
+  }
+};
 
 window.adminDrinkAdj = function(drinkId, delta) {
   const element = document.getElementById('cadm_' + drinkId);
@@ -1970,7 +2057,44 @@ function renderAdminReset() {
       '</div>';
     c.appendChild(row);
   });
+
+  const info = document.getElementById('adminBonusResetInfo');
+  if (info) {
+    updateBonusUnlock();
+    const status = gd.bonus.completed ? '✅ Geschafft'
+      : gd.bonus.skipped ? '⏭️ Übersprungen'
+      : gd.bonus.unlocked ? '🍴 Freigeschaltet, noch nicht entschieden'
+      : '🔒 Noch nicht freigeschaltet (< 7 erfolgreiche Aufgaben)';
+    info.textContent = 'Aktueller Status: ' + status;
+  }
 }
+
+// Setzt den Bonus-Status (geschafft/übersprungen) zurück, damit die
+// Bonus-Aufgabe wieder neu entschieden werden kann.
+window.resetBonusTask = async function() {
+  if (!confirm('Bonus-Status wirklich zurücksetzen? "Geschafft"/"Übersprungen" wird gelöscht, die Aufgabe kann danach neu entschieden werden.')) return;
+
+  const previousState = firebaseSafeData();
+  try {
+    setSyncStatus('loading', '⏳ Bonus wird zurückgesetzt…');
+    if (!gd.bonus) gd.bonus = { unlocked: false, completed: false, skipped: false, shotsAwarded: 0 };
+    gd.bonus.completed = false;
+    gd.bonus.skipped = false;
+    gd.bonus.shotsAwarded = 0;
+    await saveData();
+    renderAll();
+    renderAdminReset();
+    setSyncStatus('ok', '✅ Bonus zurückgesetzt');
+    alert('✅ Bonus-Aufgabe wurde zurückgesetzt.');
+  } catch (error) {
+    mergeFromFirebase(previousState);
+    renderAll();
+    renderAdminReset();
+    setSyncStatus('err', '❌ Bonus konnte nicht zurückgesetzt werden');
+    alert('❌ Der Bonus-Status konnte nicht in Firebase zurückgesetzt werden.');
+    console.error(error);
+  }
+};
 
 window.saveSettings = function() {
   const pw = document.getElementById('settingPw').value.trim();
@@ -2012,10 +2136,10 @@ var Q_QUESTIONS = [
 var Q_TIME = 40, qName1='Marc', qName2='Gegner', qIndex=0, qTimer=null, qStarted=0, qTarget='p2';
 function loadQuizQuestionsFromData(){ if (gd.quizQuestions && gd.quizQuestions.length === Q_QUESTIONS.length) Q_QUESTIONS = gd.quizQuestions; }
 var qScore1={right:0,bonus:0}, qScore2={right:0,bonus:0}, qRounds=[];
-function openQuiz(){loadQuizQuestionsFromData();document.getElementById('quizOverlay').classList.add('active');document.body.style.overflow='hidden';qScreen('qs_setup');}
+function openQuiz(){window.closeModal();loadQuizQuestionsFromData();document.getElementById('quizOverlay').classList.add('active');document.body.style.overflow='hidden';qScreen('qs_setup');}
 function closeQuiz(){clearInterval(qTimer);document.getElementById('quizOverlay').classList.remove('active');document.body.style.overflow='';}
 function qScreen(id){document.querySelectorAll('#quizOverlay .qscreen').forEach(function(x){x.classList.remove('active');});document.getElementById(id).classList.add('active');document.getElementById('quizOverlay').scrollTop=0;}
-function qStart(){qName1=document.getElementById('qp1name').value.trim()||'Marc';qName2=document.getElementById('qp2name').value.trim()||'Gegner';qIndex=0;qScore1={right:0,bonus:0};qScore2={right:0,bonus:0};qRounds=[];qUpdateNames();qScreen('qs_q1');qLoad(1);}
+function qStart(){qName1='Marc';qName2='Gegner';qIndex=0;qScore1={right:0,bonus:0};qScore2={right:0,bonus:0};qRounds=[];qUpdateNames();qScreen('qs_q1');qLoad(1);}
 function qUpdateNames(){['q_n11','q_n21','q_resultName1'].forEach(function(id){document.getElementById(id).textContent=qName1;});['q_n12','q_n22','q_resultName2'].forEach(function(id){document.getElementById(id).textContent=qName2;});document.getElementById('q_turn1').textContent='🍺 '+qName1+' ist dran!';document.getElementById('q_turn2').textContent='⚽ '+qName2+' ist dran!';}
 function qLoad(player){var x=Q_QUESTIONS[qIndex],s=player===1?'1':'2';document.getElementById('q_num'+s).textContent=qIndex+1;document.getElementById('q_bar'+s).style.width=((qIndex+1)/20*100)+'%';document.getElementById('q_text'+s).textContent=x[0];var box=document.getElementById('q_answers'+s);box.innerHTML='';x[1].forEach(function(a,i){var b=document.createElement('button');b.className='q-answer';b.innerHTML='<b>'+String.fromCharCode(65+i)+')</b> '+escHtml(a);b.onclick=function(){qAnswer(player,i);};box.appendChild(b);});document.getElementById('q_feedback'+s).style.display='none';document.getElementById('q_next'+s).style.display='none';if(s==='2')document.getElementById('q_result').style.display='none';qTimerStart(player);}
 function qTimerStart(player){clearInterval(qTimer);var s=player===1?'1':'2',rem=Q_TIME;qStarted=Date.now();document.getElementById('q_c'+s).textContent=Q_TIME;document.getElementById('q_t'+s).style.width='100%';qTimer=setInterval(function(){rem-=.1;document.getElementById('q_c'+s).textContent=Math.ceil(rem);document.getElementById('q_t'+s).style.width=Math.max(0,rem/Q_TIME*100)+'%';if(rem<=0){clearInterval(qTimer);qAnswer(player,-1);}},100);}
