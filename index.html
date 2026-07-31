@@ -201,11 +201,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .acard{background:rgba(255,255,255,.88);border-radius:17px;padding:18px 20px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,.09);}
 .acard h2{font-family:'Fredoka One',cursive;color:var(--barn);margin-bottom:12px;font-size:1.15rem;}
 .al{display:block;font-size:11px;font-weight:800;color:#777;margin-bottom:3px;margin-top:9px;text-transform:uppercase;letter-spacing:.5px;}
-.ai{width:100%;background:rgba(0,0,0,.05);border:1.5px solid rgba(0,0,0,.14);border-radius:8px;padding:8px 11px;font-size:13px;font-family:'Nunito',sans-serif;color:var(--dark);margin-bottom:3px;}
+.ai{width:100%;background:rgba(0,0,0,.05);border:1.5px solid rgba(0,0,0,.14);border-radius:8px;padding:8px 11px;font-size:16px;font-family:'Nunito',sans-serif;color:var(--dark);margin-bottom:3px;}
 textarea.ai{resize:vertical;min-height:58px;}
 .alrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
 #loginBox{text-align:center;padding:10px 0 4px;}
-#loginBox input{padding:10px 13px;border-radius:10px;border:1.5px solid rgba(0,0,0,.18);font-size:15px;font-family:'Nunito',sans-serif;width:175px;margin-right:6px;margin-bottom:8px;}
+#loginBox input{padding:10px 13px;border-radius:10px;border:1.5px solid rgba(0,0,0,.18);font-size:16px;font-family:'Nunito',sans-serif;width:100%;max-width:220px;margin-right:6px;margin-bottom:8px;}
 
 /* Anfragen-Badge */
 .req-badge{display:inline-block;background:#e74c3c;color:#fff;border-radius:20px;padding:1px 7px;font-size:10px;font-weight:800;margin-left:5px;vertical-align:middle;}
@@ -218,13 +218,13 @@ textarea.ai{resize:vertical;min-height:58px;}
 .drink-admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px;}
 .drink-admin-item{background:rgba(0,0,0,.04);border:1.5px solid rgba(0,0,0,.1);border-radius:9px;padding:8px 6px;text-align:center;}
 .drink-admin-item label{font-size:11px;font-weight:800;display:block;margin-top:4px;color:#555;}
-.drink-admin-item input[type=number]{width:54px;text-align:center;border:1.5px solid rgba(0,0,0,.15);border-radius:7px;padding:4px;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;background:#fff;}
+.drink-admin-item input[type=number]{width:54px;text-align:center;border:1.5px solid rgba(0,0,0,.15);border-radius:7px;padding:4px;font-size:16px;font-weight:800;font-family:'Nunito',sans-serif;background:#fff;}
 
 /* Strafe-Getränk Admin */
 .penalty-drink-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px;}
 .penalty-drink-item{background:rgba(231,76,60,.06);border:1.5px solid rgba(231,76,60,.2);border-radius:9px;padding:8px 6px;text-align:center;}
 .penalty-drink-item label{font-size:11px;font-weight:800;display:block;margin-top:4px;color:#c0392b;}
-.penalty-drink-item input[type=number]{width:54px;text-align:center;border:1.5px solid rgba(231,76,60,.3);border-radius:7px;padding:4px;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;background:#fff;}
+.penalty-drink-item input[type=number]{width:54px;text-align:center;border:1.5px solid rgba(231,76,60,.3);border-radius:7px;padding:4px;font-size:16px;font-weight:800;font-family:'Nunito',sans-serif;background:#fff;}
 
 /* Admin Konsumierte Getränke */
 .consumed-admin-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:9px;background:rgba(0,0,0,.04);margin-bottom:5px;font-size:13px;font-weight:700;}
@@ -233,6 +233,11 @@ textarea.ai{resize:vertical;min-height:58px;}
 .consumed-admin-controls button:hover{background:rgba(0,0,0,.2);}
 .consumed-admin-controls .cnt{min-width:28px;text-align:center;font-weight:800;font-size:14px;}
 
+/* Mini-Challenge Eingabe (öffentliche Ansicht) */
+.mini-public-input{width:100%;box-sizing:border-box;padding:11px 13px;border-radius:10px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:16px;font-family:'Nunito',sans-serif;margin-bottom:9px;display:block;}
+.mini-public-input::placeholder{color:rgba(255,255,255,.65);}
+textarea.mini-public-input{resize:vertical;min-height:64px;}
+
 .hidden{display:none!important;}
 .mt10{margin-top:10px;}
 .mt14{margin-top:14px;}
@@ -240,6 +245,15 @@ textarea.ai{resize:vertical;min-height:58px;}
 .divider{border:none;border-top:1.5px solid rgba(0,0,0,.09);margin:13px 0;}
 .confetti{position:fixed;top:-20px;width:10px;height:16px;z-index:10000;animation:confettiFall 2.8s linear forwards;}
 @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+
+/* MOBILE FIXES */
+@media (max-width:480px){
+  .q-players,.q-answers,.q-result-scores,.drink-admin-grid,.penalty-drink-grid{grid-template-columns:1fr;}
+  #loginBox input{max-width:100%;margin-right:0;}
+  .drink-admin-item input[type=number],.penalty-drink-item input[type=number]{width:100%;}
+  .alrow{flex-direction:column;align-items:stretch;}
+  .alrow .btn{width:100%;text-align:center;}
+}
 </style>
 </head>
 <body>
@@ -567,6 +581,12 @@ function mergeFromFirebase(val) {
     });
   }
   gd = base;
+
+  // WICHTIG: Die lokale Spielzeit-Variable (gameStartTime) muss bei jedem
+  // Firebase-Update neu übernommen werden. Sonst bleibt z.B. nach einem
+  // Reset von Aufgabe 1 auf einem anderen Gerät die alte Startzeit stehen,
+  // und die Spielzeit/Mini-Challenge-Kopplung läuft aus dem Ruder.
+  gameStartTime = gd.gameStartTime ? Number(gd.gameStartTime) : null;
 }
 
 function firebaseSafeData() {
@@ -834,7 +854,7 @@ function renderBonus() {
     return;
   }
   if (gd.bonus.skipped) {
-    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – kBestrafung nach Vorgaben!</div></div>';
+    c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe</h2><div class="bonus-status">⏭️ Bonus-Aufgabe übersprungen – keine Bestrafung nach Vorgaben!</div></div>';
     return;
   }
   c.innerHTML = '<div class="bonus-card"><h2>🍴 Bonus-Aufgabe freigeschaltet!</h2><p>Marc kann freiwillig eine Gabel Surströmming essen. Wenn er es erfolgreich umsetzt, nimmt jede Person aus der Gruppe 2 Straf-Shots. Bei nicht durchführen gibt es unterschiedliche Bestrafungen.</p><div class="bonus-status">⚠️ Bei nicht durchführen gelten folgende Regeln: Nicht öffnen der Dose = Minus 5 Konsumgetränke | Nur öffnen der Dose = Minus 1 Konsumgetränk | kleiner Biss vom Surströmming = kein Abzug.</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-red btn-sm" onclick="window.completeBonus()">🍴 Ich esse die Gabel</button><button class="btn btn-gray btn-sm" onclick="window.skipBonus()">⏭️ Nicht machen</button></div></div>';
@@ -1026,14 +1046,8 @@ function renderAdminMiniChallenges() {
   }
 }
 
-window.saveMiniChallenge = async function() {
-  const title = document.getElementById('miniTitle')?.value.trim();
-  const opponent = document.getElementById('miniOpponent')?.value.trim();
-  const description = document.getElementById('miniDescription')?.value.trim();
-  if (!title || !opponent || !description) {
-    alert('Bitte Titel, Gegner und Beschreibung eintragen.');
-    return;
-  }
+// Gemeinsame Speicherlogik für öffentliche und Admin-Mini-Challenge-Formulare.
+async function persistMiniChallenge(title, opponent, description) {
   if (!Array.isArray(gd.miniChallenges)) gd.miniChallenges = [];
   let challenge = getOpenMiniChallenge();
   if (!challenge) {
@@ -1044,11 +1058,42 @@ window.saveMiniChallenge = async function() {
   challenge.title = title;
   challenge.opponent = opponent;
   challenge.description = description;
+  await saveData();
+  return challenge;
+}
+
+window.saveMiniChallenge = async function() {
+  const title = document.getElementById('miniTitle')?.value.trim();
+  const opponent = document.getElementById('miniOpponent')?.value.trim();
+  const description = document.getElementById('miniDescription')?.value.trim();
+  if (!title || !opponent || !description) {
+    alert('Bitte Titel, Gegner und Beschreibung eintragen.');
+    return;
+  }
   try {
-    await saveData();
+    await persistMiniChallenge(title, opponent, description);
     renderAdminMiniChallenges();
     renderMiniChallenges();
     alert('✅ Mini-Challenge gespeichert.');
+  } catch (error) {
+    alert('❌ Mini-Challenge konnte nicht gespeichert werden.');
+    console.error(error);
+  }
+};
+
+// Formular in der normalen Übersicht (öffentliche Ansicht) – fehlte bisher komplett,
+// weshalb dort erfasste Mini-Challenges nie gespeichert wurden.
+window.savePublicMiniChallenge = async function() {
+  const title = document.getElementById('miniPublicTitle')?.value.trim();
+  const opponent = document.getElementById('miniPublicOpponent')?.value.trim();
+  const description = document.getElementById('miniPublicDescription')?.value.trim();
+  if (!title || !opponent || !description) {
+    alert('Bitte Titel, Gegner und Beschreibung eintragen.');
+    return;
+  }
+  try {
+    await persistMiniChallenge(title, opponent, description);
+    renderMiniChallenges();
   } catch (error) {
     alert('❌ Mini-Challenge konnte nicht gespeichert werden.');
     console.error(error);
@@ -1163,7 +1208,9 @@ function renderRoadmap() {
 let activeTimer = null, activeIdx = null, timerEndTs = null, pendingPenaltyIdx = null;
 
 window.openTask = function(i) {
-  startGameClock();
+  // Die globale Spielzeit ist ausdrücklich an Aufgabe 1 gekoppelt:
+  // sie startet nur, wenn Aufgabe 1 (Index 0) geöffnet wird.
+  if (i === 0) startGameClock();
   const t = gd.tasks[i];
   activeIdx = i;
   document.getElementById('taskModal').classList.remove('hidden');
@@ -1223,14 +1270,6 @@ window.openTask = function(i) {
 
   // Buttons: nur Strafe direkt; Erledigt → Anfrage senden
   let btnHTML = '';
-  if (!t.done && !t.penalized && !t.pendingApproval && t.unlocked) {
-    btnHTML =
-      '<div class="tc mt14" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
-      '<button class="btn btn-orange" onclick="window.requestComplete(' + i + ')">📬 Als erledigt melden</button>' +
-      '<button class="btn btn-red"    onclick="window.penalizeTask('    + i + ')">😤 Strafe akzeptieren</button>' +
-      '</div>';
-  }
-
   if (!t.done && !t.penalized && !t.pendingApproval && t.unlocked) {
     if (i === 9) {
       // Aufgabe 10: Das Quiz ersetzt die normale Erledigungsanfrage.
