@@ -1275,7 +1275,7 @@ window.completeBonus = function() {
 };
 
 window.skipBonus = function() {
-  if (!confirm('Bonus-Aufgabe wirklich überspringen? Es gibt dann keine Strafe.')) return;
+  if (!confirm('Bonus-Aufgabe wirklich überspringen? Es gibt die Bestrafung nach den geltenden Regel der Bonus-Aufgabe!')) return;
   gd.bonus.skipped = true;
   gd.bonus.completed = false;
   gd.bonus.shotsAwarded = 0;
