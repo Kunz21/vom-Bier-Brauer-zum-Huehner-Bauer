@@ -55,14 +55,14 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .drinks-title{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--barn);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 .drinks-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .drinks-col-head{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:4px;}
-.drink-row{display:flex;align-items:center;justify-content:space-between;padding:5px 9px;border-radius:9px;background:rgba(0,0,0,0.04);margin-bottom:4px;font-size:13px;font-weight:700;}
-.drink-row .drink-label{display:flex;align-items:center;gap:5px;}
-.drink-row .drink-count{background:var(--hay);color:var(--dark);border-radius:20px;padding:2px 9px;font-size:12px;font-weight:800;min-width:28px;text-align:center;}
-.drink-consume-btn{background:var(--grass);color:#fff;border:none;border-radius:7px;padding:3px 8px;font-size:11px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s;}
+.drink-row{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:6px;padding:5px 9px;border-radius:9px;background:rgba(0,0,0,0.04);margin-bottom:4px;font-size:13px;font-weight:700;min-height:30px;}
+.drink-row .drink-label{display:flex;align-items:center;gap:5px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.drink-row .drink-count{background:var(--hay);color:var(--dark);border-radius:20px;padding:2px 9px;font-size:12px;font-weight:800;min-width:28px;text-align:center;flex-shrink:0;}
+.drink-consume-btn{background:var(--grass);color:#fff;border:none;border-radius:7px;padding:3px 8px;font-size:11px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s;flex-shrink:0;white-space:nowrap;}
 .drink-consume-btn:hover{background:#3d7a26;transform:scale(1.07);}
-.drink-consumed-row{display:flex;align-items:center;justify-content:space-between;padding:5px 9px;border-radius:9px;background:rgba(0,0,0,0.04);margin-bottom:4px;font-size:13px;font-weight:700;opacity:0.7;}
-.drink-consumed-row .drink-label{display:flex;align-items:center;gap:5px;color:#999;}
-.drink-consumed-row .drink-count{background:rgba(0,0,0,0.08);color:#999;border-radius:20px;padding:2px 9px;font-size:12px;font-weight:800;min-width:28px;text-align:center;}
+.drink-consumed-row{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:6px;padding:5px 9px;border-radius:9px;background:rgba(0,0,0,0.04);margin-bottom:4px;font-size:13px;font-weight:700;opacity:0.7;min-height:30px;}
+.drink-consumed-row .drink-label{display:flex;align-items:center;gap:5px;color:#999;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.drink-consumed-row .drink-count{background:rgba(0,0,0,0.08);color:#999;border-radius:20px;padding:2px 9px;font-size:12px;font-weight:800;min-width:28px;text-align:center;flex-shrink:0;}
 .drinks-empty{font-size:12px;color:#bbb;text-align:center;padding:8px 0;font-weight:700;}
 
 /* BONUS-AUFGABE */
@@ -131,6 +131,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .b-penalty{background:linear-gradient(135deg,#e74c3c,#8B1A1A);}
 .b-pending{background:linear-gradient(135deg,#f39c12,#e67e22);animation:bob 1.8s infinite;}
 .b-active{background:linear-gradient(135deg,var(--hay),#e0a800);animation:bob 1.8s infinite;}
+.b-unlocked{background:linear-gradient(135deg,#ffe9a8,#f0c96b);}
 .b-locked{background:#ccc;cursor:default;filter:grayscale(.5);}
 @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
 
@@ -140,6 +141,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#87CEEB 0
 .c-penalty{border-color:#e74c3c!important;background:#fff5f5;}
 .c-pending{border-color:#f39c12!important;background:#fffbf0;}
 .c-active{border-color:var(--hay)!important;}
+.c-unlocked{border-color:#f0c96b!important;}
 .c-locked{opacity:.5;cursor:default;}
 
 .node-num{font-size:10px;font-weight:800;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
@@ -253,6 +255,11 @@ textarea.mini-public-input{resize:vertical;min-height:64px;}
   .drink-admin-item input[type=number],.penalty-drink-item input[type=number]{width:100%;}
   .alrow{flex-direction:column;align-items:stretch;}
   .alrow .btn{width:100%;text-align:center;}
+  /* Getränkeübersicht: auf schmalen Screens einspaltig, damit jede Zeile
+     genug Platz hat und Label/Badge/Button nicht mehr umbrechen bzw.
+     zwischen den Zeilen unterschiedlich hoch werden. */
+  .drinks-cols{grid-template-columns:1fr;gap:14px;}
+  .drink-row .drink-label,.drink-consumed-row .drink-label{font-size:12.5px;}
 }
 </style>
 </head>
@@ -371,7 +378,7 @@ textarea.mini-public-input{resize:vertical;min-height:64px;}
     <!-- Mini-Challenges -->
     <div id="adminTabMini" class="acard hidden">
       <h2>⚔️ Mini-Challenges verwalten</h2>
-      <p style="font-size:13px;color:#777;margin-bottom:12px;">Eine Mini-Challenge wird nach 60 Minuten Spielzeit verfügbar. Nach Abschluss startet der nächste 60-Minuten-Zeitraum.</p>
+      <p style="font-size:13px;color:#777;margin-bottom:12px;">Eine Mini-Challenge wird nach 50 Minuten Spielzeit verfügbar. Nach Abschluss startet der nächste 50-Minuten-Zeitraum.</p>
       <div id="adminMiniList"></div>
     </div>
 
@@ -524,6 +531,7 @@ function makeDefaultData() {
       done:           false,
       penalized:      false,
       pendingApproval:false,  // wartet auf Admin-Genehmigung
+      started:        false,  // wurde bereits mindestens einmal geöffnet ("Aktiv" statt nur "Freigeschaltet")
       unlocked:       i === 0
     }))
   };
@@ -573,11 +581,15 @@ function mergeFromFirebase(val) {
     val.tasks.forEach((st, i) => {
       if (!base.tasks[i]) return;
       const t = base.tasks[i];
-      ['title','desc','cover','prizeIcon','prizeText','penalty','deadlineMins','startedAt','done','penalized','pendingApproval','unlocked'].forEach(k => {
+      ['title','desc','cover','prizeIcon','prizeText','penalty','deadlineMins','startedAt','started','done','penalized','pendingApproval','unlocked'].forEach(k => {
         if (st[k] !== undefined) t[k] = st[k];
       });
       if (st.prizeDrinks)   t.prizeDrinks   = Object.assign(emptyDrinks(), st.prizeDrinks);
       if (st.penaltyDrinks) t.penaltyDrinks = Object.assign(emptyDrinks(), st.penaltyDrinks);
+      // Abwärtskompatibilität: Bei älteren Spielständen ohne "started"-Feld,
+      // bei denen aber bereits ein Zeitlimit-Timer lief, gilt die Aufgabe
+      // weiterhin als "Aktiv" statt fälschlich wieder als "Freigeschaltet".
+      if (st.started === undefined && t.startedAt) t.started = true;
     });
   }
   gd = base;
@@ -817,7 +829,7 @@ function renderAll() {
   renderProgress();
   renderDrinks();
   renderBonus();
-  renderMiniChallenges();
+  renderMiniChallenges(true);
   renderRoadmap();
   updateReqBadge();
 }
@@ -868,10 +880,13 @@ function getMiniPeriodStart() {
   return gd.gameStartTime ? Number(gd.gameStartTime) : null;
 }
 
+// Zeitraum zwischen zwei Mini-Challenges: 50 Minuten.
+const MINI_PERIOD_MS = 50 * 60 * 1000;
+
 function getMiniRemainingMs() {
   const start = getMiniPeriodStart();
   if (!start) return null;
-  return Math.max(0, 60 * 60 * 1000 - (Date.now() - start));
+  return Math.max(0, MINI_PERIOD_MS - (Date.now() - start));
 }
 
 function getOpenMiniChallenge() {
@@ -890,74 +905,107 @@ function formatMiniTime(ms) {
     String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
 }
 
+function miniResultLine(challenge) {
+  const opponent = escHtml(challenge.opponent || 'Unbekannt');
+  return challenge.status === 'won'
+    ? '🏆 Marc gewonnen gegen ' + opponent + ' (+1 Shot)'
+    : '😤 Marc verloren gegen ' + opponent;
+}
+
 function renderMiniHistoryHtml(challenges) {
-  if (!challenges || !challenges.length) return '';
+  if (!challenges || !challenges.length) {
+    return '<div class="mini-meta" style="margin-top:14px;text-align:left;"><strong>📜 Bereits erledigte Mini-Challenges</strong>' +
+      '<div style="margin-top:6px;color:rgba(255,255,255,.65);">Noch keine abgeschlossen.</div></div>';
+  }
   return '<div class="mini-meta" style="margin-top:14px;text-align:left;"><strong>📜 Bereits erledigte Mini-Challenges</strong>' +
     challenges.slice().reverse().map(function(challenge) {
-      return '<div style="margin-top:6px;">' +
-        (challenge.status === 'won' ? '🏆' : '😤') + ' ' + escHtml(challenge.title || 'Mini-Challenge') +
-        ' – ' + (challenge.status === 'won' ? 'Marc gewonnen (+1 Shot)' : 'Marc verloren') +
-        '</div>';
+      return '<div style="margin-top:6px;">' + miniResultLine(challenge) + '</div>';
     }).join('') + '</div>';
 }
 
-function renderMiniChallenges() {
+// Merkt sich den zuletzt gerenderten Anzeige-Modus. Nur bei einem Moduswechsel
+// (oder wenn force=true übergeben wird) wird das komplette HTML neu aufgebaut.
+// So gehen Eingaben im Formular beim sekündlichen Uhr-Tick nicht mehr verloren.
+let miniLastMode = null;
+
+function renderMiniChallenges(force) {
   const container = document.getElementById('miniChallengeWrap');
   if (!container) return;
 
   const start = getMiniPeriodStart();
   const remaining = getMiniRemainingMs();
-  if (!start) {
-    container.innerHTML = '<div class="mini-card"><h2>⚔️ Mini-Challenge</h2><p>Die Spielzeit startet mit der ersten geöffneten Aufgabe. Nach 60 Minuten kann Marc gegen eine Person aus der Gruppe um einen Shot antreten.</p><div class="mini-timer">⏱ Spiel noch nicht gestartet</div></div>';
-    return;
-  }
-
-  if (remaining > 0) {
-    container.innerHTML = '<div class="mini-card"><h2>⚔️ Mini-Challenge</h2><p>Alle 60 Minuten kann Marc eine Mini-Challenge gegen eine beliebige Person aus der Gruppe spielen. Die Challenge darf höchstens 5 Minuten dauern. Nach Abschluss beginnt der nächste 60-Minuten-Timer.</p><div class="mini-timer">⏱ Nächste Challenge in ' + formatMiniTime(remaining) + '</div></div>';
-    return;
-  }
-
   const challenge = getOpenMiniChallenge();
   const completedChallenges = (gd.miniChallenges || []).filter(function(item) {
     return item.status === 'won' || item.status === 'lost';
   });
+  const historyHtml = renderMiniHistoryHtml(completedChallenges);
 
-  if (!challenge) {
-    container.innerHTML = '<div class="mini-card"><h2>⚔️ Mini-Challenge bereit</h2><p>Tragt eine Challenge und eine beliebige Gegenperson ein. Die Challenge darf höchstens 5 Minuten dauern.</p>' +
+  let mode = 'not-started';
+  let bodyHtml = '';
+  let cardExtraClass = '';
+
+  if (!start) {
+    mode = 'not-started';
+    bodyHtml = '<h2>⚔️ Mini-Challenge</h2><p>Die Spielzeit startet mit der ersten geöffneten Aufgabe. Nach 50 Minuten kann Marc gegen eine Person aus der Gruppe um einen Shot antreten.</p><div class="mini-timer">⏱ Spiel noch nicht gestartet</div>';
+  } else if (remaining > 0) {
+    mode = 'waiting';
+    bodyHtml = '<h2>⚔️ Mini-Challenge</h2><p>Alle 50 Minuten kann Marc eine Mini-Challenge gegen eine beliebige Person aus der Gruppe spielen. Die Challenge darf höchstens 5 Minuten dauern. Nach Abschluss beginnt der nächste 50-Minuten-Timer.</p><div class="mini-timer" id="miniCountdownText">⏱ Nächste Challenge in ' + formatMiniTime(remaining) + '</div>';
+  } else if (!challenge) {
+    mode = 'form';
+    bodyHtml = '<h2>⚔️ Mini-Challenge bereit</h2><p>Tragt eine Challenge und eine beliebige Gegenperson ein. Die Challenge darf höchstens 5 Minuten dauern.</p>' +
       '<input class="mini-public-input" id="miniPublicTitle" placeholder="Titel der Challenge">' +
       '<input class="mini-public-input" id="miniPublicOpponent" placeholder="Gegner aus der Gruppe">' +
       '<textarea class="mini-public-input" id="miniPublicDescription" placeholder="Beschreibung und Regeln"></textarea>' +
-      '<button class="btn btn-green btn-sm" onclick="window.savePublicMiniChallenge()">⚔️ Challenge erfassen</button>' +
-      renderMiniHistoryHtml(completedChallenges) + '</div>';
-    return;
-  }
-
-  if (!challenge.startedAt) {
-    container.innerHTML = '<div class="mini-card"><h2>⚔️ Mini-Challenge um einen Shot</h2>' +
+      '<button class="btn btn-green btn-sm" onclick="window.savePublicMiniChallenge()">⚔️ Challenge erfassen</button>';
+  } else if (!challenge.startedAt) {
+    mode = 'ready-' + challenge.id;
+    bodyHtml = '<h2>⚔️ Mini-Challenge um einen Shot</h2>' +
       '<p><strong>' + escHtml(challenge.title || 'Mini-Challenge') + '</strong><br>' +
       escHtml(challenge.description || '') + '</p>' +
       '<div class="mini-meta">Marc gegen: ' + escHtml(challenge.opponent || 'beliebige Person') + ' · Maximal 5 Minuten</div>' +
-      '<button class="btn btn-green btn-sm" onclick="window.startMiniChallenge()">▶ Challenge starten</button>' +
-      '</div>';
+      '<button class="btn btn-green btn-sm" onclick="window.startMiniChallenge()">▶ Challenge starten</button>';
+  } else {
+    const challengeRemaining = Math.max(0, 5 * 60 * 1000 - (Date.now() - Number(challenge.startedAt)));
+    if (challengeRemaining <= 0) {
+      mode = 'expired-' + challenge.id;
+      cardExtraClass = ' mini-result-loss';
+      bodyHtml = '<h2>⏱ Zeit abgelaufen</h2><p>Die Mini-Challenge wurde nicht innerhalb von 5 Minuten abgeschlossen.</p>';
+      if (!challenge.expiryHandled) window.expireMiniChallenge(challenge.id);
+    } else {
+      mode = 'running-' + challenge.id;
+      bodyHtml = '<h2>⚔️ Mini-Challenge läuft</h2>' +
+        '<p><strong>' + escHtml(challenge.title || 'Mini-Challenge') + '</strong><br>' +
+        escHtml(challenge.description || '') + '</p>' +
+        '<div class="mini-meta">Marc gegen: ' + escHtml(challenge.opponent || 'beliebige Person') + '</div>' +
+        '<div class="mini-timer" id="miniCountdownText">⏱ Noch ' + formatMiniTime(challengeRemaining) + '</div>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+          '<button class="btn btn-green btn-sm" onclick="window.finishMiniChallenge(\'won\')">🏆 Marc gewinnt (+1 Shot)</button>' +
+          '<button class="btn btn-red btn-sm" onclick="window.finishMiniChallenge(\'lost\')">😤 Marc verliert</button>' +
+        '</div>';
+    }
+  }
+
+  if (force || mode !== miniLastMode) {
+    container.innerHTML = '<div class="mini-card' + cardExtraClass + '">' + bodyHtml + '</div>' + historyHtml;
+    miniLastMode = mode;
     return;
   }
 
-  const challengeRemaining = Math.max(0, 5 * 60 * 1000 - (Date.now() - Number(challenge.startedAt)));
-  if (challengeRemaining <= 0) {
-    container.innerHTML = '<div class="mini-card mini-result-loss"><h2>⏱ Zeit abgelaufen</h2><p>Die Mini-Challenge wurde nicht innerhalb von 5 Minuten abgeschlossen.</p></div>';
-    if (!challenge.expiryHandled) window.expireMiniChallenge(challenge.id);
-    return;
+  // Gleicher Modus wie zuvor: nur den Countdown-Text aktualisieren,
+  // damit Formulareingaben (Fokus, getippter Text) erhalten bleiben.
+  const timeEl = document.getElementById('miniCountdownText');
+  if (!timeEl) return;
+  if (mode === 'waiting') {
+    timeEl.textContent = '⏱ Nächste Challenge in ' + formatMiniTime(remaining);
+  } else if (mode.indexOf('running') === 0 && challenge && challenge.startedAt) {
+    const challengeRemaining = Math.max(0, 5 * 60 * 1000 - (Date.now() - Number(challenge.startedAt)));
+    if (challengeRemaining <= 0) {
+      miniLastMode = null;
+      renderMiniChallenges(true);
+    } else {
+      timeEl.textContent = '⏱ Noch ' + formatMiniTime(challengeRemaining);
+    }
   }
-
-  container.innerHTML = '<div class="mini-card"><h2>⚔️ Mini-Challenge läuft</h2>' +
-    '<p><strong>' + escHtml(challenge.title || 'Mini-Challenge') + '</strong><br>' +
-    escHtml(challenge.description || '') + '</p>' +
-    '<div class="mini-meta">Marc gegen: ' + escHtml(challenge.opponent || 'beliebige Person') + '</div>' +
-    '<div class="mini-timer">⏱ Noch ' + formatMiniTime(challengeRemaining) + '</div>' +
-    '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
-      '<button class="btn btn-green btn-sm" onclick="window.finishMiniChallenge(\'won\')">🏆 Marc gewinnt (+1 Shot)</button>' +
-      '<button class="btn btn-red btn-sm" onclick="window.finishMiniChallenge(\'lost\')">😤 Marc verliert</button>' +
-    '</div></div>';
 }
 
 window.startMiniChallenge = async function() {
@@ -966,7 +1014,7 @@ window.startMiniChallenge = async function() {
   challenge.startedAt = Date.now();
   try {
     await saveData();
-    renderMiniChallenges();
+    renderMiniChallenges(true);
   } catch (error) {
     delete challenge.startedAt;
     alert('❌ Die Mini-Challenge konnte nicht gestartet werden.');
@@ -1025,26 +1073,119 @@ function renderAdminMiniChallenges() {
 
   const active = getOpenMiniChallenge();
   const completed = gd.miniChallenges.filter(function(challenge) { return challenge.status !== 'open'; });
+
   container.innerHTML = '<div class="mini-admin-row">' +
-    '<label class="al">Titel der nächsten Challenge:</label>' +
+    '<label class="al">Titel der nächsten/aktuellen Challenge:</label>' +
     '<input class="ai" id="miniTitle" value="' + escHtml(active?.title || '') + '" placeholder="z. B. Tischfussball">' +
     '<label class="al">Gegner:</label>' +
     '<input class="ai" id="miniOpponent" value="' + escHtml(active?.opponent || '') + '" placeholder="Name der Person">' +
     '<label class="al">Beschreibung:</label>' +
     '<textarea class="ai" id="miniDescription" placeholder="Aufgabe und Regeln">' + escHtml(active?.description || '') + '</textarea>' +
-    '<button class="btn btn-green btn-sm mt10" onclick="window.saveMiniChallenge()">💾 Challenge speichern</button>' +
+    '<div class="alrow">' +
+      '<button class="btn btn-green btn-sm" onclick="window.saveMiniChallenge()">💾 Challenge speichern</button>' +
+      (active ? '<button class="btn btn-red btn-sm" onclick="window.deleteOpenMiniChallenge()">🗑️ Aktuelle Challenge löschen</button>' : '') +
+    '</div>' +
     '</div>' +
     '<h3 style="font-family:Fredoka One;margin:14px 0 8px;color:var(--barn);">Abgeschlossene Mini-Challenges</h3>';
 
   if (!completed.length) {
     container.innerHTML += '<div style="color:#aaa;font-size:13px;">Noch keine abgeschlossenen Mini-Challenges.</div>';
   } else {
-    completed.forEach(function(challenge) {
-      container.innerHTML += '<div class="mini-admin-row"><strong>' + escHtml(challenge.title || '') + '</strong> – ' +
-        (challenge.status === 'won' ? '🏆 Marc gewonnen (+1 Shot)' : '😤 Marc verloren') + '</div>';
+    completed.slice().reverse().forEach(function(challenge) {
+      const id = escHtml(String(challenge.id));
+      container.innerHTML +=
+        '<div class="mini-admin-row">' +
+          '<div style="font-size:12px;font-weight:800;color:' + (challenge.status === 'won' ? 'var(--grass)' : '#c0392b') + ';margin-bottom:8px;">' +
+            (challenge.status === 'won' ? '🏆 Gewonnen (+1 Shot)' : '😤 Verloren') +
+          '</div>' +
+          '<label class="al">Titel:</label>' +
+          '<input class="ai" id="miniHistTitle_' + id + '" value="' + escHtml(challenge.title || '') + '">' +
+          '<label class="al">Gegner:</label>' +
+          '<input class="ai" id="miniHistOpponent_' + id + '" value="' + escHtml(challenge.opponent || '') + '">' +
+          '<div class="alrow">' +
+            '<button class="btn btn-green btn-sm" onclick="window.saveMiniHistoryEntry(\'' + id + '\')">💾 Speichern</button>' +
+            '<button class="btn btn-red btn-sm" onclick="window.deleteMiniHistoryEntry(\'' + id + '\')">🗑️ Löschen</button>' +
+          '</div>' +
+        '</div>';
     });
   }
 }
+
+// Löscht die aktuell offene (noch nicht entschiedene) Mini-Challenge.
+window.deleteOpenMiniChallenge = async function() {
+  const challenge = getOpenMiniChallenge();
+  if (!challenge) return;
+  if (!confirm('Aktuelle Challenge «' + (challenge.title || 'Mini-Challenge') + '» wirklich löschen?')) return;
+
+  const previousState = firebaseSafeData();
+  try {
+    gd.miniChallenges = (gd.miniChallenges || []).filter(function(c) { return String(c.id) !== String(challenge.id); });
+    await saveData();
+    renderAdminMiniChallenges();
+    renderMiniChallenges(true);
+  } catch (error) {
+    mergeFromFirebase(previousState);
+    renderAdminMiniChallenges();
+    renderMiniChallenges(true);
+    alert('❌ Konnte nicht gelöscht werden.');
+    console.error(error);
+  }
+};
+
+// Titel/Gegner einer bereits abgeschlossenen Mini-Challenge korrigieren.
+window.saveMiniHistoryEntry = async function(id) {
+  const challenge = (gd.miniChallenges || []).find(function(c) { return String(c.id) === String(id); });
+  if (!challenge) return;
+  const titleEl = document.getElementById('miniHistTitle_' + id);
+  const oppEl   = document.getElementById('miniHistOpponent_' + id);
+  const title    = titleEl ? titleEl.value.trim() : challenge.title;
+  const opponent = oppEl   ? oppEl.value.trim()   : challenge.opponent;
+  if (!title || !opponent) {
+    alert('Bitte Titel und Gegner ausfüllen.');
+    return;
+  }
+  challenge.title = title;
+  challenge.opponent = opponent;
+  try {
+    await saveData();
+    renderAdminMiniChallenges();
+    renderMiniChallenges(true);
+    alert('✅ Gespeichert.');
+  } catch (error) {
+    alert('❌ Konnte nicht gespeichert werden.');
+    console.error(error);
+  }
+};
+
+// Löscht eine abgeschlossene Mini-Challenge. War sie gewonnen, wird der
+// dafür vergebene Shot wieder abgezogen und die konsumierten Getränke werden
+// überall (Spielbereich, Admin, Firebase) neu synchronisiert.
+window.deleteMiniHistoryEntry = async function(id) {
+  const challenge = (gd.miniChallenges || []).find(function(c) { return String(c.id) === String(id); });
+  if (!challenge) return;
+  const warn = challenge.status === 'won' ? ' Der dafür gewonnene Shot wird wieder abgezogen.' : '';
+  if (!confirm('Mini-Challenge «' + (challenge.title || 'Mini-Challenge') + '» wirklich löschen?' + warn)) return;
+
+  const previousState = firebaseSafeData();
+  try {
+    if (challenge.status === 'won') {
+      gd.miniChallengeShots = Math.max(0, (parseInt(gd.miniChallengeShots, 10) || 0) - 1);
+    }
+    gd.miniChallenges = (gd.miniChallenges || []).filter(function(c) { return String(c.id) !== String(id); });
+    // Konsumierte Getränke dürfen die neu (tiefere) erspielte Menge nicht mehr überschreiten.
+    gd.consumed = normalizeConsumedDrinks(gd.consumed || emptyDrinks(), calcEarnedDrinks());
+    await saveData();
+    renderAdminMiniChallenges();
+    renderAll();
+    alert('✅ Mini-Challenge gelöscht.');
+  } catch (error) {
+    mergeFromFirebase(previousState);
+    renderAdminMiniChallenges();
+    renderAll();
+    alert('❌ Konnte nicht gelöscht werden.');
+    console.error(error);
+  }
+};
 
 // Gemeinsame Speicherlogik für öffentliche und Admin-Mini-Challenge-Formulare.
 async function persistMiniChallenge(title, opponent, description) {
@@ -1073,7 +1214,7 @@ window.saveMiniChallenge = async function() {
   try {
     await persistMiniChallenge(title, opponent, description);
     renderAdminMiniChallenges();
-    renderMiniChallenges();
+    renderMiniChallenges(true);
     alert('✅ Mini-Challenge gespeichert.');
   } catch (error) {
     alert('❌ Mini-Challenge konnte nicht gespeichert werden.');
@@ -1093,7 +1234,7 @@ window.savePublicMiniChallenge = async function() {
   }
   try {
     await persistMiniChallenge(title, opponent, description);
-    renderMiniChallenges();
+    renderMiniChallenges(true);
   } catch (error) {
     alert('❌ Mini-Challenge konnte nicht gespeichert werden.');
     console.error(error);
@@ -1156,25 +1297,30 @@ function renderRoadmap() {
   gd.tasks.forEach((t, i) => {
     if (i > showUpTo) return;
 
-    const isPending   = t.pendingApproval && !t.done && !t.penalized;
-    const isDone      = t.done && !t.penalized;
-    const isPenalized = t.penalized;
-    const isUnlocked  = t.unlocked;
+    const isPending    = t.pendingApproval && !t.done && !t.penalized;
+    const isDone       = t.done && !t.penalized;
+    const isPenalized  = t.penalized;
+    const isUnlocked   = t.unlocked;
+    // "Freigeschaltet" = zugänglich, aber noch nie geöffnet (Timer läuft noch nicht).
+    // "Aktiv" = wurde bereits mindestens einmal geöffnet.
+    const isJustUnlocked = isUnlocked && !t.started && !isDone && !isPenalized && !isPending;
 
     let bubbleCls = 'node-bubble ';
     let cardCls   = 'node-card ';
 
-    if (isPenalized)     { bubbleCls += 'b-penalty'; cardCls += 'c-penalty'; }
-    else if (isDone)     { bubbleCls += 'b-done';    cardCls += 'c-done'; }
-    else if (isPending)  { bubbleCls += 'b-pending'; cardCls += 'c-pending'; }
-    else if (!isUnlocked){ bubbleCls += 'b-locked';  cardCls += 'c-locked'; }
-    else                 { bubbleCls += 'b-active';  cardCls += 'c-active'; }
+    if (isPenalized)        { bubbleCls += 'b-penalty';  cardCls += 'c-penalty'; }
+    else if (isDone)        { bubbleCls += 'b-done';     cardCls += 'c-done'; }
+    else if (isPending)     { bubbleCls += 'b-pending';  cardCls += 'c-pending'; }
+    else if (!isUnlocked)   { bubbleCls += 'b-locked';   cardCls += 'c-locked'; }
+    else if (isJustUnlocked){ bubbleCls += 'b-unlocked'; cardCls += 'c-unlocked'; }
+    else                    { bubbleCls += 'b-active';   cardCls += 'c-active'; }
 
     let chips = '';
     if (isPenalized)    chips += '<span class="chip ch-red">😤 Strafe akzeptiert</span>';
     else if (isDone)    chips += '<span class="chip ch-green">✅ Erledigt</span><span class="chip ch-green">' + (t.prizeIcon||'🏆') + ' Preis erhalten</span>';
     else if (isPending) chips += '<span class="chip ch-orange">⏳ Warte auf Admin</span>';
     else if (!isUnlocked) chips += '<span class="chip ch-gray">🔒 Gesperrt</span>';
+    else if (isJustUnlocked) chips += '<span class="chip ch-yellow">🔓 Freigeschaltet</span>';
     else {
       chips += '<span class="chip ch-yellow">▶ Aktiv</span>';
       if (t.deadlineMins > 0) chips += '<span class="chip ch-yellow">⏱ ' + t.deadlineMins + ' Min.</span>';
@@ -1213,6 +1359,15 @@ window.openTask = function(i) {
   if (i === 0) startGameClock();
   const t = gd.tasks[i];
   activeIdx = i;
+
+  // Erster Aufruf: Status wechselt von "🔓 Freigeschaltet" zu "▶ Aktiv".
+  // Erst ab jetzt läuft (falls vorhanden) auch der Zeitlimit-Timer der Aufgabe.
+  if (t.unlocked && !t.done && !t.penalized && !t.pendingApproval && !t.started) {
+    t.started = true;
+    saveData();
+    renderRoadmap();
+  }
+
   document.getElementById('taskModal').classList.remove('hidden');
   const c = document.getElementById('modalContent');
 
@@ -1649,6 +1804,7 @@ window.adminReset = async function(i) {
     task.done = false;
     task.penalized = false;
     task.pendingApproval = false;
+    task.started = false;
     delete task.startedAt;
 
     // Wird Aufgabe 1 zurückgesetzt, beginnt auch die globale Spielzeit
@@ -1672,6 +1828,7 @@ window.adminReset = async function(i) {
     for (let j = i + 1; j < gd.tasks.length; j++) {
       if (!gd.tasks[j].done && !gd.tasks[j].penalized) {
         gd.tasks[j].pendingApproval = false;
+        gd.tasks[j].started = false;
         delete gd.tasks[j].startedAt;
       }
     }
